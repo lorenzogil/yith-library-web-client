@@ -37,10 +37,12 @@
                 <tr>
                     <td>{{service}}</td>
                     <td>{{account}}</td>
-                    <td></td>
+                    <td>{{#each tags}}
+                    <span class="badge">{{this}}</span>
+                    {{/each}}</td>
                     <td>{{expiration}}</td>
-                    <td></td>
-                    <td></td>
+                    <td><button class="btn btn-info"><i class="icon-white icon-exclamation-sign"></i> Notes</button></td>
+                    <td><button class="btn btn-warning"><i class="icon-white icon-edit"></i> Edit</button></td>
                 </tr>
             {{/each}}
         </tbody>

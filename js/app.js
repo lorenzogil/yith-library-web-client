@@ -8,7 +8,7 @@ Yith.passwordList = [];
 Yith.Password = Em.Object.extend({
     service: null,
     account: null,
-    password: null,
+    secret: null,
     expiration: 0,
     notes: null,
     tags: []
@@ -21,24 +21,27 @@ Yith.ListPassordsView = Em.View.extend({
 Yith.passwordList.push(Yith.Password.create({
     service: "Nyarly",
     account: "Cultist",
-    password: "this_should_be_ciphered"
+    secret: "this_should_be_ciphered"
 }));
 
 Yith.passwordList.push(Yith.Password.create({
     service: "Cthulhu",
     account: "Cultist",
-    password: "this_should_be_ciphered"
+    secret: "this_should_be_ciphered",
+    tags: ["scary"]
 }));
 
 Yith.passwordList.push(Yith.Password.create({
     service: "Yog",
     account: "Cultist",
-    password: "this_should_be_ciphered"
+    secret: "this_should_be_ciphered",
+    tags: ["dimension"]
 }));
 
 Yith.passwordList.push(Yith.Password.create({
     service: "Hastur",
     account: "Cultist",
-    password: "this_should_be_ciphered"
+    secret: "this_should_be_ciphered",
+    tags: ["unspeakable", "scary"]
 }));
 
