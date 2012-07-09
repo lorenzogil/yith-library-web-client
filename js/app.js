@@ -9,7 +9,7 @@ Yith.Password = Em.Object.extend({
     service: null,
     account: null,
     password: null,
-    expiration: false,
+    expiration: 0,
     notes: null,
     tags: []
 });
