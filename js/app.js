@@ -15,7 +15,8 @@ Yith.Password = Em.Object.extend({
     tags: []
 });
 
-Yith.ListPassordsView = Em.View.extend({
+Yith.ListPasswordsView = Em.View.extend({
+    templateName: "password-list",
     passwordList: Yith.passwordList,
 
     notes: function (evt) {
@@ -38,9 +39,26 @@ Yith.ListPassordsView = Em.View.extend({
             Yith.editModal = $("#edit");
             Yith.editModal.modal({ show: false });
         }
+        Yith.editView.set("password", password);
+        Yith.editView.set("isnew", false);
+        // Call rerender because the properties are dom nodes attributes and
+        // the unbound helper is involved
+        Yith.editView.rerender();
         Yith.editModal.modal("show");
     }
 });
+
+Yith.ListPasswordsView.create().appendTo("#page");
+
+Yith.EditPasswordView = Em.View.extend({
+    templateName: "password-edit",
+    password: null,
+    isnew: false
+});
+
+Yith.editView = Yith.EditPasswordView.create().appendTo("#edit-body");
+
+// *********************************************************
 
 Yith.passwordList.push(Yith.Password.create({
     service: "Nyarly",
