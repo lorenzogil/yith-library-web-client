@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css?v=1">
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -75,23 +76,28 @@
                     <label class="control-label" for="edit-tags">Tags</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" id="edit-tags" /><button class="btn"><i class="icon icon-plus"></i> Add</button>
+                            <input type="text" id="edit-tags" /><button class="btn" {{action "addTag"}}><i class="icon icon-plus"></i> Add</button>
                         </div>
                         <ul>
-                        {{#each password.tags}}
-                            <li>{{this}}</li>
+                        {{#each tag in password.provisionalTags}}
+                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
                         {{/each}}
                         </ul>
                     </div>
                 </div>
+                <label for="edit-notes">Notes</label>
+                <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="password.notes"}}></textarea>
             </form>
         </div>
         <div class="modal-footer">
+            {{#unless isnew}}
+            <a href="#" class="btn btn-danger left" {{action "deletePassword"}}>Delete</a>
+            {{/unless}}
             <a href="#" class="btn" data-dismiss="modal">Close</a>
             {{#if isnew}}
-            <a href="#" class="btn btn-primary">Create</a>
+            <a href="#" class="btn btn-primary" {{action "createPassword"}}>Create</a>
             {{else}}
-            <a href="#" class="btn btn-primary">Save changes</a>
+            <a href="#" class="btn btn-primary" {{action "saveChanges"}}>Save changes</a>
             {{/if}}
         </div>
     </script>
