@@ -3,6 +3,10 @@
 
 var Yith = Em.Application.create();
 
+// ******
+// MODELS
+// ******
+
 Yith.passwordList = [];
 
 Yith.Password = Em.Object.extend({
@@ -14,6 +18,10 @@ Yith.Password = Em.Object.extend({
     notes: null,
     tags: []
 });
+
+// *****
+// VIEWS
+// *****
 
 Yith.ListPasswordsView = Em.View.extend({
     templateName: "password-list",
@@ -42,8 +50,6 @@ Yith.ListPasswordsView = Em.View.extend({
     }
 });
 
-Yith.ListPasswordsView.create().appendTo("#page");
-
 Yith.EditPasswordView = Em.View.extend({
     templateName: "password-edit",
     password: null,
@@ -61,7 +67,9 @@ Yith.EditPasswordView = Em.View.extend({
     }
 });
 
-Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
+// *********
+// UTILITIES
+// *********
 
 Yith.initEditModal = function () {
     "use strict";
@@ -79,6 +87,14 @@ Yith.addNewPassword = function () {
     Yith.editView.set("isExpirationDisabled", true);
     Yith.editModal.modal("show");
 };
+
+// **********
+// INIT VIEWS
+// **********
+
+Yith.ListPasswordsView.create().appendTo("#page");
+
+Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
 
 // *********************************************************
 
