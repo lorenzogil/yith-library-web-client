@@ -16,7 +16,22 @@ Yith.Password = Ember.Object.extend({
     expiration: 0,
     notes: null,
     tags: [],
-    provisionalTags: []
+    provisionalTags: [],
+
+    json: Ember.computed(function () {
+        "use strict";
+        var result = {};
+        if (this._id !== null) {
+            result._id = this._id;
+        }
+        result.service = this.service;
+        result.account = this.account;
+        result.secret = this.secret;
+        result.expiration = this.expiration;
+        result.notes = this.notes;
+        result.tags = this.tags;
+        return JSON.stringify(result);
+    }).property("_id", "service", "account", "secret", "expiration", "notes", "tags")
 });
 
 // *****
@@ -108,6 +123,7 @@ Yith.EditPasswordView = Ember.View.extend({
         var password = evt.view.get("password");
 
         Yith.saveChangesInPassword(password);
+        Yith.ajax.updatePassword(password);
         Yith.editModal.modal("hide");
     },
 
@@ -119,6 +135,7 @@ Yith.EditPasswordView = Ember.View.extend({
         Yith.saveChangesInPassword(password);
         passwordList.push(password);
         Yith.listPasswdView.set("passwordList", passwordList);
+        Yith.ajax.createPassword(password);
         Yith.editModal.modal("hide");
     },
 
@@ -130,6 +147,7 @@ Yith.EditPasswordView = Ember.View.extend({
             return item.get("id") !== password.get("id");
         }));
         password.destroy();
+        Yith.ajax.deletePassword(password);
         Yith.editModal.modal("hide");
     }
 });
@@ -215,6 +233,47 @@ Yith.decipher = function (cipheredSecret) {
     return result;
 };
 
+// ****
+// AJAX
+// ****
+
+Yith.ajax = {};
+
+Yith.ajax.host = "http://192.168.11.62:6543/passwords/cultist";
+
+Yith.ajax.getPasswordList = function () {
+    "use strict";
+    $.getJSON(Yith.ajax.host, function (data) {
+        data.forEach(function (item) {
+            var password = Yith.Password.create(item),
+                passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
+            passwordList.push(password);
+            Yith.listPasswdView.set("passwordList", passwordList);
+        });
+    });
+};
+
+Yith.ajax.createPassword = function (password) {
+    "use strict";
+    $.post(Yith.ajax.host, password.get("json"));
+};
+
+Yith.ajax.updatePassword = function (password) {
+    "use strict";
+    var _id = password.get("_id");
+    $.ajax(Yith.ajax.host + '/' + _id, {
+        data: password.get("json"),
+        dataType: "json",
+        type: "PUT"
+    });
+};
+
+Yith.ajax.deletePassword = function (password) {
+    "use strict";
+    var _id = password.get("_id");
+    $.ajax(Yith.ajax.host + '/' + _id, { type: "DELETE" });
+};
+
 // **********
 // INIT VIEWS
 // **********
@@ -223,35 +282,8 @@ Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page");
 
 Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
 
-// *********************************************************
+// *********
+// LOAD DATA
+// *********
 
-Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
-    id: 0,
-    service: "Nyarly",
-    account: "Cultist",
-    expiration: 200
-}));
-
-Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
-    id: 1,
-    service: "Cthulhu",
-    account: "cultist@rlyeh.com",
-    tags: ["scary"],
-    notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae erat tortor, ac tincidunt felis. Donec ac libero nunc, eget semper ante. Sed at sapien tellus, nec porttitor nisl. Integer consectetur, risus scelerisque tempus tincidunt, nibh metus sagittis eros, non interdum magna ligula vitae massa. Vestibulum gravida vestibulum diam. Donec sodales, nisi quis ultrices tincidunt, metus turpis scelerisque odio, at feugiat justo urna quis urna. Nullam blandit vehicula urna et vestibulum. Maecenas viverra sem at mauris tincidunt eu laoreet sem ultricies. Cras tincidunt sagittis massa, quis ultricies orci rhoncus ut. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed nunc turpis, consequat eget lacinia pretium, volutpat ac ante. Fusce euismod est ac sapien posuere tristique dignissim justo vehicula. Suspendisse tristique mollis purus, quis vulputate odio ullamcorper id."
-}));
-
-Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
-    id: 2,
-    service: "Yog",
-    account: "Cultist",
-    secret: '{"iv":"E7W8jXE6KRxef8+LncwsfA","v":1,"iter":1000,"ks":128,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"0X1758AMhE4","ct":"qgVhOmUj0fldZULnH4GEjLmCfQ"}',
-    tags: ["dimension"]
-}));
-
-Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
-    id: 3,
-    service: "Hastur",
-    account: "Cultist",
-    tags: ["unspeakable", "scary"]
-}));
-
+Yith.ajax.getPasswordList();
