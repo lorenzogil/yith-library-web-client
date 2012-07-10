@@ -1,13 +1,13 @@
 /*jslint vars: false, browser: true, nomen: true */
-/*global Em, $, sjcl */
+/*global Ember, $, sjcl */
 
-var Yith = Em.Application.create();
+var Yith = Ember.Application.create();
 
 // ******
 // MODELS
 // ******
 
-Yith.Password = Em.Object.extend({
+Yith.Password = Ember.Object.extend({
     id: -1,
     _id: null,
     service: null,
@@ -23,7 +23,7 @@ Yith.Password = Em.Object.extend({
 // VIEWS
 // *****
 
-Yith.ListPasswordsView = Em.View.extend({
+Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
     passwordList: [],
 
@@ -51,18 +51,18 @@ Yith.ListPasswordsView = Em.View.extend({
     }
 });
 
-Yith.EditPasswordView = Em.View.extend({
+Yith.EditPasswordView = Ember.View.extend({
     templateName: "password-edit",
     password: null,
     isnew: false,
     isExpirationDisabled: false,
 
-    isExpirationEnabled: Em.computed(function () {
+    isExpirationEnabled: Ember.computed(function () {
         "use strict";
         return !this.get("isExpirationDisabled");
     }).property("isExpirationDisabled"),
 
-    decipheredSecret: Em.computed(function () {
+    decipheredSecret: Ember.computed(function () {
         "use strict";
         var password = this.get("password"),
             result = null;
