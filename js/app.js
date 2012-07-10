@@ -239,7 +239,7 @@ Yith.decipher = function (cipheredSecret) {
 
 Yith.ajax = {};
 
-Yith.ajax.host = "http://192.168.11.62:6543/passwords/cultist";
+Yith.ajax.host = "http://192.168.11.62:6543/passwords/cultist"; // TODO hardcoded!
 
 Yith.ajax.getPasswordList = function () {
     "use strict";
