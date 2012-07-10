@@ -34,16 +34,10 @@ Yith.ListPasswordsView = Em.View.extend({
     edit: function (evt) {
         "use strict";
         var password = evt.context;
-
-        if (typeof Yith.editModal === "undefined") {
-            Yith.editModal = $("#edit");
-            Yith.editModal.modal({ show: false });
-        }
+        Yith.initEditModal();
         Yith.editView.set("password", password);
         Yith.editView.set("isnew", false);
-        // Call rerender because the properties are dom nodes attributes and
-        // the unbound helper is involved
-        Yith.editView.rerender();
+        Yith.editView.set("isExpirationDisabled", password.get("expiration") <= 0);
         Yith.editModal.modal("show");
     }
 });
@@ -53,17 +47,46 @@ Yith.ListPasswordsView.create().appendTo("#page");
 Yith.EditPasswordView = Em.View.extend({
     templateName: "password-edit",
     password: null,
-    isnew: false
+    isnew: false,
+    isExpirationDisabled: false,
+    isExpirationEnabled: Em.computed(function () {
+        "use strict";
+        return !this.get("isExpirationDisabled");
+    }).property("isExpirationDisabled"),
+
+    enableExpiration: function (evt) {
+        "use strict";
+        var enable = evt.target.checked;
+        Yith.editView.set("isExpirationDisabled", !enable);
+    }
 });
 
-Yith.editView = Yith.EditPasswordView.create().appendTo("#edit-body");
+Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
+
+Yith.initEditModal = function () {
+    "use strict";
+    if (typeof Yith.editModal === "undefined") {
+        Yith.editModal = $("#edit");
+        Yith.editModal.modal({ show: false });
+    }
+};
+
+Yith.addNewPassword = function () {
+    "use strict";
+    Yith.initEditModal();
+    Yith.editView.set("password", Yith.Password.create());
+    Yith.editView.set("isnew", true);
+    Yith.editView.set("isExpirationDisabled", true);
+    Yith.editModal.modal("show");
+};
 
 // *********************************************************
 
 Yith.passwordList.push(Yith.Password.create({
     service: "Nyarly",
     account: "Cultist",
-    secret: "this_should_be_ciphered"
+    secret: "this_should_be_ciphered",
+    expiration: 200
 }));
 
 Yith.passwordList.push(Yith.Password.create({
