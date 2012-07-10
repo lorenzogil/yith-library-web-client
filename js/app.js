@@ -1,5 +1,5 @@
 /*jslint vars: false, browser: true, nomen: true */
-/*global Em, $ */
+/*global Em, $, sjcl */
 
 var Yith = Em.Application.create();
 
@@ -56,10 +56,21 @@ Yith.EditPasswordView = Em.View.extend({
     password: null,
     isnew: false,
     isExpirationDisabled: false,
+
     isExpirationEnabled: Em.computed(function () {
         "use strict";
         return !this.get("isExpirationDisabled");
     }).property("isExpirationDisabled"),
+
+    decipheredSecret: Em.computed(function () {
+        "use strict";
+        var password = this.get("password"),
+            result = null;
+        if (password !== null) {
+            result = Yith.decipher(password.get("secret"));
+        }
+        return result;
+    }).property("password"),
 
     enableExpiration: function (evt) {
         "use strict";
@@ -132,6 +143,10 @@ Yith.initEditModal = function () {
     if (typeof Yith.editModal === "undefined") {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false });
+        Yith.editModal.on("hidden", function (evt) {
+            $("#edit-secret1").attr("value", "");
+            $("#edit-secret2").attr("value", "");
+        });
     }
 };
 
@@ -148,11 +163,15 @@ Yith.addNewPassword = function () {
 
 Yith.saveChangesInPassword = function (password) {
     "use strict";
-    var enableExpiration = $("#edit-enable-expiration:checked").length > 0;
+    var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
+        secret;
 
     password.set("service", $("#edit-service").val());
     password.set("account", $("#edit-account").val());
-    password.set("secret", $("#edit-secret1").val());
+    secret = $("#edit-secret1").val();
+    secret = Yith.cipher(secret);
+    password.set("secret", secret);
+    secret = null;
     if (enableExpiration) {
         password.set("expiration", parseInt($("#edit-expiration").val(), 10));
     } else {
@@ -182,6 +201,20 @@ Yith.cloneList = function (list) {
     return newlist;
 };
 
+Yith.cipher = function (secret) {
+    "use strict";
+    return sjcl.encrypt("password", secret); // TODO improve!!
+};
+
+Yith.decipher = function (cipheredSecret) {
+    "use strict";
+    var result = null;
+    if (cipheredSecret !== null) {
+        result = sjcl.decrypt("password", cipheredSecret); // TODO improve!
+    }
+    return result;
+};
+
 // **********
 // INIT VIEWS
 // **********
@@ -196,7 +229,6 @@ Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
     id: 0,
     service: "Nyarly",
     account: "Cultist",
-    secret: "this_should_be_ciphered",
     expiration: 200
 }));
 
@@ -204,7 +236,6 @@ Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
     id: 1,
     service: "Cthulhu",
     account: "cultist@rlyeh.com",
-    secret: "this_should_be_ciphered",
     tags: ["scary"],
     notes: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vitae erat tortor, ac tincidunt felis. Donec ac libero nunc, eget semper ante. Sed at sapien tellus, nec porttitor nisl. Integer consectetur, risus scelerisque tempus tincidunt, nibh metus sagittis eros, non interdum magna ligula vitae massa. Vestibulum gravida vestibulum diam. Donec sodales, nisi quis ultrices tincidunt, metus turpis scelerisque odio, at feugiat justo urna quis urna. Nullam blandit vehicula urna et vestibulum. Maecenas viverra sem at mauris tincidunt eu laoreet sem ultricies. Cras tincidunt sagittis massa, quis ultricies orci rhoncus ut. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed nunc turpis, consequat eget lacinia pretium, volutpat ac ante. Fusce euismod est ac sapien posuere tristique dignissim justo vehicula. Suspendisse tristique mollis purus, quis vulputate odio ullamcorper id."
 }));
@@ -213,7 +244,7 @@ Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
     id: 2,
     service: "Yog",
     account: "Cultist",
-    secret: "this_should_be_ciphered",
+    secret: '{"iv":"E7W8jXE6KRxef8+LncwsfA","v":1,"iter":1000,"ks":128,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"0X1758AMhE4","ct":"qgVhOmUj0fldZULnH4GEjLmCfQ"}',
     tags: ["dimension"]
 }));
 
@@ -221,7 +252,6 @@ Yith.listPasswdView.get("passwordList").push(Yith.Password.create({
     id: 3,
     service: "Hastur",
     account: "Cultist",
-    secret: "this_should_be_ciphered",
     tags: ["unspeakable", "scary"]
 }));
 

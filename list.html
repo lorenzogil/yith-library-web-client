@@ -62,7 +62,7 @@
                 <div class="control-group">
                     <label class="control-label" for="edit-secret1">Secret</label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="password.secret"}}/> <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="password.secret"}}/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
+                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="decipheredSecret"}}/> <input type="password" id="edit-secret2" class="input-small" {{bindAttr value="decipheredSecret"}}/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
                     </div>
                 </div>
                 <div class="control-group">
@@ -126,6 +126,7 @@
     <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
     <script src="js/libs/ember-0.9.8.1.min.js"></script>
     <script src="js/libs/bootstrap.min.js"></script>
+    <script src="js/libs/sjcl.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
