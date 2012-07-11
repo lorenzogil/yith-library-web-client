@@ -1,5 +1,5 @@
 /*jslint vars: false, browser: true, nomen: true */
-/*global Ember, $, sjcl */
+/*global Ember, $, sjcl, yithServerHost */
 
 var Yith = Ember.Application.create();
 
@@ -331,23 +331,44 @@ Yith.decipher = function (cipheredSecret) {
 
 Yith.ajax = {};
 
-Yith.ajax.host = "http://192.168.11.62:6543/passwords/cultist"; // TODO hardcoded!
+Yith.ajax.host = yithServerHost + "/passwords/fulanito"; // TODO user hardcoded!
+
+Yith.ajax.getAccessToken = function (callback) {
+    "use strict";
+    $.getJSON("/token", function (data) {
+        Yith.ajax.accessCode = data.access_code;
+        callback();
+    });
+};
 
 Yith.ajax.getPasswordList = function () {
     "use strict";
-    $.getJSON(Yith.ajax.host, function (data) {
-        data.forEach(function (item) {
-            var password = Yith.Password.create(item),
-                passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
-            passwordList.push(password);
-            Yith.listPasswdView.set("passwordList", passwordList);
-        });
+    $.ajax(Yith.ajax.host, {
+        dataType: 'json',
+        headers: {
+            "Authorization": "Bearer " + Yith.ajax.accessCode
+        },
+        success: function (data) {
+            data.forEach(function (item) {
+                var password = Yith.Password.create(item),
+                    passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
+                passwordList.push(password);
+                Yith.listPasswdView.set("passwordList", passwordList);
+            });
+        }
     });
 };
 
 Yith.ajax.createPassword = function (password) {
     "use strict";
-    $.post(Yith.ajax.host, password.get("json"));
+    $.ajax(Yith.ajax.host, {
+        type: "POST",
+        dataType: "json",
+        headers: {
+            "Authorization": "Bearer " + Yith.ajax.accessCode
+        },
+        data: password.get("json")
+    });
 };
 
 Yith.ajax.updatePassword = function (password) {
@@ -356,14 +377,22 @@ Yith.ajax.updatePassword = function (password) {
     $.ajax(Yith.ajax.host + '/' + _id, {
         data: password.get("json"),
         dataType: "json",
-        type: "PUT"
+        type: "PUT",
+        headers: {
+            "Authorization": "Bearer " + Yith.ajax.accessCode
+        }
     });
 };
 
 Yith.ajax.deletePassword = function (password) {
     "use strict";
     var _id = password.get("_id");
-    $.ajax(Yith.ajax.host + '/' + _id, { type: "DELETE" });
+    $.ajax(Yith.ajax.host + '/' + _id, {
+        type: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + Yith.ajax.accessCode
+        }
+    });
 };
 
 // **********
@@ -378,4 +407,4 @@ Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
 // LOAD DATA
 // *********
 
-Yith.ajax.getPasswordList();
+Yith.ajax.getAccessToken(Yith.ajax.getPasswordList);

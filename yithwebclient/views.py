@@ -1,3 +1,4 @@
+from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 
 import requests
@@ -17,14 +18,14 @@ def oauth2cb(request):
     data = response.json
 
     session = request.session
-    session['access_code'] = data.access_code
-    return {}
+    session['access_code'] = data['access_code']
+    return HTTPFound(location=request.route_url('list'))
 
-@view_config(route_name='token')
+@view_config(route_name='token', renderer='json')
 def get_token(request):
     access_code = request.session['access_code']
     return {'access_code': access_code}
 
 @view_config(route_name='list', renderer='list.mak')
 def list_passwords(request):
-    return {}
+    return {'server_host': request.registry.settings['yith.server']}

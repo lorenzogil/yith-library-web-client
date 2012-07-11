@@ -17,6 +17,10 @@
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <script type="text/javascript">
+        var yithServerHost = "${server_host}";
+    </script>
 </head>
 <body>
     <%text>
@@ -109,6 +113,7 @@
     </%text>
 
     <div id="page" class="container">
+        <h1>Yith Library</h1>
         <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
     </div>
 

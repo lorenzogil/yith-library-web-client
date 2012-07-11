@@ -19,6 +19,8 @@
     <![endif]-->
 </head>
 <body>
-    <a href="${server_authorization_endpoint}" class="btn btn-primary btn-large">Login</a>
+    <div id="page" class="container">
+        <a href="${server_authorization_endpoint}" class="btn btn-primary btn-large">Login</a>
+    </div>
 </body>
 </html>
