@@ -10,16 +10,16 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css?v=1">
+    <link rel="shortcut icon" href="${request.static_url('yithwebclient:static/favicon.ico')}" />
+    <link rel="stylesheet" href="${request.static_url('yithwebclient:static/css/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_url('yithwebclient:static/css/style.css')}">
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 </head>
 <body>
+    <%text>
     <script type="text/x-handlebars" data-template-name="password-list">
         <table class="table table-striped">
         <thead>
@@ -102,6 +102,7 @@
             {{/if}}
         </div>
     </script>
+    </%text>
 
     <div id="page" class="container">
         <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
@@ -124,10 +125,10 @@
 
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/libs/jquery-1.7.2.min.js"><\/script>')</script>
-    <script src="js/libs/ember-0.9.8.1.min.js"></script>
-    <script src="js/libs/bootstrap.min.js"></script>
-    <script src="js/libs/sjcl.js"></script>
-    <script src="js/app.js"></script>
+    <script>window.jQuery || document.write('<script src=\'${request.static_url("yithwebclient:static/js/libs/jquery-1.7.2.min.js")}\'><\/script>')</script>
+    <script src="${request.static_url('yithwebclient:static/js/libs/ember-0.9.8.1.min.js')}"></script>
+    <script src="${request.static_url('yithwebclient:static/js/libs/bootstrap.min.js')}"></script>
+    <script src="${request.static_url('yithwebclient:static/js/libs/sjcl.js')}"></script>
+    <script src="${request.static_url('yithwebclient:static/js/app.js')}"></script>
 </body>
 </html>
