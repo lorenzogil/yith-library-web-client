@@ -62,8 +62,9 @@
                 <div class="control-group">
                     <label class="control-label" for="edit-secret1">Secret</label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="decipheredSecret"}}/> <input type="password" id="edit-secret2" class="input-small" {{bindAttr value="decipheredSecret"}}/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
+                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}}/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
                     </div>
+                    <span class="help-block" style="display: none;">The passwords doesn't match</span>
                 </div>
                 <div class="control-group">
                     <div class="controls form-inline">

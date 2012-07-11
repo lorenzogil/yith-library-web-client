@@ -87,6 +87,18 @@ Yith.EditPasswordView = Ember.View.extend({
         return result;
     }).property("password"),
 
+    validateSecret: function (evt) {
+        "use strict";
+        var equal = $("#edit-secret1").val() === $("#edit-secret2").val();
+        if (equal) {
+            $("#edit-secret1").parent().parent().removeClass("error");
+            $("#edit-secret1").parent().parent().find(".help-block").hide();
+        } else {
+            $("#edit-secret1").parent().parent().addClass("error");
+            $("#edit-secret1").parent().parent().find(".help-block").show();
+        }
+    },
+
     enableExpiration: function (evt) {
         "use strict";
         var enable = evt.target.checked;
