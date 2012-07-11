@@ -13,6 +13,8 @@ Yith.Password = Ember.Object.extend({
     service: null,
     account: null,
     secret: null,
+    creation: null,
+    last_modification: null,
     expiration: 0,
     notes: null,
     tags: [],
@@ -27,11 +29,24 @@ Yith.Password = Ember.Object.extend({
         result.service = this.service;
         result.account = this.account;
         result.secret = this.secret;
+        result.creation = this.creation;
+        result.last_modification = this.last_modification;
         result.expiration = this.expiration;
         result.notes = this.notes;
         result.tags = this.tags;
         return JSON.stringify(result);
-    }).property("_id", "service", "account", "secret", "expiration", "notes", "tags")
+    }).property("_id", "service", "account", "secret", "creation",
+                "last_modification", "expiration", "notes", "tags"),
+
+    daysLeft: Ember.computed(function () {
+        "use strict";
+        // One day milliseconds: 86400000
+        var now = (new Date()).getTime(),
+            diff = now - this.creation,
+            diffDays = Math.round(diff / 86400000);
+
+        return this.expiration - diffDays;
+    }).property("creation", "expiration")
 });
 
 // *****
@@ -175,9 +190,11 @@ Yith.EditPasswordView = Ember.View.extend({
         "use strict";
         var password = evt.view.get("password");
 
-        Yith.listPasswdView.set("passwordList", Yith.listPasswdView.get("passwordList").filter(function (item, idx, self) {
-            return item.get("id") !== password.get("id");
-        }));
+        Yith.listPasswdView.set("passwordList", Yith.listPasswdView.get("passwordList").filter(
+            function (item, idx, self) {
+                return item.get("id") !== password.get("id");
+            }
+        ));
         password.destroy();
         Yith.ajax.deletePassword(password);
         Yith.editModal.modal("hide");
@@ -236,9 +253,12 @@ Yith.initEditModal = function () {
 
 Yith.addNewPassword = function () {
     "use strict";
+    var now = new Date();
     Yith.initEditModal();
     Yith.editView.set("password", Yith.Password.create({
-        id: Yith.getNewID()
+        id: Yith.getNewID(),
+        creation: now.getTime(),
+        last_modification: now.getTime()
     }));
     Yith.editView.set("isnew", true);
     Yith.editView.set("isExpirationDisabled", true);
@@ -248,7 +268,9 @@ Yith.addNewPassword = function () {
 Yith.saveChangesInPassword = function (password) {
     "use strict";
     var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
-        secret;
+        now = new Date(),
+        secret,
+        expiration;
 
     password.set("service", $("#edit-service").val());
     password.set("account", $("#edit-account").val());
@@ -256,8 +278,12 @@ Yith.saveChangesInPassword = function (password) {
     secret = Yith.cipher(secret);
     password.set("secret", secret);
     secret = null;
+    password.set("last_modification", now.getTime());
     if (enableExpiration) {
-        password.set("expiration", parseInt($("#edit-expiration").val(), 10));
+        expiration = password.get("creation") + (password.get("expiration") * 86400000);
+        expiration = Math.round((expiration - now.getTime()) / 86400000);
+        expiration = parseInt($("#edit-expiration").val(), 10) - expiration;
+        password.set("expiration", expiration);
     } else {
         password.set("expiration", 0);
     }
