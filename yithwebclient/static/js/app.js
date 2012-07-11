@@ -90,13 +90,21 @@ Yith.EditPasswordView = Ember.View.extend({
     validateSecret: function (evt) {
         "use strict";
         var equal = $("#edit-secret1").val() === $("#edit-secret2").val();
+
+        if ($("#edit-secret1").val() !== "") {
+            $("#edit-secret1").parent().parent().removeClass("error");
+            $("#edit-secret1").parent().parent().find(".help-block.req").hide();
+        }
+
         if (equal) {
             $("#edit-secret1").parent().parent().removeClass("error");
-            $("#edit-secret1").parent().parent().find(".help-block").hide();
+            $("#edit-secret1").parent().parent().find(".help-block.match").hide();
         } else {
             $("#edit-secret1").parent().parent().addClass("error");
-            $("#edit-secret1").parent().parent().find(".help-block").show();
+            $("#edit-secret1").parent().parent().find(".help-block.match").show();
         }
+
+        return equal;
     },
 
     enableExpiration: function (evt) {
@@ -134,6 +142,12 @@ Yith.EditPasswordView = Ember.View.extend({
         "use strict";
         var password = evt.view.get("password");
 
+        try {
+            this.validateForm();
+        } catch (err) {
+            return;
+        }
+
         Yith.saveChangesInPassword(password);
         Yith.ajax.updatePassword(password);
         Yith.editModal.modal("hide");
@@ -143,6 +157,12 @@ Yith.EditPasswordView = Ember.View.extend({
         "use strict";
         var password = evt.view.get("password"),
             passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
+
+        try {
+            this.validateForm();
+        } catch (err) {
+            return;
+        }
 
         Yith.saveChangesInPassword(password);
         passwordList.push(password);
@@ -161,6 +181,40 @@ Yith.EditPasswordView = Ember.View.extend({
         password.destroy();
         Yith.ajax.deletePassword(password);
         Yith.editModal.modal("hide");
+    },
+
+    checkEmptiness: function (evt) {
+        "use strict";
+        if ($("#edit-service").val() !== "") {
+            $("#edit-service").parent().removeClass("error");
+            $("#edit-service").next().hide();
+        }
+    },
+
+    validateForm: function () {
+        "use strict";
+        var valid = true,
+            aux;
+
+        valid = valid && this.validateSecret();
+
+        aux = $("#edit-service").val() !== "";
+        if (!aux) {
+            $("#edit-service").parent().addClass("error");
+            $("#edit-service").next().show();
+        }
+        valid = valid && aux;
+
+        aux = $("#edit-secret1").val() !== "";
+        if (!aux) {
+            $("#edit-secret1").parent().parent().addClass("error");
+            $("#edit-secret1").parent().parent().find(".help-block.req").show();
+        }
+        valid = valid && aux;
+
+        if (!valid) {
+            throw "Not valid";
+        }
     }
 });
 

@@ -55,16 +55,20 @@
         </div>
         <div class="modal-body" id="edit-body">
             <form>
-                <label for="edit-service"><span class="red">*</span> Service</label>
-                <input type="text" id="edit-service" {{bindAttr value="password.service"}}/>
+                <div class="control-group">
+                    <label class="control-label" for="edit-service"><span class="red">*</span> Service</label>
+                    <input type="text" id="edit-service" {{bindAttr value="password.service"}} {{action "checkEmptiness" on="change"}}/>
+                    <span class="help-block" style="display: none;">This field is required</span>
+                </div>
                 <label for="edit-account">Account</label>
                 <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
                 <div class="control-group">
                     <label class="control-label" for="edit-secret1"><span class="red">*</span> Secret</label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}}/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
+                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}} placeholder="Repeat"/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
                     </div>
-                    <span class="help-block" style="display: none;">The passwords don't match</span>
+                    <span class="help-block match" style="display: none;">The passwords don't match</span>
+                    <span class="help-block req" style="display: none;">This field is required</span>
                 </div>
                 <div class="control-group">
                     <div class="controls form-inline">
