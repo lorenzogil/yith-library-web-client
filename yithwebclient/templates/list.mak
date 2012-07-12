@@ -85,7 +85,7 @@
                     <label class="control-label" for="edit-tags">Tags</label>
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" id="edit-tags" /><button class="btn" {{action "addTag"}}><i class="icon icon-plus"></i> Add</button>
+                            <input type="text" id="edit-tags" autocomplete="off" /><button class="btn" {{action "addTag"}}><i class="icon icon-plus"></i> Add</button>
                         </div>
                         <ul>
                         {{#each tag in password.provisionalTags}}

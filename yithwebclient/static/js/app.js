@@ -289,9 +289,10 @@ Yith.initEditModal = function () {
 
             tags = Yith.listPasswdView.get("allTags");
             $("#edit-tags").typeahead({
-                source: tags,
                 items: 3
             });
+            // Force update on typehead source array
+            $("#edit-tags").data("typeahead").source = tags.copy();
         });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");
