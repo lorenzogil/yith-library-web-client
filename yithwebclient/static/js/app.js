@@ -257,21 +257,23 @@ Yith.initEditModal = function () {
     "use strict";
     if (typeof Yith.editModal === "undefined") {
         Yith.editModal = $("#edit");
-        Yith.editModal.modal({ show: false });
+        Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
-            Yith.askMasterPassword(function (masterPassword) {
-                var secret = Yith.editView.get("password").get("secret");
-                try {
-                    secret = Yith.decipher(masterPassword, secret);
-                    $("#edit-secret1").attr("value", secret);
-                    $("#edit-secret2").attr("value", secret);
-                    secret = null;
-                    masterPassword = null;
-                    return true;
-                } catch (err) {
-                    return false;
-                }
-            });
+            var secret = Yith.editView.get("password").get("secret");
+            if (secret !== null) {
+                Yith.askMasterPassword(function (masterPassword) {
+                    try {
+                        secret = Yith.decipher(masterPassword, secret);
+                        $("#edit-secret1").attr("value", secret);
+                        $("#edit-secret2").attr("value", secret);
+                        secret = null;
+                        masterPassword = null;
+                        return true;
+                    } catch (err) {
+                        return false;
+                    }
+                });
+            }
         });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");
@@ -381,6 +383,7 @@ Yith.askMasterPassword = function (callback) {
             backdrop.unbind("click");
             backdrop.css("z-index", 1060);
             $("#master-error").hide();
+            $("#master-password").focus();
         });
         Yith.masterModal.on("hidden", function (evt) {
             $("#master-password").attr("value", "");
