@@ -69,7 +69,7 @@
                 <div class="control-group">
                     <label class="control-label" for="edit-secret1"><span class="red">*</span> Secret</label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{bindAttr value="decipheredSecret"}} {{action "validateSecret" on="change"}} placeholder="Repeat"/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
+                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="change"}} placeholder="Repeat"/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
                     </div>
                     <span class="help-block match" style="display: none;">The passwords don't match</span>
                     <span class="help-block req" style="display: none;">This field is required</span>
@@ -131,6 +131,20 @@
     </div>
 
     <div class="modal fade hide" id="edit"></div>
+
+    <div class="modal fade hide" id="master">
+        <div class="modal-header">
+            <h3>Master Password</h3>
+        </div>
+        <div class="modal-body">
+            <form>
+                <input type="password" id="master-password"/>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn btn-primary" id="master-done">Accept</a>
+        </div>
+    </div>
 
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>

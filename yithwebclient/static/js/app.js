@@ -92,16 +92,6 @@ Yith.EditPasswordView = Ember.View.extend({
         return !this.get("isExpirationDisabled");
     }).property("isExpirationDisabled"),
 
-    decipheredSecret: Ember.computed(function () {
-        "use strict";
-        var password = this.get("password"),
-            result = null;
-        if (password !== null) {
-            result = Yith.decipher(password.get("secret"));
-        }
-        return result;
-    }).property("password"),
-
     validateSecret: function (evt) {
         "use strict";
         var equal = $("#edit-secret1").val() === $("#edit-secret2").val();
@@ -163,9 +153,10 @@ Yith.EditPasswordView = Ember.View.extend({
             return;
         }
 
-        Yith.saveChangesInPassword(password);
-        Yith.ajax.updatePassword(password);
-        Yith.editModal.modal("hide");
+        Yith.saveChangesInPassword(password, function () {
+            Yith.ajax.updatePassword(password);
+            Yith.editModal.modal("hide");
+        });
     },
 
     createPassword: function (evt) {
@@ -179,11 +170,12 @@ Yith.EditPasswordView = Ember.View.extend({
             return;
         }
 
-        Yith.saveChangesInPassword(password);
-        passwordList.push(password);
-        Yith.listPasswdView.set("passwordList", passwordList);
-        Yith.ajax.createPassword(password);
-        Yith.editModal.modal("hide");
+        Yith.saveChangesInPassword(password, function () {
+            passwordList.push(password);
+            Yith.listPasswdView.set("passwordList", passwordList);
+            Yith.ajax.createPassword(password);
+            Yith.editModal.modal("hide");
+        });
     },
 
     deletePassword: function (evt) {
@@ -244,6 +236,16 @@ Yith.initEditModal = function () {
     if (typeof Yith.editModal === "undefined") {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false });
+        Yith.editModal.on("shown", function (evt) {
+            Yith.askMasterPassword(function (masterPassword) {
+                var secret = Yith.editView.get("password").get("secret");
+                secret = Yith.decipher(masterPassword, secret);
+                $("#edit-secret1").attr("value", secret);
+                $("#edit-secret2").attr("value", secret);
+                secret = null;
+                masterPassword = null;
+            });
+        });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");
             $("#edit-secret2").attr("value", "");
@@ -265,30 +267,35 @@ Yith.addNewPassword = function () {
     Yith.editModal.modal("show");
 };
 
-Yith.saveChangesInPassword = function (password) {
+Yith.saveChangesInPassword = function (password, callback) {
     "use strict";
-    var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
-        now = new Date(),
-        secret,
-        expiration;
+    Yith.askMasterPassword(function (masterPassword) {
+        var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
+            now = new Date(),
+            secret,
+            expiration;
 
-    password.set("service", $("#edit-service").val());
-    password.set("account", $("#edit-account").val());
-    secret = $("#edit-secret1").val();
-    secret = Yith.cipher(secret);
-    password.set("secret", secret);
-    secret = null;
-    password.set("last_modification", now.getTime());
-    if (enableExpiration) {
-        expiration = password.get("creation") + (password.get("expiration") * 86400000);
-        expiration = Math.round((expiration - now.getTime()) / 86400000);
-        expiration = parseInt($("#edit-expiration").val(), 10) - expiration;
-        password.set("expiration", expiration);
-    } else {
-        password.set("expiration", 0);
-    }
-    password.set("notes", $("#edit-notes").val());
-    password.set("tags", password.get("provisionalTags"));
+        password.set("service", $("#edit-service").val());
+        password.set("account", $("#edit-account").val());
+        secret = $("#edit-secret1").val();
+        secret = Yith.cipher(masterPassword, secret);
+        password.set("secret", secret);
+        secret = null;
+        masterPassword = null;
+        password.set("last_modification", now.getTime());
+        if (enableExpiration) {
+            expiration = password.get("creation") + (password.get("expiration") * 86400000);
+            expiration = Math.round((expiration - now.getTime()) / 86400000);
+            expiration = parseInt($("#edit-expiration").val(), 10) - expiration;
+            password.set("expiration", expiration);
+        } else {
+            password.set("expiration", 0);
+        }
+        password.set("notes", $("#edit-notes").val());
+        password.set("tags", password.get("provisionalTags"));
+
+        callback();
+    });
 };
 
 Yith.getNewID = function () {
@@ -311,18 +318,45 @@ Yith.cloneList = function (list) {
     return newlist;
 };
 
-Yith.cipher = function (secret) {
+Yith.cipher = function (masterPassword, secret) {
     "use strict";
-    return sjcl.encrypt("password", secret); // TODO improve!!
+    var result = sjcl.encrypt(masterPassword, secret);
+    masterPassword = null;
+    return result;
 };
 
-Yith.decipher = function (cipheredSecret) {
+Yith.decipher = function (masterPassword, cipheredSecret) {
     "use strict";
     var result = null;
     if (cipheredSecret !== null) {
-        result = sjcl.decrypt("password", cipheredSecret); // TODO improve!
+        result = sjcl.decrypt(masterPassword, cipheredSecret);
     }
+    masterPassword = null;
     return result;
+};
+
+Yith.askMasterPassword = function (callback) {
+    "use strict";
+    if (typeof Yith.masterModal === "undefined") {
+        Yith.masterModal = $("#master");
+        Yith.masterModal.modal({
+            show: false,
+            keyboard: false
+        });
+        Yith.masterModal.on("shown", function (evt) {
+            var backdrops = $(".modal-backdrop");
+            $(backdrops[backdrops.length - 1]).unbind("click");
+        });
+        Yith.masterModal.on("hidden", function (evt) {
+            $("#master-password").attr("value", "");
+        });
+    }
+    $("#master-done").unbind("click");
+    $("#master-done").click(function () {
+        callback($("#master-password").val());
+        Yith.masterModal.modal("hide");
+    });
+    Yith.masterModal.modal("show");
 };
 
 // ****
