@@ -395,16 +395,24 @@ Yith.ajax.deletePassword = function (password) {
     });
 };
 
-// **********
-// INIT VIEWS
-// **********
+// **************
+// INITIALIZATION
+// **************
 
-Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page");
+$(document).ready(function () {
+    "use strict";
 
-Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
+    // **********
+    // INIT VIEWS
+    // **********
 
-// *********
-// LOAD DATA
-// *********
+    Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page");
 
-Yith.ajax.getAccessToken(Yith.ajax.getPasswordList);
+    Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
+
+    // *********
+    // LOAD DATA
+    // *********
+
+    Yith.ajax.getAccessToken(Yith.ajax.getPasswordList);
+});
