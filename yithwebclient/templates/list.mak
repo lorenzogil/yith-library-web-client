@@ -25,7 +25,7 @@
 <body>
     <%text>
     <script type="text/x-handlebars" data-template-name="password-list">
-        <table class="table table-striped">
+        <table class="table table-striped passwords">
         <thead>
             <tr>
                 <th>Service</th>
@@ -39,7 +39,10 @@
         <tbody>
             {{#each passwordList}}
                 <tr>
-                    <td><button class="btn btn-info" {{action "getPassword"}}>{{service}}</button></td>
+                    <td>
+                        <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
+                        <input type="text" style="display: none;" class="input-medium" /> <span style="display: none;" ></span>
+                    </td>
                     <td>{{account}}</td>
                     <td>{{#each tags}}
                     <span class="label">{{this}}</span>
@@ -137,9 +140,7 @@
             <h3>Master Password</h3>
         </div>
         <div class="modal-body">
-            <form>
-                <input type="password" id="master-password"/>
-            </form>
+            <input type="password" id="master-password"/>
             <div class="alert alert-error" id="master-error" style="display: none;">
                 <h4>Wrong password!</h4>
                 That's not the master password used to cipher this password, try another.

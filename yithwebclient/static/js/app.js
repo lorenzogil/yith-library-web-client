@@ -86,25 +86,28 @@ Yith.ListPasswordsView = Ember.View.extend({
         "use strict";
         Yith.askMasterPassword(function (masterPassword) {
             var secret = evt.context.get("secret"),
-                node = $(evt.target);
+                node = $(evt.target),
+                countdown = node.next().next(),
+                timer;
             try {
                 secret = Yith.decipher(masterPassword, secret);
             } catch (err) {
                 return false;
             }
             masterPassword = null;
-            node.popover({
-                trigger: "manual"
-            });
-            // Force update of popover content
-            node.data("popover").options.title = evt.context.get("service");
-            node.data("popover").options.content = secret;
+            node.next().val(secret).show().focus().select();
             secret = null;
-            node.popover("show");
+
+            countdown.text("5");
+            countdown.show();
+            timer = setInterval(function () {
+                countdown.text(parseInt(countdown.text(), 10) - 1);
+            }, 1000);
             setTimeout(function () {
-                node.popover("hide");
-                node.data("popover").options.content = "";
-            }, 3000);
+                clearInterval(timer);
+                node.next().hide().attr("value", "");
+                countdown.hide();
+            }, 5500);
             return true;
         });
     },

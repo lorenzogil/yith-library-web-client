@@ -21,3 +21,8 @@ h1 {
 #master {
     z-index: 1070;
 }
+
+.passwords td:first-child .btn.btn-info {
+    display: block;
+    margin-bottom: 5px;
+}
