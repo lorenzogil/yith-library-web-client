@@ -132,7 +132,7 @@
 
     <div class="modal fade hide" id="edit"></div>
 
-    <div class="modal fade hide" id="master">
+    <div class="modal hide" id="master">
         <div class="modal-header">
             <h3>Master Password</h3>
         </div>
@@ -140,6 +140,10 @@
             <form>
                 <input type="password" id="master-password"/>
             </form>
+            <div class="alert alert-error" id="master-error" style="display: none;">
+                <h4>Wrong password!</h4>
+                That's not the master password used to cipher this password, try another.
+            </div>
         </div>
         <div class="modal-footer">
             <a href="#" class="btn btn-primary" id="master-done">Accept</a>

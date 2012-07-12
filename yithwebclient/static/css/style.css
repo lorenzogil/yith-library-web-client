@@ -17,3 +17,7 @@ h1 {
 .red {
     color: red;
 }
+
+#master {
+    z-index: 1070;
+}

@@ -239,11 +239,17 @@ Yith.initEditModal = function () {
         Yith.editModal.on("shown", function (evt) {
             Yith.askMasterPassword(function (masterPassword) {
                 var secret = Yith.editView.get("password").get("secret");
-                secret = Yith.decipher(masterPassword, secret);
-                $("#edit-secret1").attr("value", secret);
-                $("#edit-secret2").attr("value", secret);
-                secret = null;
-                masterPassword = null;
+                try {
+                    secret = Yith.decipher(masterPassword, secret);
+                    $("#edit-secret1").attr("value", secret);
+                    $("#edit-secret2").attr("value", secret);
+                    secret = null;
+                    masterPassword = null;
+                    return true;
+                } catch (err) {
+                    $("#master-error").show();
+                    return false;
+                }
             });
         });
         Yith.editModal.on("hidden", function (evt) {
@@ -295,6 +301,7 @@ Yith.saveChangesInPassword = function (password, callback) {
         password.set("tags", password.get("provisionalTags"));
 
         callback();
+        return true;
     });
 };
 
@@ -343,9 +350,16 @@ Yith.askMasterPassword = function (callback) {
             show: false,
             keyboard: false
         });
+        $("#master-password").keypress(function () {
+            $("#master-error").hide();
+        });
         Yith.masterModal.on("shown", function (evt) {
-            var backdrops = $(".modal-backdrop");
-            $(backdrops[backdrops.length - 1]).unbind("click");
+            var backdrops = $(".modal-backdrop"),
+                backdrop = $(backdrops[backdrops.length - 1]);
+
+            backdrop.unbind("click");
+            backdrop.css("z-index", 1060);
+            $("#master-error").hide();
         });
         Yith.masterModal.on("hidden", function (evt) {
             $("#master-password").attr("value", "");
@@ -353,8 +367,10 @@ Yith.askMasterPassword = function (callback) {
     }
     $("#master-done").unbind("click");
     $("#master-done").click(function () {
-        callback($("#master-password").val());
-        Yith.masterModal.modal("hide");
+        var success = callback($("#master-password").val());
+        if (success) {
+            Yith.masterModal.modal("hide");
+        }
     });
     Yith.masterModal.modal("show");
 };
