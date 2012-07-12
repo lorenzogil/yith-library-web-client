@@ -100,7 +100,7 @@
         </div>
         <div class="modal-footer">
             {{#unless isnew}}
-            <a href="#" class="btn btn-danger left" {{action "deletePassword"}}>Delete</a>
+            <a href="#" class="btn btn-danger pull-left" {{action "deletePassword"}}>Delete</a>
             {{/unless}}
             <a href="#" class="btn" data-dismiss="modal">Close</a>
             {{#if isnew}}

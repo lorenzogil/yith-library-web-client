@@ -10,12 +10,12 @@ h1 {
     cursor: pointer;
 }
 
-.left {
-    float: left;
-}
-
 .red {
     color: red;
+}
+
+.btn-xlarge {
+    font-size: 2em;
 }
 
 #master {
