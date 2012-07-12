@@ -8,7 +8,6 @@ Server: https://github.com/Yaco-Sistemas/yith-library-server
 Boring legal stuff
 ------------------
 
-Yith Library web client
 Copyright (C) 2012  Yaco Sistemas S.L.
 
 This program is free software: you can redistribute it and/or modify
