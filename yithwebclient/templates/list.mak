@@ -39,7 +39,7 @@
         <tbody>
             {{#each passwordList}}
                 <tr>
-                    <td><button class="btn btn-info">{{service}}</button></td>
+                    <td><button class="btn btn-info" {{action "getPassword"}}>{{service}}</button></td>
                     <td>{{account}}</td>
                     <td>{{#each tags}}
                     <span class="label">{{this}}</span>

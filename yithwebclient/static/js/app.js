@@ -57,6 +57,28 @@ Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
     passwordList: [],
 
+    getPassword: function (evt) {
+        "use strict";
+        Yith.askMasterPassword(function (masterPassword) {
+            var secret = evt.context.get("secret");
+            try {
+                secret = Yith.decipher(masterPassword, secret);
+            } catch (err) {
+                return false;
+            }
+            masterPassword = null;
+            $(evt.target).popover({
+                trigger: "manual",
+                title: evt.context.get("service"),
+                content: secret
+            });
+            secret = null;
+            $(evt.target).popover("show");
+            setTimeout(function () { $(evt.target).popover("hide"); }, 3000);
+            return true;
+        });
+    },
+
     notes: function (evt) {
         "use strict";
         var notes = evt.context.get("notes");
@@ -247,7 +269,6 @@ Yith.initEditModal = function () {
                     masterPassword = null;
                     return true;
                 } catch (err) {
-                    $("#master-error").show();
                     return false;
                 }
             });
@@ -370,6 +391,8 @@ Yith.askMasterPassword = function (callback) {
         var success = callback($("#master-password").val());
         if (success) {
             Yith.masterModal.modal("hide");
+        } else {
+            $("#master-error").show();
         }
     });
     Yith.masterModal.modal("show");
