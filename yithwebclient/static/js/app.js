@@ -437,7 +437,7 @@ Yith.askMasterPassword = function (callback) {
 
 Yith.ajax = {};
 
-Yith.ajax.host = yithServerHost + "/passwords/fulanito"; // TODO user hardcoded!
+Yith.ajax.host = yithServerHost + "/passwords";
 
 Yith.ajax.getAccessToken = function (callback) {
     "use strict";
