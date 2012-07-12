@@ -57,6 +57,15 @@ Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
     passwordList: [],
 
+    allTags: Ember.computed(function () {
+        "use strict";
+        var allTags = new Ember.Set();
+        this.passwordList.forEach(function (item) {
+            allTags.addEach(item.get("tags"));
+        });
+        return allTags;
+    }).property("passwordList"),
+
     getPassword: function (evt) {
         "use strict";
         Yith.askMasterPassword(function (masterPassword) {
@@ -259,7 +268,10 @@ Yith.initEditModal = function () {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
-            var secret = Yith.editView.get("password").get("secret");
+            var secret,
+                tags;
+
+            secret = Yith.editView.get("password").get("secret");
             if (secret !== null) {
                 Yith.askMasterPassword(function (masterPassword) {
                     try {
@@ -274,6 +286,12 @@ Yith.initEditModal = function () {
                     }
                 });
             }
+
+            tags = Yith.listPasswdView.get("allTags");
+            $("#edit-tags").typeahead({
+                source: tags,
+                items: 3
+            });
         });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");
