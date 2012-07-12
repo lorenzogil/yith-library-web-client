@@ -200,7 +200,8 @@ Yith.EditPasswordView = Ember.View.extend({
 
     saveChanges: function (evt) {
         "use strict";
-        var password = evt.view.get("password");
+        var password = evt.view.get("password"),
+            savePassword = ($("#edit-secret1").val() !== "");
 
         try {
             this.validateForm();
@@ -208,7 +209,7 @@ Yith.EditPasswordView = Ember.View.extend({
             return;
         }
 
-        Yith.saveChangesInPassword(password, function () {
+        Yith.saveChangesInPassword(password, savePassword, function () {
             Yith.ajax.updatePassword(password);
             Yith.editModal.modal("hide");
         });
@@ -225,7 +226,7 @@ Yith.EditPasswordView = Ember.View.extend({
             return;
         }
 
-        Yith.saveChangesInPassword(password, function () {
+        Yith.saveChangesInPassword(password, true, function () {
             passwordList.push(password);
             Yith.listPasswdView.set("passwordList", passwordList);
             Yith.ajax.createPassword(password);
@@ -260,19 +261,20 @@ Yith.EditPasswordView = Ember.View.extend({
         var valid = true,
             aux;
 
-        valid = valid && this.validateSecret();
+        if (this.isnew) {
+            valid = valid && this.validateSecret();
+            aux = $("#edit-secret1").val() !== "";
+            if (!aux) {
+                $("#edit-secret1").parent().parent().addClass("error");
+                $("#edit-secret1").parent().parent().find(".help-block.req").show();
+            }
+            valid = valid && aux;
+        }
 
         aux = $("#edit-service").val() !== "";
         if (!aux) {
             $("#edit-service").parent().addClass("error");
             $("#edit-service").next().show();
-        }
-        valid = valid && aux;
-
-        aux = $("#edit-secret1").val() !== "";
-        if (!aux) {
-            $("#edit-secret1").parent().parent().addClass("error");
-            $("#edit-secret1").parent().parent().find(".help-block.req").show();
         }
         valid = valid && aux;
 
@@ -292,26 +294,7 @@ Yith.initEditModal = function () {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
-            var secret,
-                tags;
-
-            secret = Yith.editView.get("password").get("secret");
-            if (secret !== null) {
-                Yith.askMasterPassword(function (masterPassword) {
-                    try {
-                        secret = Yith.decipher(masterPassword, secret);
-                        $("#edit-secret1").attr("value", secret);
-                        $("#edit-secret2").attr("value", secret);
-                        secret = null;
-                        masterPassword = null;
-                        return true;
-                    } catch (err) {
-                        return false;
-                    }
-                });
-            }
-
-            tags = Yith.listPasswdView.get("allTags");
+            var tags = Yith.listPasswdView.get("allTags");
             $("#edit-tags").typeahead({
                 items: 3
             });
@@ -339,36 +322,40 @@ Yith.addNewPassword = function () {
     Yith.editModal.modal("show");
 };
 
-Yith.saveChangesInPassword = function (password, callback) {
+Yith.saveChangesInPassword = function (password, savePassword, callback) {
     "use strict";
-    Yith.askMasterPassword(function (masterPassword) {
-        var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
-            now = new Date(),
-            secret,
-            expiration;
+    var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
+        now = new Date(),
+        secret,
+        expiration;
 
-        password.set("service", $("#edit-service").val());
-        password.set("account", $("#edit-account").val());
-        secret = $("#edit-secret1").val();
-        secret = Yith.cipher(masterPassword, secret);
-        password.set("secret", secret);
-        secret = null;
-        masterPassword = null;
-        password.set("last_modification", now.getTime());
-        if (enableExpiration) {
-            expiration = password.get("creation") + (password.get("expiration") * 86400000);
-            expiration = Math.round((expiration - now.getTime()) / 86400000);
-            expiration = parseInt($("#edit-expiration").val(), 10) - expiration;
-            password.set("expiration", expiration);
-        } else {
-            password.set("expiration", 0);
-        }
-        password.set("notes", $("#edit-notes").val());
-        password.set("tags", password.get("provisionalTags"));
+    password.set("service", $("#edit-service").val());
+    password.set("account", $("#edit-account").val());
+    password.set("last_modification", now.getTime());
+    if (enableExpiration) {
+        expiration = password.get("creation") + (password.get("expiration") * 86400000);
+        expiration = Math.round((expiration - now.getTime()) / 86400000);
+        expiration = parseInt($("#edit-expiration").val(), 10) - expiration;
+        password.set("expiration", expiration);
+    } else {
+        password.set("expiration", 0);
+    }
+    password.set("notes", $("#edit-notes").val());
+    password.set("tags", password.get("provisionalTags"));
 
+    if (savePassword) {
+        Yith.askMasterPassword(function (masterPassword) {
+            secret = $("#edit-secret1").val();
+            secret = Yith.cipher(masterPassword, secret);
+            password.set("secret", secret);
+            secret = null;
+            masterPassword = null;
+            callback();
+            return true;
+        });
+    } else {
         callback();
-        return true;
-    });
+    }
 };
 
 Yith.getNewID = function () {

@@ -58,7 +58,11 @@
     <script type="text/x-handlebars" data-template-name="password-edit">
         <div class="modal-header">
             <button class="close" data-dismiss="modal">&times;</button>
+            {{#if isnew}}
+            <h3>Add new password</h3>
+            {{else}}
             <h3>Edit password</h3>
+            {{/if}}
         </div>
         <div class="modal-body" id="edit-body">
             <form>
@@ -70,9 +74,9 @@
                 <label for="edit-account">Account</label>
                 <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
                 <div class="control-group">
-                    <label class="control-label" for="edit-secret1"><span class="red">*</span> Secret</label>
+                    <label class="control-label" for="edit-secret1">{{#if isnew}}<span class="red">*</span> {{/if}}Secret</label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="change"}} placeholder="Repeat"/> <button class="btn"><i class="icon icon-cog"></i> Generate</button>
+                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="change"}} placeholder="Repeat"/> <button class="btn hide"><i class="icon icon-cog"></i> Generate</button>
                     </div>
                     <span class="help-block match" style="display: none;">The passwords don't match</span>
                     <span class="help-block req" style="display: none;">This field is required</span>
