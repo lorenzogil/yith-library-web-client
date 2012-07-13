@@ -401,7 +401,8 @@ Yith.askMasterPassword = function (callback) {
         Yith.masterModal = $("#master");
         Yith.masterModal.modal({
             show: false,
-            keyboard: false
+            keyboard: false,
+            backdrop: "static"
         });
         $("#master-password").keypress(function () {
             $("#master-error").hide();
@@ -410,7 +411,6 @@ Yith.askMasterPassword = function (callback) {
             var backdrops = $(".modal-backdrop"),
                 backdrop = $(backdrops[backdrops.length - 1]);
 
-            backdrop.unbind("click");
             backdrop.css("z-index", 1060);
             $("#master-error").hide();
             $("#master-password").focus();
