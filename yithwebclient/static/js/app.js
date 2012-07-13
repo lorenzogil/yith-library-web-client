@@ -114,14 +114,11 @@ Yith.ListPasswordsView = Ember.View.extend({
 
     notes: function (evt) {
         "use strict";
-        var notes = evt.context.get("notes");
-
-        if (typeof Yith.notesModal === "undefined") {
-            Yith.notesModal = $("#notes");
-            Yith.notesModal.modal({ show: false });
+        var node = $(evt.target);
+        if (typeof node.data().popover === "undefined") {
+            node.popover({ placement: "left" });
+            node.popover("show");
         }
-        Yith.notesModal.find("p.viewport").text(notes);
-        Yith.notesModal.modal("show");
     },
 
     edit: function (evt) {

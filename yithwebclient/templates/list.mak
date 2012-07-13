@@ -48,7 +48,7 @@
                     <span class="label">{{this}}</span>
                     {{/each}}</td>
                     <td><span class="badge badge-success">{{daysLeft}}</span></td>
-                    <td><button class="btn" {{action "notes"}}><i class="icon-exclamation-sign"></i> Notes</button></td>
+                    <td><button class="btn" {{bindAttr data-content="notes"}} data-original-title="Notes" {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
                     <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
                 </tr>
             {{/each}}
@@ -122,19 +122,6 @@
     <div id="page" class="container">
         <h1>Yith Library</h1>
         <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
-    </div>
-
-    <div class="modal fade hide" id="notes">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">&times;</button>
-            <h3>Notes</h3>
-        </div>
-        <div class="modal-body">
-            <p class="viewport"></p>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-        </div>
     </div>
 
     <div class="modal fade hide" id="edit"></div>
