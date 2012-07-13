@@ -404,8 +404,12 @@ Yith.askMasterPassword = function (callback) {
             keyboard: false,
             backdrop: "static"
         });
-        $("#master-password").keypress(function () {
+        $("#master-password").keypress(function (evt) {
+            var code = (evt.keyCode || evt.which);
             $("#master-error").hide();
+            if (code === 13) { // Enter key
+                $("#master-done").trigger("click");
+            }
         });
         Yith.masterModal.on("shown", function (evt) {
             var backdrops = $(".modal-backdrop"),
