@@ -142,14 +142,19 @@
         </div>
     </div>
 
-    <div class="modal hide" id="access">
+    <div class="modal hide" id="error">
         <div class="modal-header">
-            <h3>Session expired</h3>
+            <h3 class="access hide">Session expired</h3>
+            <h3 class="failure hide">Something failed</h3>
         </div>
         <div class="modal-body">
-            <div class="alert alert-error">
+            <div class="alert alert-error access hide">
                 <h4>You are about to logout</h4>
                 In a few seconds you'll be redirected to the welcome page to login again.
+            </div>
+            <div class="alert alert-error failure hide">
+                <h4>Don't panic!</h4>
+                The page will refresh in a few seconds. Everything will be ok, you may loose the lastest changes though.
             </div>
         </div>
     </div>

@@ -448,7 +448,8 @@ Yith.ajax.getAccessToken = function (callback) {
             callback();
         },
         error: function (XHR, textStatus, errorThrown) {
-            $("#access").modal({ keyboard: false, backdrop: "static" });
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            $("#error").find(".access").removeClass("hide");
             setTimeout(function () {
                 window.open("/", "_self");
             }, 4000);
@@ -470,6 +471,13 @@ Yith.ajax.getPasswordList = function () {
                 passwordList.push(password);
                 Yith.listPasswdView.set("passwordList", passwordList);
             });
+        },
+        error: function (XHR, textStatus, errorThrown) {
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            $("#error").find(".access").removeClass("hide");
+            setTimeout(function () {
+                window.open("/", "_self");
+            }, 4000);
         }
     });
 };
@@ -482,7 +490,14 @@ Yith.ajax.createPassword = function (password) {
         headers: {
             "Authorization": "Bearer " + Yith.ajax.accessCode
         },
-        data: password.get("json")
+        data: password.get("json"),
+        error: function (XHR, textStatus, errorThrown) {
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            $("#error").find(".failure").removeClass("hide");
+            setTimeout(function () {
+                window.open("/list", "_self");
+            }, 4000);
+        }
     });
 };
 
@@ -495,6 +510,13 @@ Yith.ajax.updatePassword = function (password) {
         type: "PUT",
         headers: {
             "Authorization": "Bearer " + Yith.ajax.accessCode
+        },
+        error: function (XHR, textStatus, errorThrown) {
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            $("#error").find(".failure").removeClass("hide");
+            setTimeout(function () {
+                window.open("/list", "_self");
+            }, 4000);
         }
     });
 };
@@ -506,6 +528,13 @@ Yith.ajax.deletePassword = function (password) {
         type: "DELETE",
         headers: {
             "Authorization": "Bearer " + Yith.ajax.accessCode
+        },
+        error: function (XHR, textStatus, errorThrown) {
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            $("#error").find(".failure").removeClass("hide");
+            setTimeout(function () {
+                window.open("/list", "_self");
+            }, 4000);
         }
     });
 };
