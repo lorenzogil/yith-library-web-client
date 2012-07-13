@@ -330,9 +330,8 @@ Yith.saveChangesInPassword = function (password, savePassword, callback) {
     password.set("account", $("#edit-account").val());
     password.set("last_modification", now.getTime());
     if (enableExpiration) {
-        expiration = password.get("creation") + (password.get("expiration") * 86400000);
-        expiration = Math.round((expiration - now.getTime()) / 86400000);
-        expiration = parseInt($("#edit-expiration").val(), 10) - expiration;
+        expiration = now.getTime() + (parseInt($("#edit-expiration").val(), 10) * 86400000);
+        expiration = Math.round((expiration - password.get("creation")) / 86400000);
         password.set("expiration", expiration);
     } else {
         password.set("expiration", 0);

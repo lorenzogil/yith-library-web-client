@@ -48,7 +48,7 @@
                     <span class="label">{{this}}</span>
                     {{/each}}</td>
                     <td><span class="badge badge-success">{{daysLeft}}</span></td>
-                    <td><button class="btn" {{bindAttr data-content="notes"}} data-original-title="Notes" {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
+                    <td><button class="btn" {{bindAttr data-content="notes"}} data-original-title="{{service}}" {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
                     <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
                 </tr>
             {{/each}}
