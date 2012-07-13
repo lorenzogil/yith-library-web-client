@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPUnauthorized
 from pyramid.view import view_config
 
 import requests
@@ -43,8 +43,10 @@ def oauth2cb(request):
 
 @view_config(route_name='token', renderer='json')
 def get_token(request):
-    access_code = request.session['access_code']
-    return {'access_code': access_code}
+    if 'access_code' in request.session:
+        return {'access_code': request.session['access_code']}
+    else:
+        return HTTPUnauthorized()
 
 
 @view_config(route_name='list', renderer='list.mak')

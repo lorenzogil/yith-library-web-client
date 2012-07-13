@@ -155,6 +155,18 @@
         </div>
     </div>
 
+    <div class="modal hide" id="access">
+        <div class="modal-header">
+            <h3>Session expired</h3>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-error">
+                <h4>You are about to logout</h4>
+                In a few seconds you'll be redirected to the welcome page to login again.
+            </div>
+        </div>
+    </div>
+
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src=\'${request.static_url("yithwebclient:static/js/libs/jquery-1.7.2.min.js")}\'><\/script>')</script>

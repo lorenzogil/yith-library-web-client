@@ -441,9 +441,17 @@ Yith.ajax.host = yithServerHost + "/passwords";
 
 Yith.ajax.getAccessToken = function (callback) {
     "use strict";
-    $.getJSON("/token", function (data) {
-        Yith.ajax.accessCode = data.access_code;
-        callback();
+    $.ajax("/token", {
+        success: function (data, textStatus, XHR) {
+            Yith.ajax.accessCode = data.access_code;
+            callback();
+        },
+        error: function (XHR, textStatus, errorThrown) {
+            $("#access").modal({ keyboard: false, backdrop: "static" });
+            setTimeout(function () {
+                window.open("/", "_self");
+            }, 4000);
+        }
     });
 };
 
