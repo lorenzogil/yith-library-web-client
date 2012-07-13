@@ -62,7 +62,22 @@ Yith.Password = Ember.Object.extend({
             diffDays = Math.round(diff / 86400000);
 
         return this.expiration - diffDays;
-    }).property("creation", "expiration")
+    }).property("creation", "expiration"),
+
+    expirationClass: Ember.computed(function () {
+        "use strict";
+        var cssClass = "badge ";
+
+        if (this.get("daysLeft") > 30) {
+            cssClass += "badge-success";
+        } else if (this.get("daysLeft") > 7) {
+            cssClass += "badge-warning";
+        } else {
+            cssClass += "badge-important";
+        }
+
+        return cssClass;
+    }).property("daysLeft")
 });
 
 // *****

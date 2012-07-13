@@ -47,7 +47,13 @@
                     <td>{{#each tags}}
                     <span class="label">{{this}}</span>
                     {{/each}}</td>
-                    <td><span class="badge badge-success">{{daysLeft}}</span></td>
+                    <td>
+                        {{#if expiration}}
+                        <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
+                        {{else}}
+                        <span class="badge">Never</span>
+                        {{/if}}
+                    </td>
                     <td><button class="btn" {{bindAttr data-content="notes"}} data-original-title="{{service}}" {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
                     <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
                 </tr>
