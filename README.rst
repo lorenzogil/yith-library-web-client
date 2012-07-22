@@ -5,6 +5,31 @@ Web client for Yith Library server. Written on top of Pyramid and Ember.js
 
 Server: https://github.com/Yaco-Sistemas/yith-library-server
 
+Development deployment
+----------------------
+
+It's recommended to use virtualenv. To know how to create an isolated
+enviroment with virtualenv read this http://www.virtualenv.org
+
+Requirements
+~~~~~~~~~~~~
+
+* Python 3.2
+
+Deployment
+~~~~~~~~~~
+
+After loading your virtualenv (you should be using one!), run this command::
+
+    python setup.py develop
+
+This will install all the dependencies needed. After the installation is
+completed, you can execute the server with this command::
+
+    pserve development.ini
+
+And then the web client will be available at http://localhost:6543/
+
 Boring legal stuff
 ------------------
 
