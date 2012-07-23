@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title></title>
+    <title>Yith Library - Your passwords</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -163,6 +163,15 @@
                 The page will refresh in a few seconds. Everything will be ok, you may loose the lastest changes though.
             </div>
         </div>
+    </div>
+
+    <div id="footer">
+        <ul class="pull-left">
+            <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork us in GitHub!</a></li>
+        </ul>
+        <ul class="pull-right">
+            <li>Icons from <a href="http://glyphicons.com" target="_blank">Glyphicons Free</a> - <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></li>
+        </ul>
     </div>
 
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->

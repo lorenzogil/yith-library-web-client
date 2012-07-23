@@ -5,8 +5,8 @@ Web client for Yith Library server. Written on top of Pyramid and Ember.js
 
 Server: https://github.com/Yaco-Sistemas/yith-library-server
 
-Development deployment
-----------------------
+Development
+-----------
 
 It's recommended to use virtualenv. To know how to create an isolated
 enviroment with virtualenv read this http://www.virtualenv.org

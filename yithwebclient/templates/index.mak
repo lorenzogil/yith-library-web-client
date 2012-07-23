@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <title></title>
+    <title>Yith Library - Welcome!</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -38,6 +38,15 @@
                 <img src="${request.static_url('yithwebclient:static/img/yithian.png')}" alt="Yithian" title="Yithian"/>
             </div>
         </div>
+    </div>
+
+    <div id="footer">
+        <ul class="pull-left">
+            <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork us in GitHub!</a></li>
+        </ul>
+        <ul class="pull-right">
+            <li>Icons from <a href="http://glyphicons.com" target="_blank">Glyphicons Free</a> - <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></li>
+        </ul>
     </div>
 </body>
 </html>
