@@ -14,8 +14,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import os
+
 from pyramid.config import Configurator
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+
+
+def read_setting_from_env(settings, key, default=None):
+    if key in settings and settings:
+        return settings.get(key, default)
+    else:
+        env_variable = key.upper()
+        return os.environ.get(env_variable, default)
 
 
 def main(global_config, **settings):
@@ -24,6 +34,10 @@ def main(global_config, **settings):
 
     # Session
     session_factory = UnencryptedCookieSessionFactoryConfig('necronomicon')
+
+    for option in ('server', 'client_id', 'client_secret'):
+        key = 'yith_' + option
+        settings[key] = read_setting_from_env(settings, key)
 
     config = Configurator(settings=settings, session_factory=session_factory)
     config.add_static_view('static', 'static', cache_max_age=3600)

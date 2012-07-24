@@ -23,17 +23,17 @@ import requests
 @view_config(route_name='index', renderer='index.mak')
 def index(request):
     url = "%s/oauth2/endpoints/authorization?response_type=code&client_id=%s" % (
-        request.registry.settings['yith.server'],
-        request.registry.settings['yith.client_id'])
+        request.registry.settings['yith_server'],
+        request.registry.settings['yith_client_id'])
     return {'server_authorization_endpoint': url}
 
 
 @view_config(route_name='oauth2cb')
 def oauth2cb(request):
-    url = "%s/oauth2/endpoints/token" % request.registry.settings['yith.server']
+    url = "%s/oauth2/endpoints/token" % request.registry.settings['yith_server']
     payload = 'grant_type=authorization_code&code=%s' % request.GET.get('code')
-    basic_auth = (request.registry.settings['yith.client_id'],
-                  request.registry.settings['yith.client_secret'])
+    basic_auth = (request.registry.settings['yith_client_id'],
+                  request.registry.settings['yith_client_secret'])
     response = requests.post(url, data=payload, auth=basic_auth)
     data = response.json
     session = request.session
@@ -51,4 +51,4 @@ def get_token(request):
 
 @view_config(route_name='list', renderer='list.mak')
 def list_passwords(request):
-    return {'server_host': request.registry.settings['yith.server']}
+    return {'server_host': request.registry.settings['yith_server']}
