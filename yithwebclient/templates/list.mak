@@ -10,9 +10,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="${request.static_url('yithwebclient:static/favicon.ico')}" />
-    <link rel="stylesheet" href="${request.static_url('yithwebclient:static/css/bootstrap.css')}">
-    <link rel="stylesheet" href="${request.static_url('yithwebclient:static/css/style.css')}">
+    <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style.css')}">
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -176,10 +176,10 @@
 
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src=\'${request.static_url("yithwebclient:static/js/libs/jquery-1.7.2.min.js")}\'><\/script>')</script>
-    <script src="${request.static_url('yithwebclient:static/js/libs/ember-0.9.8.1.min.js')}"></script>
-    <script src="${request.static_url('yithwebclient:static/js/libs/bootstrap.min.js')}"></script>
-    <script src="${request.static_url('yithwebclient:static/js/libs/sjcl.js')}"></script>
-    <script src="${request.static_url('yithwebclient:static/js/app.js')}"></script>
+    <script>window.jQuery || document.write('<script src=\'${request.static_path("yithwebclient:static/js/libs/jquery-1.7.2.min.js")}\'><\/script>')</script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-0.9.8.1.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
 </body>
 </html>

@@ -10,9 +10,9 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="${request.static_url('yithwebclient:static/favicon.ico')}" />
-    <link rel="stylesheet" href="${request.static_url('yithwebclient:static/css/bootstrap.css')}">
-    <link rel="stylesheet" href="${request.static_url('yithwebclient:static/css/style.css')}">
+    <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style.css')}">
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,7 +35,7 @@
                 </blockquote>
             </div>
             <div class="span4 offset1">
-                <img src="${request.static_url('yithwebclient:static/img/yithian.png')}" alt="Yithian" title="Yithian"/>
+                <img src="${request.static_path('yithwebclient:static/img/yithian.png')}" alt="Yithian" title="Yithian"/>
             </div>
         </div>
     </div>
