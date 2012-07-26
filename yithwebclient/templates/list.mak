@@ -128,6 +128,14 @@
     <div id="page" class="container">
         <h1>Yith Library</h1>
         <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
+        <div class="row">
+            <div class="span12 password-list"></div>
+        </div>
+        <div class="row">
+            <div class="span4 offset4 progress progress-striped active">
+                <div class="bar" style="width: 30%;"></div>
+            </div>
+        </div>
     </div>
 
     <div class="modal fade hide" id="edit"></div>

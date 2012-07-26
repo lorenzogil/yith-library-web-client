@@ -459,6 +459,7 @@ Yith.ajax.getAccessToken = function (callback) {
     $.ajax("/token", {
         success: function (data, textStatus, XHR) {
             Yith.ajax.accessCode = data.access_code;
+            $("#page .progress .bar").css("width", "60%");
             callback();
         },
         error: function (XHR, textStatus, errorThrown) {
@@ -479,6 +480,7 @@ Yith.ajax.getPasswordList = function () {
             "Authorization": "Bearer " + Yith.ajax.accessCode
         },
         success: function (data) {
+            $("#page .progress").parent().remove();
             data.forEach(function (item) {
                 var password = Yith.Password.create(item),
                     passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
@@ -564,7 +566,7 @@ $(document).ready(function () {
     // INIT VIEWS
     // **********
 
-    Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page");
+    Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page div.password-list");
 
     Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
 
