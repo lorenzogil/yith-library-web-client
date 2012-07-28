@@ -25,8 +25,11 @@ def index(request):
     url = "%s/oauth2/endpoints/authorization?response_type=code&client_id=%s" % (
         request.registry.settings['yith.server'],
         request.registry.settings['yith.client_id'])
+    google_analytics = None
+    if 'yith.google_analytics' in request.registry.settings:
+        google_analytics = request.registry.settings['yith.google_analytics']
     return {'server_authorization_endpoint': url,
-            'google_analytics': request.registry.settings['yith.google_analytics'], }
+            'google_analytics': google_analytics, }
 
 
 @view_config(route_name='oauth2cb')
@@ -52,5 +55,8 @@ def get_token(request):
 
 @view_config(route_name='list', renderer='list.mak')
 def list_passwords(request):
+    google_analytics = None
+    if 'yith.google_analytics' in request.registry.settings:
+        google_analytics = request.registry.settings['yith.google_analytics']
     return {'server_host': request.registry.settings['yith.server'],
-            'google_analytics': request.registry.settings['yith.google_analytics'], }
+            'google_analytics': google_analytics, }

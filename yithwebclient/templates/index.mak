@@ -49,6 +49,7 @@
         </ul>
     </div>
 
+    % if google_analytics is not None:
     <script type="text/javascript">
         var _gaq = _gaq || [];
         _gaq.push(['_setAccount', '${google_analytics}']);
@@ -60,5 +61,6 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
         })();
     </script>
+    % endif
 </body>
 </html>
