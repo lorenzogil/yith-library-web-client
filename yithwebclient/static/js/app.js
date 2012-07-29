@@ -77,7 +77,15 @@ Yith.Password = Ember.Object.extend({
         }
 
         return cssClass;
-    }).property("daysLeft")
+    }).property("daysLeft"),
+
+    notesClass: Ember.computed(function () {
+        var css = "btn";
+        if (this.notes === null || this.notes === "") {
+            css += " disabled";
+        }
+        return css;
+    }).property("notes")
 });
 
 // *****
@@ -148,8 +156,10 @@ Yith.ListPasswordsView = Ember.View.extend({
         "use strict";
         var node = $(evt.target);
         if (typeof node.data().popover === "undefined") {
-            node.popover({ placement: "left" });
-            node.popover("show");
+            if (node.data().content !== "") {
+                node.popover({ placement: "left" });
+                node.popover("show");
+            }
         }
     },
 
