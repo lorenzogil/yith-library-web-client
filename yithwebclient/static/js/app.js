@@ -88,6 +88,22 @@ Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
     passwordList: [],
 
+    sortedPasswordList: Ember.computed(function () {
+        "use strict";
+        return this.passwordList.sort(function (pass1, pass2) {
+            var a = pass1.get("service").toLowerCase(),
+                b = pass2.get("service").toLowerCase();
+
+            if (a > b) {
+                return 1;
+            } else if (a < b) {
+                return -1;
+            } else {
+                return 0;
+            }
+        });
+    }).property("passwordList"),
+
     allTags: Ember.computed(function () {
         "use strict";
         var allTags = new Ember.Set();

@@ -37,7 +37,7 @@
             </tr>
         </thead>
         <tbody>
-            {{#each passwordList}}
+            {{#each sortedPasswordList}}
                 <tr>
                     <td>
                         <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
