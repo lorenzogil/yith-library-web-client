@@ -80,7 +80,8 @@ Yith.Password = Ember.Object.extend({
     }).property("daysLeft"),
 
     notesClass: Ember.computed(function () {
-        var css = "btn";
+        "use strict";
+        var css = "btn notes";
         if (this.notes === null || this.notes === "") {
             css += " disabled";
         }
@@ -154,10 +155,26 @@ Yith.ListPasswordsView = Ember.View.extend({
 
     notes: function (evt) {
         "use strict";
-        var node = $(evt.target);
+        var node = $(evt.target),
+            _id,
+            passwordList,
+            password,
+            content;
+
         if (typeof node.data().popover === "undefined") {
-            if (node.data().content !== "") {
-                node.popover({ placement: "left" });
+            _id = node.parent().parent().attr("id");
+            passwordList = Yith.listPasswdView.get("passwordList");
+            password = passwordList.filter(function (item) {
+                return item.get("_id") === _id;
+            })[0];
+            content = password.get("notes");
+
+            if (content !== "" && content !== null) {
+                node.popover({
+                    placement: "left",
+                    content: content,
+                    title: password.get("service")
+                });
                 node.popover("show");
             }
         }
@@ -379,6 +396,7 @@ Yith.saveChangesInPassword = function (password, savePassword, callback) {
         password.set("expiration", 0);
     }
     password.set("notes", $("#edit-notes").val());
+    Yith.updateNotesPopover(password); // This can't be done using ember perks
     password.set("tags", password.get("provisionalTags"));
 
     if (savePassword) {
@@ -393,6 +411,20 @@ Yith.saveChangesInPassword = function (password, savePassword, callback) {
         });
     } else {
         callback();
+    }
+};
+
+Yith.updateNotesPopover = function (password) {
+    "use strict";
+    var node = $("#" + password.get("_id") + " button.notes");
+    if (node.length > 0 && typeof node.data().popover !== "undefined") {
+        if (password.get("notes") === "" || password.get("notes") === null) {
+            node.popover("disable");
+        } else {
+            node.data().popover.options.content = password.get("notes");
+            node.data().popover.options.title = password.get("service");
+            node.popover("enable");
+        }
     }
 };
 
