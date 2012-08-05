@@ -195,6 +195,7 @@ Yith.EditPasswordView = Ember.View.extend({
     templateName: "password-edit",
     password: null,
     isnew: false,
+    checkerList: [],
     isExpirationDisabled: false,
 
     isExpirationEnabled: Ember.computed(function () {
@@ -202,7 +203,7 @@ Yith.EditPasswordView = Ember.View.extend({
         return !this.get("isExpirationDisabled");
     }).property("isExpirationDisabled"),
 
-    validateSecret: function (evt) {
+    validateSecretChecker: function () {
         "use strict";
         var equal = $("#edit-secret1").val() === $("#edit-secret2").val();
 
@@ -220,6 +221,17 @@ Yith.EditPasswordView = Ember.View.extend({
         }
 
         return equal;
+    },
+
+    validateSecret: function (evt) {
+        "use strict";
+        var context = this;
+        while (this.checkerList.length > 0) {
+            clearTimeout(this.checkerList.pop());
+        }
+        this.checkerList.push(setTimeout(function () {
+            context.validateSecretChecker();
+        }, 500));
     },
 
     enableExpiration: function (evt) {
@@ -317,7 +329,7 @@ Yith.EditPasswordView = Ember.View.extend({
             aux;
 
         if (this.isnew) {
-            valid = valid && this.validateSecret();
+            valid = valid && this.validateSecretChecker();
             aux = $("#edit-secret1").val() !== "";
             if (!aux) {
                 $("#edit-secret1").parent().parent().addClass("error");
