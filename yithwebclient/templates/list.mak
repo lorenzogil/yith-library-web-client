@@ -153,6 +153,7 @@
 
     <div class="modal hide" id="master">
         <div class="modal-header">
+            <button class="close" data-dismiss="modal">&times;</button>
             <h3>Master Password</h3>
         </div>
         <div class="modal-body">
@@ -163,6 +164,7 @@
             </div>
         </div>
         <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
             <a href="#" class="btn btn-primary" id="master-done">Accept</a>
         </div>
     </div>
