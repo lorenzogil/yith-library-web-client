@@ -24,7 +24,6 @@ var Yith = Ember.Application.create();
 // ******
 
 Yith.Password = Ember.Object.extend({
-    id: -1,
     _id: null,
     service: null,
     account: null,
@@ -296,7 +295,7 @@ Yith.EditPasswordView = Ember.View.extend({
 
         Yith.listPasswdView.set("passwordList", Yith.listPasswdView.get("passwordList").filter(
             function (item, idx, self) {
-                return item.get("id") !== password.get("id");
+                return item.get("_id") !== password.get("_id");
             }
         ));
         password.destroy();
@@ -369,7 +368,6 @@ Yith.addNewPassword = function () {
     var now = new Date();
     Yith.initEditModal();
     Yith.editView.set("password", Yith.Password.create({
-        id: Yith.getNewID(),
         creation: now.getTime(),
         last_modification: now.getTime()
     }));
@@ -426,17 +424,6 @@ Yith.updateNotesPopover = function (password) {
             node.popover("enable");
         }
     }
-};
-
-Yith.getNewID = function () {
-    "use strict";
-    var max = -1;
-    Yith.listPasswdView.get("passwordList").forEach(function (item, idx, self) {
-        if (item.get("id") > max) {
-            max = item.get("id");
-        }
-    });
-    return max + 1;
 };
 
 Yith.cloneList = function (list) {
@@ -566,6 +553,9 @@ Yith.ajax.createPassword = function (password) {
             "Authorization": "Bearer " + Yith.ajax.accessCode
         },
         data: password.get("json"),
+        success: function (data, textStatus, XHR) {
+            password.set("_id", data._id);
+        },
         error: function (XHR, textStatus, errorThrown) {
             $("#error").modal({ keyboard: false, backdrop: "static" });
             $("#error").find(".failure").removeClass("hide");
