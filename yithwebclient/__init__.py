@@ -47,6 +47,7 @@ def main(global_config, **settings):
     config.add_route('oauth2cb', '/oauth2cb')
     config.add_route('token', '/token')
     config.add_route('list', '/list')
+    config.add_route('logout', '/logout')
 
     config.scan()
     return config.make_wsgi_app()
