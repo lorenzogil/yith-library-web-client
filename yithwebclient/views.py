@@ -22,9 +22,9 @@ import requests
 
 @view_config(route_name='index', renderer='index.mak')
 def index(request):
-    url = "%s/oauth2/endpoints/authorization?response_type=code&client_id=%s" % (
-        request.registry.settings['yith_server'],
-        request.registry.settings['yith_client_id'])
+    url = ("%s/oauth2/endpoints/authorization?response_type=code"
+           "&client_id=%s") % (request.registry.settings['yith_server'],
+                               request.registry.settings['yith_client_id'])
     google_analytics = None
     if 'yith_google_analytics' in request.registry.settings:
         google_analytics = request.registry.settings['yith_google_analytics']
@@ -34,7 +34,8 @@ def index(request):
 
 @view_config(route_name='oauth2cb')
 def oauth2cb(request):
-    url = "%s/oauth2/endpoints/token" % request.registry.settings['yith_server']
+    url = ("%s/oauth2/endpoints/token" %
+           request.registry.settings['yith_server'])
     payload = 'grant_type=authorization_code&code=%s' % request.GET.get('code')
     basic_auth = (request.registry.settings['yith_client_id'],
                   request.registry.settings['yith_client_secret'])
@@ -51,6 +52,12 @@ def get_token(request):
         return {'access_code': request.session['access_code']}
     else:
         return HTTPUnauthorized()
+
+
+@view_config(route_name='logout', renderer='json')
+def logout(request):
+    request.session['access_code'] = None
+    return HTTPFound(location=request.route_path('index'))
 
 
 @view_config(route_name='list', renderer='list.mak')

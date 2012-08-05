@@ -126,8 +126,19 @@
     </%text>
 
     <div id="page" class="container">
-        <h1>Yith Library</h1>
-        <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
+        <div class="row">
+            <div class="span10">
+                <h1>Yith Library</h1>
+            </div>
+            <div class="span2">
+                <button class="btn btn-inverse pull-right" id="logout">Logout</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span12">
+                <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
+            </div>
+        </div>
         <div class="row">
             <div class="span12 password-list"></div>
         </div>

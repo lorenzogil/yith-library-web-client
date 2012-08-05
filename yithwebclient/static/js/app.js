@@ -624,4 +624,12 @@ $(document).ready(function () {
     // *********
 
     Yith.ajax.getAccessToken(Yith.ajax.getPasswordList);
+
+    // ***********
+    // SOME EVENTS
+    // ***********
+
+    $("#logout").click(function (evt) {
+        window.open("/logout", "_self");
+    });
 });
