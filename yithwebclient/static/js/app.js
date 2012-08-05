@@ -457,9 +457,7 @@ Yith.askMasterPassword = function (callback) {
     if (typeof Yith.masterModal === "undefined") {
         Yith.masterModal = $("#master");
         Yith.masterModal.modal({
-            show: false,
-            keyboard: false,
-            backdrop: "static"
+            show: false
         });
         $("#master-password").keypress(function (evt) {
             var code = (evt.keyCode || evt.which);
