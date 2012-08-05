@@ -82,7 +82,7 @@
                 <div class="control-group">
                     <label class="control-label" for="edit-secret1">{{#if isnew}}<span class="red">*</span> {{/if}}Secret</label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="change"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="change"}} placeholder="Repeat"/> <button class="btn hide"><i class="icon icon-cog"></i> Generate</button>
+                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="keyUp"}} placeholder="Repeat"/> <button class="btn hide"><i class="icon icon-cog"></i> Generate</button>
                     </div>
                     <span class="help-block match" style="display: none;">The passwords don't match</span>
                     <span class="help-block req" style="display: none;">This field is required</span>
