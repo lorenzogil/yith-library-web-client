@@ -35,7 +35,7 @@ def main(global_config, **settings):
     # Session
     session_factory = UnencryptedCookieSessionFactoryConfig('necronomicon')
 
-    for option in ('server', 'client_id', 'client_secret'):
+    for option in ('server', 'client_id', 'client_secret', 'google_analytics'):
         key = 'yith_' + option
         settings[key] = read_setting_from_env(settings, key)
 
