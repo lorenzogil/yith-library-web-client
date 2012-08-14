@@ -57,7 +57,8 @@ def get_token(request):
 @view_config(route_name='logout', renderer='json')
 def logout(request):
     request.session['access_code'] = None
-    return HTTPFound(location=request.route_path('index'))
+    return HTTPFound(location='%s/logout' %
+                     request.registry.settings['yith_server'])
 
 
 @view_config(route_name='list', renderer='list.mak')
