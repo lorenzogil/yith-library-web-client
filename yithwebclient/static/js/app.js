@@ -551,6 +551,11 @@ Yith.changeMasterPassword = function () {
     }
 };
 
+Yith.setProgressBar = function (width) {
+    "use strict";
+    $("#page .progress .bar").css("width", width + "%");
+};
+
 // ****
 // AJAX
 // ****
@@ -564,7 +569,7 @@ Yith.ajax.getAccessToken = function (callback) {
     $.ajax("/token", {
         success: function (data, textStatus, XHR) {
             Yith.ajax.accessCode = data.access_code;
-            $("#page .progress .bar").css("width", "60%");
+            Yith.setProgressBar(70);
             callback();
         },
         error: function (XHR, textStatus, errorThrown) {
@@ -585,6 +590,7 @@ Yith.ajax.getPasswordList = function () {
             "Authorization": "Bearer " + Yith.ajax.accessCode
         },
         success: function (data) {
+            Yith.setProgressBar(100);
             $("#page .progress").parent().remove();
             data.forEach(function (item) {
                 var password = Yith.Password.create(item),
@@ -677,6 +683,8 @@ $(document).ready(function () {
     Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page div.password-list");
 
     Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
+
+    Yith.setProgressBar(50);
 
     // *********
     // LOAD DATA

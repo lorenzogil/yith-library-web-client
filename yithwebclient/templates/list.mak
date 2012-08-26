@@ -156,7 +156,7 @@
         <div class="row password-list"></div>
         <div class="row">
             <div class="span4 offset4 progress progress-striped active">
-                <div class="bar" style="width: 30%;"></div>
+                <div class="bar" style="width: 10%;"></div>
             </div>
         </div>
     </div>
