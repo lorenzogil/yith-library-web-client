@@ -3,6 +3,7 @@
 
 // Yith Library web client
 // Copyright (C) 2012  Yaco Sistemas S.L.
+// Copyright (C) 2012  Alejandro Blanco
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -412,7 +413,12 @@ Yith.saveChangesInPassword = function (password, savePassword, callback) {
     if (savePassword) {
         Yith.askMasterPassword(function (masterPassword) {
             secret = $("#edit-secret1").val();
-            secret = Yith.cipher(masterPassword, secret);
+            try {
+                secret = Yith.cipher(masterPassword, secret);
+            } catch (err) {
+                secret = null;
+                return false;
+            }
             password.set("secret", secret);
             secret = null;
             masterPassword = null;
@@ -449,7 +455,14 @@ Yith.cloneList = function (list) {
 
 Yith.cipher = function (masterPassword, secret) {
     "use strict";
-    var result = sjcl.encrypt(masterPassword, secret);
+    var passwordList = Yith.listPasswdView.get("passwordList"),
+        result;
+
+    if (passwordList.length > 0) {
+        // Enforce unique master password
+        sjcl.decrypt(masterPassword, passwordList[0].get("secret"));
+    }
+    result = sjcl.encrypt(masterPassword, secret);
     masterPassword = null;
     return result;
 };
@@ -497,6 +510,7 @@ Yith.askMasterPassword = function (callback) {
             Yith.masterModal.modal("hide");
         } else {
             $("#master-error").show();
+            $("#master-password").focus().select();
         }
     });
     Yith.masterModal.modal("show");

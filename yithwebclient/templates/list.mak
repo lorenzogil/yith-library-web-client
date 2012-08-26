@@ -160,7 +160,7 @@
             <input type="password" id="master-password"/>
             <div class="alert alert-error" id="master-error" style="display: none;">
                 <h4>Wrong password!</h4>
-                That's not the master password used to cipher this password, try another.
+                That's not your master password, try another.
             </div>
         </div>
         <div class="modal-footer">
