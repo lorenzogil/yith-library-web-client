@@ -18,12 +18,17 @@ h1 {
     z-index: 1070;
 }
 
+.passwords {
+    margin-top: 30px;
+}
+
 .passwords td:first-child .btn.btn-info {
     display: block;
     margin-bottom: 5px;
 }
 
-#master-password {
+#master-password,
+#new-master-password {
     width: 520px;
 }
 

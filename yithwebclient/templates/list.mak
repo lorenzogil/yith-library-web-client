@@ -127,16 +127,19 @@
 
     <div id="page" class="container">
         <div class="row">
-            <div class="span10">
+            <div class="span12">
                 <h1>Yith Library</h1>
-            </div>
-            <div class="span2">
-                <button class="btn btn-inverse pull-right" id="logout">Logout</button>
             </div>
         </div>
         <div class="row">
-            <div class="span12">
+            <div class="span8">
                 <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
+            </div>
+            <div class="span3">
+                <button class="btn pull-right" id="change-master">Change master password</button>
+            </div>
+            <div class="span1">
+                <button class="btn btn-inverse pull-right" id="logout">Logout</button>
             </div>
         </div>
         <div class="row">
@@ -157,7 +160,12 @@
             <h3>Master Password</h3>
         </div>
         <div class="modal-body">
-            <input type="password" id="master-password"/>
+            <form>
+                <label for="master-password" class="change-master">Old password</label>
+                <input type="password" id="master-password"/>
+                <label for="new-master-password" class="change-master">New password</label>
+                <input type="password" id="new-master-password" class="change-master" style="display: none;"/>
+            </form>
             <div class="alert alert-error" id="master-error" style="display: none;">
                 <h4>Wrong password!</h4>
                 That's not your master password, try another.

@@ -453,12 +453,12 @@ Yith.cloneList = function (list) {
     return newlist;
 };
 
-Yith.cipher = function (masterPassword, secret) {
+Yith.cipher = function (masterPassword, secret, notEnforce) {
     "use strict";
     var passwordList = Yith.listPasswdView.get("passwordList"),
         result;
 
-    if (passwordList.length > 0) {
+    if (passwordList.length > 0 && !notEnforce) {
         // Enforce unique master password
         sjcl.decrypt(masterPassword, passwordList[0].get("secret"));
     }
@@ -477,7 +477,7 @@ Yith.decipher = function (masterPassword, cipheredSecret) {
     return result;
 };
 
-Yith.askMasterPassword = function (callback) {
+Yith.askMasterPassword = function (callback, changeMaster) {
     "use strict";
     if (typeof Yith.masterModal === "undefined") {
         Yith.masterModal = $("#master");
@@ -505,7 +505,7 @@ Yith.askMasterPassword = function (callback) {
     }
     $("#master-done").unbind("click");
     $("#master-done").click(function () {
-        var success = callback($("#master-password").val());
+        var success = callback($("#master-password").val(), $("#new-master-password").val());
         if (success) {
             Yith.masterModal.modal("hide");
         } else {
@@ -513,7 +513,36 @@ Yith.askMasterPassword = function (callback) {
             $("#master-password").focus().select();
         }
     });
+    if (changeMaster) {
+        $(".change-master").show();
+    } else {
+        $(".change-master").hide();
+    }
     Yith.masterModal.modal("show");
+};
+
+Yith.changeMasterPassword = function () {
+    "use strict";
+    var passwordList = Yith.listPasswdView.get("passwordList");
+    if (passwordList.length > 0) {
+        Yith.askMasterPassword(function (masterPassword, newMasterPassword) {
+            try {
+                Yith.decipher(masterPassword, passwordList[0].get("secret"));
+            } catch (err) {
+                return false;
+            }
+            passwordList.forEach(function (password) {
+                var secret = Yith.decipher(masterPassword, password.get("secret"));
+                secret = Yith.cipher(newMasterPassword, secret, true);
+                password.set("secret", secret);
+                secret = null;
+                Yith.ajax.updatePassword(password);
+            });
+            masterPassword = null;
+            newMasterPassword = null;
+            return true;
+        }, true);
+    }
 };
 
 // ****
@@ -656,4 +685,6 @@ $(document).ready(function () {
     $("#logout").click(function (evt) {
         window.open("/logout", "_self");
     });
+
+    $("#change-master").click(Yith.changeMasterPassword);
 });
