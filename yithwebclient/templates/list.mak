@@ -91,7 +91,7 @@
                 <label for="edit-account">Account</label>
                 <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
                 <div {{bindAttr class="isnew:hide :control-group"}} id="modify-secret-group">
-                    <button class="btn" {{action "showSecretGroup"}}>Modify password</button>
+                    <a href="#" class="btn" {{action "showSecretGroup"}}>Modify password</a>
                 </div>
                 <div {{bindAttr class="secretGroupClass"}} id="secret-group">
                     <label class="control-label" for="edit-secret1">{{#if isnew}}<span class="red">*</span> {{/if}}Secret</label>
