@@ -90,7 +90,10 @@
                 </div>
                 <label for="edit-account">Account</label>
                 <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
-                <div class="control-group">
+                <div {{bindAttr class="isnew:hide :control-group"}} id="modify-secret-group">
+                    <button class="btn" {{action "showSecretGroup"}}>Modify password</button>
+                </div>
+                <div {{bindAttr class="secretGroupClass"}} id="secret-group">
                     <label class="control-label" for="edit-secret1">{{#if isnew}}<span class="red">*</span> {{/if}}Secret</label>
                     <div class="controls form-inline">
                         <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="keyUp"}} placeholder="Repeat"/> <button class="btn hide"><i class="icon icon-cog"></i> Generate</button>

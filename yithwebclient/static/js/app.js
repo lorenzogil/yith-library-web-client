@@ -210,6 +210,21 @@ Yith.EditPasswordView = Ember.View.extend({
         return !this.get("isExpirationDisabled");
     }).property("isExpirationDisabled"),
 
+    secretGroupClass: Ember.computed(function () {
+        "use strict";
+        var cssClass = "control-group";
+        if (!this.isnew) {
+            cssClass += " hide";
+        }
+        return cssClass;
+    }).property("isnew"),
+
+    showSecretGroup: function () {
+        "use strict";
+        $("#secret-group").removeClass("hide");
+        $("#modify-secret-group").addClass("hide");
+    },
+
     validateSecretChecker: function () {
         "use strict";
         var equal = $("#edit-secret1").val() === $("#edit-secret2").val();
@@ -368,12 +383,16 @@ Yith.initEditModal = function () {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
-            $("#edit-tags").typeahead({
+            $("#edit-tags").val("").typeahead({
                 items: 3,
                 source: function () {
                     return Yith.listPasswdView.get("allTags");
                 }
             });
+            if (!Yith.editView.isnew) {
+                $("#secret-group").addClass("hide");
+                $("#modify-secret-group").removeClass("hide");
+            }
         });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");
