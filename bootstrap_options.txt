@@ -1,0 +1,46 @@
+CUSTOMIZED BOOTSTRAP OPTIONS
+
+Scaffolding
+    Normalize and reset
+    Body type and links
+    Grid system
+    Layouts
+
+Base CSS
+    Headings, body, etc
+    Labels and badges
+    Tables
+    Forms
+    Buttons
+    Icons
+
+Components
+    Button groups and dropdowns
+    Alerts
+    Progress bars
+    Hero unit
+
+JS Components
+    Tooltips
+    Popovers
+    Modals
+    Dropdowns
+
+Miscellaneous
+    Close icon
+    Utilities
+    Component animations
+
+Responsive
+    Visible/hidden classes
+    Tablets to desktops (767-979px)
+
+jQuery plugins
+    Transitions (required for any animation)
+    Modals
+    Dropdowns
+    Tooltips
+    Popovers (requires Tooltips)
+    Alert messages
+    Buttons
+    Typeahead

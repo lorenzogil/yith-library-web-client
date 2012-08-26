@@ -32,7 +32,7 @@ h1 {
     width: 520px;
 }
 
-#footer {
+footer {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -42,7 +42,7 @@ h1 {
     background-color: #F9F9F9;
 }
 
-#footer ul {
+footer ul {
     list-style: none;
     margin: 0;
 }

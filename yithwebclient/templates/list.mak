@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
-    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.min.css')}">
     <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style.css')}">
 
     <!--[if lt IE 9]>
@@ -132,10 +132,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="span8">
+            <div class="span7">
                 <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
             </div>
-            <div class="span3">
+            <div class="span4">
                 <button class="btn pull-right" id="change-master">Change master password</button>
             </div>
             <div class="span1">
@@ -194,14 +194,14 @@
         </div>
     </div>
 
-    <div id="footer">
+    <footer class="container">
         <ul class="pull-left">
             <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork us in GitHub!</a></li>
         </ul>
         <ul class="pull-right">
             <li>Icons from <a href="http://glyphicons.com" target="_blank">Glyphicons Free</a> - <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></li>
         </ul>
-    </div>
+    </footer>
 
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>

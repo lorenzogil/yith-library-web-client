@@ -173,7 +173,8 @@ Yith.ListPasswordsView = Ember.View.extend({
                 node.popover({
                     placement: "left",
                     content: content,
-                    title: password.get("service")
+                    title: password.get("service"),
+                    trigger: "hover"
                 });
                 node.popover("show");
             }
@@ -362,12 +363,12 @@ Yith.initEditModal = function () {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
-            var tags = Yith.listPasswdView.get("allTags");
             $("#edit-tags").typeahead({
-                items: 3
+                items: 3,
+                source: function () {
+                    return Yith.listPasswdView.get("allTags");
+                }
             });
-            // Force update on typehead source array
-            $("#edit-tags").data("typeahead").source = tags.copy();
         });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");

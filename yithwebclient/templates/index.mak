@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
-    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.min.css')}">
     <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style.css')}">
 
     <!--[if lt IE 9]>
@@ -40,14 +40,14 @@
         </div>
     </div>
 
-    <div id="footer">
+    <footer class="container">
         <ul class="pull-left">
             <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork us in GitHub!</a></li>
         </ul>
         <ul class="pull-right">
             <li>Icons from <a href="http://glyphicons.com" target="_blank">Glyphicons Free</a> - <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></li>
         </ul>
-    </div>
+    </footer>
 
     % if google_analytics is not None:
     <script type="text/javascript">
