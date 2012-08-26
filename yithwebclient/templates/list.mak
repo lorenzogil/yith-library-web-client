@@ -25,41 +25,52 @@
 <body>
     <%text>
     <script type="text/x-handlebars" data-template-name="password-list">
-        <table class="table table-striped passwords">
-        <thead>
-            <tr>
-                <th>Service</th>
-                <th>Account</th>
-                <th>Tags</th>
-                <th>Expiration</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each sortedPasswordList}}
-                <tr {{bindAttr id="_id"}}>
-                    <td>
-                        <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
-                        <input type="text" style="display: none;" class="input-medium" /> <span style="display: none;" ></span>
-                    </td>
-                    <td>{{account}}</td>
-                    <td>{{#each tags}}
-                    <span class="label">{{this}}</span>
-                    {{/each}}</td>
-                    <td>
-                        {{#if expiration}}
-                        <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
-                        {{else}}
-                        <span class="badge">Never</span>
-                        {{/if}}
-                    </td>
-                    <td><button {{bindAttr class="notesClass"}} {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
-                    <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
+        {{#if passwordListLength }}
+        <div class="span12">
+            <table class="table table-striped passwords">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Account</th>
+                    <th>Tags</th>
+                    <th>Expiration</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            {{/each}}
-        </tbody>
-        </table>
+            </thead>
+            <tbody>
+                {{#each sortedPasswordList}}
+                    <tr {{bindAttr id="_id"}}>
+                        <td>
+                            <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
+                            <input type="text" style="display: none;" class="input-medium" /> <span style="display: none;" ></span>
+                        </td>
+                        <td>{{account}}</td>
+                        <td>{{#each tags}}
+                        <span class="label">{{this}}</span>
+                        {{/each}}</td>
+                        <td>
+                            {{#if expiration}}
+                            <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
+                            {{else}}
+                            <span class="badge">Never</span>
+                            {{/if}}
+                        </td>
+                        <td><button {{bindAttr class="notesClass"}} {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
+                        <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
+                    </tr>
+                {{/each}}
+            </tbody>
+            </table>
+        </div>
+        {{else}}
+        <div class="span6 offset3">
+            <div class="alert alert-info">
+                <h3>No passwords stored yet</h3>
+                <p>Please, add a password using the button.</p>
+            </div>
+        </div>
+        {{/if}}
     </script>
     <script type="text/x-handlebars" data-template-name="password-edit">
         <div class="modal-header">
@@ -142,9 +153,7 @@
                 <button class="btn btn-inverse pull-right" id="logout">Logout</button>
             </div>
         </div>
-        <div class="row">
-            <div class="span12 password-list"></div>
-        </div>
+        <div class="row password-list"></div>
         <div class="row">
             <div class="span4 offset4 progress progress-striped active">
                 <div class="bar" style="width: 30%;"></div>

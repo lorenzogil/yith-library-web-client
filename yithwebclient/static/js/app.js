@@ -114,6 +114,11 @@ Yith.ListPasswordsView = Ember.View.extend({
         });
     }).property("passwordList"),
 
+    passwordListLength: Ember.computed(function () {
+        "use strict";
+        return this.passwordList.length;
+    }).property("passwordList"),
+
     allTags: Ember.computed(function () {
         "use strict";
         var allTags = new Ember.Set();
