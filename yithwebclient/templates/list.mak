@@ -27,9 +27,12 @@
     <script type="text/x-handlebars" data-template-name="password-list">
         {{#if passwordListLength }}
         <div class="span12">
-            {{#if activeFilter}}
+            {{#if activeFiltersLength}}
             <div id="filter">
-                <b>Active filter:</b> <span class="label pointer" {{action "removeFilter"}}><i class="icon-remove"></i> {{activeFilter}}</span>
+                <b>Active filters:</b>
+                {{#each activeFilters}}
+                <span class="label pointer" {{action "removeFilter"}}><i class="icon-remove"></i> {{this}}</span>
+                {{/each}}
             </div>
             {{/if}}
             <table class="table table-striped passwords">

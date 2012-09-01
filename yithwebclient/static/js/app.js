@@ -96,11 +96,16 @@ Yith.Password = Ember.Object.extend({
 Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
     passwordList: [],
-    activeFilter: null,
+    activeFilters: [],
+
+    activeFiltersLength: Ember.computed(function () {
+        "use strict";
+        return this.activeFilters.length;
+    }).property("activeFilters"),
 
     processedPasswordList: Ember.computed(function () {
         "use strict";
-        var filter = this.activeFilter,
+        var filters = this.activeFilters,
             result;
 
         result = this.passwordList.sort(function (pass1, pass2) {
@@ -117,16 +122,19 @@ Yith.ListPasswordsView = Ember.View.extend({
             return result;
         });
 
-        if (filter !== null) {
-            result = result.filter(function (item, index) {
-                return item.get("tags").some(function (item, index) {
-                    return item === filter;
+        if (filters.length > 0) {
+            result = result.filter(function (password, index) {
+                var tags = password.get("tags");
+                return filters.every(function (f, index) {
+                    return tags.some(function (t, index) {
+                        return f === t;
+                    });
                 });
             });
         }
 
         return result;
-    }).property("passwordList", "activeFilter"),
+    }).property("passwordList", "activeFilters"),
 
     passwordListLength: Ember.computed(function () {
         "use strict";
@@ -174,12 +182,16 @@ Yith.ListPasswordsView = Ember.View.extend({
 
     filterByTag: function (evt) {
         "use strict";
-        this.set("activeFilter", $(evt.target).text());
+        var filters = new Ember.Set(this.activeFilters);
+        filters.push($(evt.target).text());
+        this.set("activeFilters", filters.toArray());
     },
 
     removeFilter: function (evt) {
         "use strict";
-        this.set("activeFilter", null);
+        var filters = new Ember.Set(this.activeFilters);
+        filters.remove($(evt.target).text().trim());
+        this.set("activeFilters", filters.toArray());
     },
 
     notes: function (evt) {
