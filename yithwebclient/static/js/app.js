@@ -96,10 +96,14 @@ Yith.Password = Ember.Object.extend({
 Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
     passwordList: [],
+    activeFilter: null,
 
-    sortedPasswordList: Ember.computed(function () {
+    processedPasswordList: Ember.computed(function () {
         "use strict";
-        return this.passwordList.sort(function (pass1, pass2) {
+        var filter = this.activeFilter,
+            result;
+
+        result = this.passwordList.sort(function (pass1, pass2) {
             var a = pass1.get("service").toLowerCase(),
                 b = pass2.get("service").toLowerCase(),
                 result = 0;
@@ -112,7 +116,17 @@ Yith.ListPasswordsView = Ember.View.extend({
 
             return result;
         });
-    }).property("passwordList"),
+
+        if (filter !== null) {
+            result = result.filter(function (item, index) {
+                return item.get("tags").some(function (item, index) {
+                    return item === filter;
+                });
+            });
+        }
+
+        return result;
+    }).property("passwordList", "activeFilter"),
 
     passwordListLength: Ember.computed(function () {
         "use strict";
@@ -156,6 +170,16 @@ Yith.ListPasswordsView = Ember.View.extend({
             }, 5500);
             return true;
         });
+    },
+
+    filterByTag: function (evt) {
+        "use strict";
+        this.set("activeFilter", $(evt.target).text());
+    },
+
+    removeFilter: function (evt) {
+        "use strict";
+        this.set("activeFilter", null);
     },
 
     notes: function (evt) {

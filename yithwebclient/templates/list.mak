@@ -27,6 +27,11 @@
     <script type="text/x-handlebars" data-template-name="password-list">
         {{#if passwordListLength }}
         <div class="span12">
+            {{#if activeFilter}}
+            <div id="filter">
+                <b>Active filter:</b> <span class="label pointer" {{action "removeFilter"}}><i class="icon-remove"></i> {{activeFilter}}</span>
+            </div>
+            {{/if}}
             <table class="table table-striped passwords">
             <thead>
                 <tr>
@@ -39,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{#each sortedPasswordList}}
+                {{#each processedPasswordList}}
                     <tr {{bindAttr id="_id"}}>
                         <td>
                             <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
@@ -47,7 +52,7 @@
                         </td>
                         <td>{{account}}</td>
                         <td>{{#each tags}}
-                        <span class="label">{{this}}</span>
+                        <span class="label pointer" {{action "filterByTag"}}>{{this}}</span>
                         {{/each}}</td>
                         <td>
                             {{#if expiration}}

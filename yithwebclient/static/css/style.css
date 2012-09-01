@@ -14,6 +14,10 @@ h1 {
     color: red;
 }
 
+#filter {
+    margin-bottom: 10px;
+}
+
 #master {
     z-index: 1070;
 }
