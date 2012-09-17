@@ -63,6 +63,6 @@ Yithian Image
 
 Copyright (C) 2012 Isaac <ismurg@gmail.com>
 
-Licensed under Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
-For a copy of this license see
+| Licensed under Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+| For a copy of this license see
 <http://creativecommons.org/licenses/by-sa/3.0/legalcode>
