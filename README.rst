@@ -3,7 +3,12 @@ Yith Library web client
 
 Web client for Yith Library server. Written on top of Pyramid and Ember.js
 
-Server: https://github.com/Yaco-Sistemas/yith-library-server
+Server code: https://github.com/Yaco-Sistemas/yith-library-server
+
+This web client lets the user access to his passwords and secrets, safely
+stored at the Yith Library server. View, editing and deleting are supported.
+
+There is an instance running at https://yithlibrary-webclient.herokuapp.com/
 
 Development
 -----------
@@ -14,7 +19,7 @@ enviroment with virtualenv read this http://www.virtualenv.org
 Requirements
 ~~~~~~~~~~~~
 
-* Python 3.2
+* Python 2.7 or Python 3.2
 
 Deployment
 ~~~~~~~~~~
@@ -33,7 +38,12 @@ And then the web client will be available at http://localhost:6543/
 Boring legal stuff
 ------------------
 
-Copyright (C) 2012  Yaco Sistemas S.L.
+Yith Library Webclient
+~~~~~~~~~~~~~~~~~~~~~~
+
+| Copyright (C) 2012 Yaco Sistemas S.L.
+| Copyright (C) 2012 Alejandro Blanco <alejandro.b.e@gmail.com>
+| Copyright (C) 2012 Lorenzo Gil <lorenzo.gil.sanchez@gmail.com>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
@@ -47,3 +57,12 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Yithian Image
+~~~~~~~~~~~~~
+
+Copyright (C) 2012 Isaac <ismurg@gmail.com>
+
+Licensed under Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+For a copy of this license see
+<http://creativecommons.org/licenses/by-sa/3.0/legalcode>
