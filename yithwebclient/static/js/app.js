@@ -751,6 +751,12 @@ $(document).ready(function () {
     // SOME EVENTS
     // ***********
 
+    Yith.creditsModal = $("#credits");
+    Yith.creditsModal.modal({ show: false });
+    $("#creditsButton").click(function () {
+        Yith.creditsModal.modal("show");
+    });
+
     $("#logout").click(function (evt) {
         window.open("/logout", "_self");
     });
