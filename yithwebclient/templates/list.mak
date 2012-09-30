@@ -45,7 +45,7 @@
                     <tr {{bindAttr id="_id"}}>
                         <td>
                             <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
-                            <input type="text" style="display: none;" class="input-medium" /> <span style="display: none;" ></span>
+                            <input type="text" style="display: none;" class="input-medium" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
                         </td>
                         <td>{{account}}</td>
                         <td>{{#each tags}}
@@ -149,6 +149,13 @@
             <div class="span4">
                 <button class="btn pull-right" id="change-master">Change master password</button>
             </div>
+        </div>
+        <div class="row settings">
+            <div class="offset8 span4"><div class="pull-right">
+                <label class="checkbox pointer" for="disable-countdown">
+                    <input id="disable-countdown" type="checkbox" /> Disable countdown
+                </label>
+            </div></div>
         </div>
         <div class="row password-list"></div>
         <div class="row">

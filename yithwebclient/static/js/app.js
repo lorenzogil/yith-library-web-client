@@ -156,6 +156,7 @@ Yith.ListPasswordsView = Ember.View.extend({
             var secret = evt.context.get("secret"),
                 node = $(evt.target),
                 countdown = node.next().next(),
+                close = countdown.next(),
                 timer;
             try {
                 secret = Yith.decipher(masterPassword, secret);
@@ -166,16 +167,25 @@ Yith.ListPasswordsView = Ember.View.extend({
             node.next().val(secret).show().focus().select();
             secret = null;
 
-            countdown.text("5");
-            countdown.show();
-            timer = setInterval(function () {
-                countdown.text(parseInt(countdown.text(), 10) - 1);
-            }, 1000);
-            setTimeout(function () {
-                clearInterval(timer);
-                node.next().hide().attr("value", "");
-                countdown.hide();
-            }, 5500);
+            if (Yith.settings.disableCountdown) {
+                close.off("click");
+                close.click(function (evt) {
+                    node.next().hide().attr("value", "");
+                    close.hide();
+                });
+                close.show();
+            } else {
+                countdown.text("5");
+                countdown.show();
+                timer = setInterval(function () {
+                    countdown.text(parseInt(countdown.text(), 10) - 1);
+                }, 1000);
+                setTimeout(function () {
+                    clearInterval(timer);
+                    node.next().hide().attr("value", "");
+                    countdown.hide();
+                }, 5500);
+            }
             return true;
         });
     },
@@ -728,6 +738,10 @@ Yith.ajax.deletePassword = function (password) {
 // INITIALIZATION
 // **************
 
+Yith.settings = {
+    disableCountdown: false
+};
+
 $(document).ready(function () {
     "use strict";
 
@@ -750,6 +764,10 @@ $(document).ready(function () {
     // ***********
     // SOME EVENTS
     // ***********
+
+    $("#disable-countdown").change(function (evt) {
+        Yith.settings.disableCountdown = $(evt.target).is(":checked");
+    });
 
     Yith.creditsModal = $("#credits");
     Yith.creditsModal.modal({ show: false });

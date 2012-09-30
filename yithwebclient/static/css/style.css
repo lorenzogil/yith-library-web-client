@@ -2,16 +2,21 @@ body {
     padding-top: 20px;
 }
 
-h1 {
-    margin-bottom: 30px;
-}
-
 .pointer {
     cursor: pointer;
 }
 
 .red {
     color: red;
+}
+
+.row.settings {
+    margin: 10px 0 0 0;
+}
+
+.row.settings .pull-right {
+    position: relative;
+    right: 20px;
 }
 
 #filter {
@@ -23,7 +28,7 @@ h1 {
 }
 
 .password-list {
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
 .passwords td:first-child .btn.btn-info {
