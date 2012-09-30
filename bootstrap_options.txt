@@ -16,6 +16,8 @@ Base CSS
 
 Components
     Button groups and dropdowns
+    Navs, tabs, and pills
+    Navbar
     Alerts
     Progress bars
     Hero unit

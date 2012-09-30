@@ -9,6 +9,14 @@
 </%def>
 
 <%def name="mainbody()">
+    <div class="navbar container"><div class="navbar-inner">
+        <a class="brand" href="#">Yith Library Web Client</a>
+        <ul class="nav pull-right">
+            <li><a href="${server_host}/profile">Profile</a></li>
+            <li><a href="/logout">Log out</a></li>
+        </ul>
+    </div></div>
+
     <%text>
     <script type="text/x-handlebars" data-template-name="password-list">
         {{#if passwordListLength }}
@@ -135,19 +143,11 @@
 
     <div id="page" class="container">
         <div class="row">
-            <div class="span12">
-                <h1>Yith Library</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="span7">
+            <div class="span8">
                 <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
             </div>
             <div class="span4">
                 <button class="btn pull-right" id="change-master">Change master password</button>
-            </div>
-            <div class="span1">
-                <button class="btn btn-inverse pull-right" id="logout">Logout</button>
             </div>
         </div>
         <div class="row password-list"></div>

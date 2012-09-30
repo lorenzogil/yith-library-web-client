@@ -757,9 +757,5 @@ $(document).ready(function () {
         Yith.creditsModal.modal("show");
     });
 
-    $("#logout").click(function (evt) {
-        window.open("/logout", "_self");
-    });
-
     $("#change-master").click(Yith.changeMasterPassword);
 });
