@@ -313,11 +313,16 @@ Yith.EditPasswordView = Ember.View.extend({
         evt.stopPropagation();
         evt.preventDefault();
 
-        var tag = $("#edit-tags").val(),
+        var tags = $("#edit-tags").val().split(','),
             password = evt.context.get("password"),
             provisionalTags = Yith.cloneList(password.get("provisionalTags"));
 
-        provisionalTags.push(tag);
+        tags.forEach(function (tag) {
+            tag = tag.trim();
+            if (tag !== "" && provisionalTags.indexOf(tag) < 0) {
+                provisionalTags.push(tag);
+            }
+        });
         password.set("provisionalTags", provisionalTags);
         $("#edit-tags").val("");
     },
