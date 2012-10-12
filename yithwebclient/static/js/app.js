@@ -212,7 +212,7 @@ Yith.ListPasswordsView = Ember.View.extend({
             password,
             content;
 
-        if (typeof node.data().popover === "undefined") {
+        if (node.data().popover === undefined) {
             _id = node.parent().parent().attr("id");
             passwordList = Yith.listPasswdView.get("passwordList");
             password = passwordList.filter(function (item) {
@@ -430,7 +430,7 @@ Yith.EditPasswordView = Ember.View.extend({
 
 Yith.initEditModal = function () {
     "use strict";
-    if (typeof Yith.editModal === "undefined") {
+    if (Yith.editModal === undefined) {
         Yith.editModal = $("#edit");
         Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
@@ -509,7 +509,7 @@ Yith.saveChangesInPassword = function (password, savePassword, callback) {
 Yith.updateNotesPopover = function (password) {
     "use strict";
     var node = $("#" + password.get("_id") + " button.notes");
-    if (node.length > 0 && typeof node.data().popover !== "undefined") {
+    if (node.length > 0 && node.data().popover !== undefined) {
         if (password.get("notes") === "" || password.get("notes") === null) {
             node.popover("disable");
         } else {
@@ -555,7 +555,7 @@ Yith.decipher = function (masterPassword, cipheredSecret) {
 
 Yith.askMasterPassword = function (callback, changeMaster) {
     "use strict";
-    if (typeof Yith.masterModal === "undefined") {
+    if (Yith.masterModal === undefined) {
         Yith.masterModal = $("#master");
         Yith.masterModal.modal({
             show: false
