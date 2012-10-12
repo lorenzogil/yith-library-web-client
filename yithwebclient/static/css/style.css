@@ -19,6 +19,10 @@ body {
     right: 20px;
 }
 
+ul.typeahead.dropdown-menu {
+    z-index: 1200;
+}
+
 #filter {
     margin-bottom: 10px;
 }
