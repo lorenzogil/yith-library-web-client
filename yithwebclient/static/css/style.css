@@ -23,6 +23,15 @@ ul.typeahead.dropdown-menu {
     z-index: 1200;
 }
 
+#tag-list li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#tag-list li:last-child {
+    margin-right: 0;
+}
+
 #filter {
     margin-bottom: 10px;
 }

@@ -21,11 +21,17 @@
     <script type="text/x-handlebars" data-template-name="password-list">
         {{#if passwordListLength }}
         <div class="span12">
+            <b>All tags (filter by):</b>
+            <ul id="tag-list" class="unstyled">
+                {{#each allTags}}
+                <li><span class="label pointer" {{action "filterByTag"}}>{{this}}</span></li>
+                {{/each}}
+            </ul>
             {{#if activeFiltersLength}}
             <div id="filter">
                 <b>Active filters:</b>
                 {{#each activeFilters}}
-                <span class="label pointer" {{action "removeFilter"}}><i class="icon-remove"></i> {{this}}</span>
+                <span class="label pointer" {{action "removeFilter"}}><i class="icon-remove" {{action "removeFilter"}}></i> {{this}}</span>
                 {{/each}}
             </div>
             {{/if}}

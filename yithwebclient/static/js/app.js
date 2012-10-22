@@ -147,7 +147,7 @@ Yith.ListPasswordsView = Ember.View.extend({
         this.passwordList.forEach(function (item) {
             allTags.addEach(item.get("tags"));
         });
-        return allTags;
+        return allTags.toArray();
     }).property("passwordList"),
 
     getPassword: function (evt) {
@@ -199,8 +199,12 @@ Yith.ListPasswordsView = Ember.View.extend({
 
     removeFilter: function (evt) {
         "use strict";
-        var filters = new Ember.Set(this.activeFilters);
-        filters.remove($(evt.target).text().trim());
+        var filters = new Ember.Set(this.activeFilters),
+            target = evt.target;
+        if (target.tagName === "I") {
+            target = target.parentNode;
+        }
+        filters.remove($(target).text().trim());
         this.set("activeFilters", filters.toArray());
     },
 
@@ -577,6 +581,7 @@ Yith.askMasterPassword = function (callback, changeMaster) {
         });
         Yith.masterModal.on("hidden", function (evt) {
             $("#master-password").attr("value", "");
+            $("#new-master-password").attr("value", "");
         });
     }
     $("#master-done").unbind("click");
