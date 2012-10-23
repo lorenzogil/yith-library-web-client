@@ -147,7 +147,10 @@ Yith.ListPasswordsView = Ember.View.extend({
         this.passwordList.forEach(function (item) {
             allTags.addEach(item.get("tags"));
         });
-        return allTags.toArray();
+        allTags = allTags.toArray().sort(function (a, b) {
+            return a.localeCompare(b);
+        });
+        return allTags;
     }).property("passwordList"),
 
     getPassword: function (evt) {
