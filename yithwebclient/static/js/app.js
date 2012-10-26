@@ -593,6 +593,9 @@ Yith.askMasterPassword = function (callback, changeMaster) {
         if (success) {
             if (Yith.settings.rememberMaster && $("#new-master-password").val() === "") {
                 Yith.settings.masterPassword = $("#master-password").val();
+                setTimeout(function () {
+                    Yith.settings.masterPassword = undefined;
+                }, 300000);
             }
             Yith.masterModal.modal("hide");
         } else {
