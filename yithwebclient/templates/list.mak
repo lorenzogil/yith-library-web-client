@@ -157,11 +157,14 @@
             </div>
         </div>
         <div class="row settings">
-            <div class="offset8 span4"><div class="pull-right">
-                <label class="checkbox pointer" for="disable-countdown">
+            <div class="offset8 span4">
+                <div class="pull-right"><label class="checkbox pointer" for="disable-countdown">
                     <input id="disable-countdown" type="checkbox" /> Disable countdown
-                </label>
-            </div></div>
+                </label></div>
+                <div class="pull-right"><label class="checkbox pointer" for="remember-master">
+                    <input id="remember-master" type="checkbox" /> Remember master password
+                </label></div>
+            </div>
         </div>
         <div class="row password-list"></div>
         <div class="row">

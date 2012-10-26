@@ -591,6 +591,9 @@ Yith.askMasterPassword = function (callback, changeMaster) {
     $("#master-done").click(function () {
         var success = callback($("#master-password").val(), $("#new-master-password").val());
         if (success) {
+            if (Yith.settings.rememberMaster && $("#new-master-password").val() === "") {
+                Yith.settings.masterPassword = $("#master-password").val();
+            }
             Yith.masterModal.modal("hide");
         } else {
             $("#master-error").show();
@@ -601,6 +604,10 @@ Yith.askMasterPassword = function (callback, changeMaster) {
         $(".change-master").show();
     } else {
         $(".change-master").hide();
+        if (Yith.settings.rememberMaster && Yith.settings.masterPassword !== undefined) {
+            callback(Yith.settings.masterPassword);
+            return;
+        }
     }
     Yith.masterModal.modal("show");
 };
@@ -752,7 +759,9 @@ Yith.ajax.deletePassword = function (password) {
 // **************
 
 Yith.settings = {
-    disableCountdown: false
+    disableCountdown: false,
+    rememberMaster: false,
+    masterPassword: undefined
 };
 
 $(document).ready(function () {
@@ -780,6 +789,14 @@ $(document).ready(function () {
 
     $("#disable-countdown").change(function (evt) {
         Yith.settings.disableCountdown = $(evt.target).is(":checked");
+    });
+
+    $("#remember-master").change(function (evt) {
+        var remember = $(evt.target).is(":checked");
+        if (!remember) {
+            Yith.settings.masterPassword = undefined;
+        }
+        Yith.settings.rememberMaster = remember;
     });
 
     Yith.creditsModal = $("#credits");
