@@ -10,7 +10,7 @@
 
 <%def name="mainbody()">
     <div class="navbar container"><div class="navbar-inner">
-        <a class="brand" href="#">Yith Library Web Client</a>
+        <a class="brand" href="/list">Yith Library Web Client</a>
         <ul class="nav pull-right">
             <li><a href="${server_host}/profile">Profile</a></li>
             <li><a href="/logout">Log out</a></li>
@@ -149,22 +149,14 @@
 
     <div id="page" class="container">
         <div class="row">
-            <div class="span8">
+            <div class="span3">
                 <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
             </div>
-            <div class="span4">
-                <button class="btn pull-right" id="change-master">Change master password</button>
-            </div>
-        </div>
-        <div class="row settings">
-            <div class="offset8 span4">
-                <div class="pull-right"><label class="checkbox pointer" for="disable-countdown">
-                    <input id="disable-countdown" type="checkbox" /> Disable countdown
-                </label></div>
-                <div class="pull-right"><label class="checkbox pointer" for="remember-master">
-                    <input id="remember-master" type="checkbox" /> Remember master password
-                </label></div>
-            </div>
+            <div class="span9"><div class="pull-right">
+                <button class="btn" id="change-master">Change master password</button>
+                <button class="btn" id="disable-countdown">Disable countdown</button>
+                <button class="btn" id="remember-master">Remember master password</button>
+            </div></div>
         </div>
         <div class="row password-list"></div>
         <div class="row">

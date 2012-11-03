@@ -790,16 +790,19 @@ $(document).ready(function () {
     // SOME EVENTS
     // ***********
 
-    $("#disable-countdown").change(function (evt) {
-        Yith.settings.disableCountdown = $(evt.target).is(":checked");
+    $("#disable-countdown").click(function (evt) {
+        var target = $(evt.target);
+        target.toggleClass("active");
+        Yith.settings.disableCountdown = target.hasClass("active");
     });
 
-    $("#remember-master").change(function (evt) {
-        var remember = $(evt.target).is(":checked");
-        if (!remember) {
+    $("#remember-master").click(function (evt) {
+        var target = $(evt.target);
+        target.toggleClass("active");
+        Yith.settings.rememberMaster = target.hasClass("active");
+        if (!Yith.settings.rememberMaster) {
             Yith.settings.masterPassword = undefined;
         }
-        Yith.settings.rememberMaster = remember;
     });
 
     Yith.creditsModal = $("#credits");
