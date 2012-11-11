@@ -29,6 +29,7 @@ def index(request):
     if 'yith_google_analytics' in request.registry.settings:
         google_analytics = request.registry.settings['yith_google_analytics']
     return {'server_authorization_endpoint': url,
+            'server_host': request.registry.settings['yith_server'],
             'google_analytics': google_analytics, }
 
 
