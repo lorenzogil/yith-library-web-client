@@ -10,7 +10,7 @@
                     <h1>Yith Library</h1>
                     <p>Secure service to store your passwords ciphered under a master password.</p>
                     <p>
-                        <a href="${server_authorization_endpoint}" class="btn btn-primary btn-large"><b>Enter</b></a>
+                        <a href="${server_authorization_endpoint}" class="btn btn-primary btn-large"><strong>Enter</strong></a>
                         <a href="${server_host}" class="btn btn-large">How it works</a>
                     </p>
                 </div>
