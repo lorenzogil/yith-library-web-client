@@ -48,6 +48,7 @@ def main(global_config, **settings):
     config.add_route('token', '/token')
     config.add_route('list', '/list')
     config.add_route('logout', '/logout')
+    config.add_route('tos', '/tos')
 
     config.scan()
     return config.make_wsgi_app()

@@ -69,3 +69,11 @@ def list_passwords(request):
         google_analytics = request.registry.settings['yith_google_analytics']
     return {'server_host': request.registry.settings['yith_server'],
             'google_analytics': google_analytics, }
+
+
+@view_config(route_name='tos', renderer='tos.mak')
+def tos(request):
+    google_analytics = None
+    if 'yith_google_analytics' in request.registry.settings:
+        google_analytics = request.registry.settings['yith_google_analytics']
+    return {'google_analytics': google_analytics, }

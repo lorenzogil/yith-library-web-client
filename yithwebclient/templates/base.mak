@@ -51,6 +51,7 @@
 
     <footer class="container">
         <ul class="pull-left">
+            <li><a href="/tos">Terms of service</a> |</li>
             <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork us in GitHub!</a></li>
         </ul>
         <ul class="pull-right">
