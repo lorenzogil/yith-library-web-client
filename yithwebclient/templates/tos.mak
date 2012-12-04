@@ -3,6 +3,10 @@
 <%def name="title()">Terms of service</%def>
 
 <%def name="mainbody()">
+    <div class="navbar container"><div class="navbar-inner">
+        <a class="brand" href="/list">Yith Library Web Client</a>
+    </div></div>
+
     <div id="page" class="container">
         <h1>Terms of service</h1>
 
@@ -11,7 +15,7 @@
 
             <h2>Free software</h2>
 
-            <p>Yith Library Server is free software: you can redistribute it and/or modify
+            <p>Yith Library Web Client is free software: you can redistribute it and/or modify
             it under the terms of the GNU Affero General Public License as published by
             the Free Software Foundation, either version 3 of the License, or
             (at your option) any later version.</p>
@@ -20,18 +24,18 @@
             essential freedoms:</p>
 
             <ul>
-            <li>The freedom to run the program, for any purpose (freedom 0).</li>
-            <li>The freedom to study how the program works, and change it so it
-            does your computing as you wish (freedom 1). Access to the
-            <a href="https://github.com/Yaco-Sistemas/yith-library-server">source
-                code</a> is a precondition for this.</li>
-            <li>The freedom to redistribute copies so you can help your
-            neighbor (freedom 2).</li>
-            <li>The freedom to distribute copies of your modified versions to
-            others (freedom 3). By doing this you can give the whole community a
-            chance to benefit from your changes. Access to the
-            <a href="https://github.com/Yaco-Sistemas/yith-library-server">source
-                code</a> is a precondition for this.</li>
+                <li>The freedom to run the program, for any purpose (freedom 0).</li>
+                <li>The freedom to study how the program works, and change it so it
+                does your computing as you wish (freedom 1). Access to the
+                <a href="https://github.com/Yaco-Sistemas/yith-library-web-client">source
+                    code</a> is a precondition for this.</li>
+                <li>The freedom to redistribute copies so you can help your
+                neighbor (freedom 2).</li>
+                <li>The freedom to distribute copies of your modified versions to
+                others (freedom 3). By doing this you can give the whole community a
+                chance to benefit from your changes. Access to the
+                <a href="https://github.com/Yaco-Sistemas/yith-library-web-client">source
+                    code</a> is a precondition for this.</li>
             </ul>
 
             <p>You can read the GNU Affero General Public License at
@@ -51,7 +55,7 @@
 
             <h2>No warranty</h2>
 
-            <p>Yith Library Server is distributed in the hope that it will be useful,
+            <p>Yith Library Web Client is distributed in the hope that it will be useful,
             but WITHOUT ANY WARRANTY; without even the implied warranty of
             MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
             GNU General Public License for more details.</p>
@@ -82,8 +86,9 @@
             </div>
         </div>
 
-        <p class="well">Sorry if some of these terms are a little imprecise and sloppy. We are
-            hackers, not lawyers. If in doubt, <a href="#">just drop us a line</a>.</p>
+        <p class="well">Sorry if some of these terms are a little imprecise and
+            sloppy. We are hackers, not lawyers. If in doubt,
+            <a href="${server_host}/contact">just drop us a line</a>.</p>
 
     </div>
 </%def>

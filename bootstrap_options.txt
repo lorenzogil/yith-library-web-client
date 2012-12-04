@@ -29,6 +29,7 @@ JS Components
     Dropdowns
 
 Miscellaneous
+    Wells
     Close icon
     Utilities
     Component animations

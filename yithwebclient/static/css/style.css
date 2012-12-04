@@ -2,6 +2,10 @@ body {
     padding-top: 20px;
 }
 
+#page {
+    padding-bottom: 30px;
+}
+
 .pointer {
     cursor: pointer;
 }
