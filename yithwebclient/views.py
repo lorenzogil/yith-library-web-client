@@ -25,12 +25,8 @@ def index(request):
     url = ("%s/oauth2/endpoints/authorization?response_type=code"
            "&client_id=%s") % (request.registry.settings['yith_server'],
                                request.registry.settings['yith_client_id'])
-    google_analytics = None
-    if 'yith_google_analytics' in request.registry.settings:
-        google_analytics = request.registry.settings['yith_google_analytics']
     return {'server_authorization_endpoint': url,
-            'server_host': request.registry.settings['yith_server'],
-            'google_analytics': google_analytics, }
+            'server_host': request.registry.settings['yith_server'], }
 
 
 @view_config(route_name='oauth2cb')
@@ -42,8 +38,7 @@ def oauth2cb(request):
                   request.registry.settings['yith_client_secret'])
     response = requests.post(url, data=payload, auth=basic_auth)
     data = response.json
-    session = request.session
-    session['access_code'] = data['access_code']
+    request.session['access_code'] = data['access_code']
     return HTTPFound(location=request.route_path('list'))
 
 
@@ -66,15 +61,20 @@ def logout(request):
 def list_passwords(request):
     google_analytics = None
     if 'yith_google_analytics' in request.registry.settings:
-        google_analytics = request.registry.settings['yith_google_analytics']
+        if not 'allow_google_analytics' in request.session:
+            url = "%s/user" % request.registry.settings['yith_server']
+            headers = {
+                'Authorization': "Bearer %s" % request.session['access_code']}
+            response = requests.get(url, headers=headers)
+            request.session['allow_google_analytics'] = (
+                response.json.get('allow_google_analytics', False))
+        if request.session['allow_google_analytics']:
+            google_analytics = (
+                request.registry.settings['yith_google_analytics'])
     return {'server_host': request.registry.settings['yith_server'],
             'google_analytics': google_analytics, }
 
 
 @view_config(route_name='tos', renderer='tos.mak')
 def tos(request):
-    google_analytics = None
-    if 'yith_google_analytics' in request.registry.settings:
-        google_analytics = request.registry.settings['yith_google_analytics']
-    return {'server_host': request.registry.settings['yith_server'],
-            'google_analytics': google_analytics, }
+    return {'server_host': request.registry.settings['yith_server'], }
