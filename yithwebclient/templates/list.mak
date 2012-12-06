@@ -19,8 +19,7 @@
 
     <%text>
     <script type="text/x-handlebars" data-template-name="password-list">
-        {{#if passwordListLength }}
-        <div class="span12">
+        <div {{bindAttr class="passwordListClass"}}>
             <b>All tags (filter by):</b>
             <ul id="tag-list" class="unstyled">
                 {{#each allTags}}
@@ -71,14 +70,12 @@
             </tbody>
             </table>
         </div>
-        {{else}}
-        <div class="span6 offset3">
+        <div {{bindAttr class="noPasswordsClass"}}>
             <div class="alert alert-info">
                 <h3>No passwords stored yet</h3>
                 <p>Please, add a password using the button.</p>
             </div>
         </div>
-        {{/if}}
     </script>
     <script type="text/x-handlebars" data-template-name="password-edit">
         <div class="modal-header">

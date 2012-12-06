@@ -95,6 +95,7 @@ Yith.Password = Ember.Object.extend({
 
 Yith.ListPasswordsView = Ember.View.extend({
     templateName: "password-list",
+    initialized: false,
     passwordList: [],
     activeFilters: [],
 
@@ -136,9 +137,12 @@ Yith.ListPasswordsView = Ember.View.extend({
         return result;
     }).property("passwordList", "activeFilters"),
 
-    passwordListLength: Ember.computed(function () {
+    passwordListClass: Ember.computed(function () {
         "use strict";
-        return this.passwordList.length;
+        if (this.passwordList.length > 0) {
+            return "span12";
+        }
+        return "hide";
     }).property("passwordList"),
 
     allTags: Ember.computed(function () {
@@ -152,6 +156,14 @@ Yith.ListPasswordsView = Ember.View.extend({
         });
         return allTags;
     }).property("passwordList"),
+
+    noPasswordsClass: Ember.computed(function () {
+        "use strict";
+        if (this.initialized && this.passwordList.length === 0) {
+            return "span6 offset3";
+        }
+        return "hide";
+    }).property("initialized", "passwordList"),
 
     getPassword: function (evt) {
         "use strict";
@@ -686,6 +698,7 @@ Yith.ajax.getPasswordList = function () {
                 passwordList.push(password);
                 Yith.listPasswdView.set("passwordList", passwordList);
             });
+            Yith.listPasswdView.set("initialized", true);
         },
         error: function (XHR, textStatus, errorThrown) {
             $("#error").modal({ keyboard: false, backdrop: "static" });
