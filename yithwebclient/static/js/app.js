@@ -448,7 +448,7 @@ Yith.EditPasswordView = Ember.View.extend({
         evt.stopPropagation();
 
         var password = "",
-            max = 126,
+            max = 127,
             min = 33,
             aux,
             i;
