@@ -463,6 +463,7 @@ Yith.EditPasswordView = Ember.View.extend({
 
         $("#edit-secret1").val(password);
         $("#edit-secret2").val(password);
+        password = null;
     }
 });
 
