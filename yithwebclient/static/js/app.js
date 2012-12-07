@@ -440,6 +440,29 @@ Yith.EditPasswordView = Ember.View.extend({
         if (!valid) {
             throw "Not valid";
         }
+    },
+
+    generatePassword: function (evt) {
+        "use strict";
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        var password = "",
+            max = 126,
+            min = 33,
+            aux,
+            i;
+
+//         String.fromCharCode(33) "!"
+//         String.fromCharCode(126) "~"
+
+        for (i = 0; i < 20; i += 1) {
+            aux = Math.floor(Math.random() * (max - min + 1)) + min;
+            password += String.fromCharCode(aux);
+        }
+
+        $("#edit-secret1").val(password);
+        $("#edit-secret2").val(password);
     }
 });
 
