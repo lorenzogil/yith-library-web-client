@@ -89,6 +89,52 @@ Yith.Password = Ember.Object.extend({
     }).property("notes")
 });
 
+Yith.Settings = Ember.Object.extend({
+    disableCountdown: false,
+    rememberMaster: false,
+    masterPassword: undefined,
+    passGenUseSymbols: true,
+    passGenUseNumbers: true,
+    passGenUseChars: true,
+    passGenLength: 20,
+
+    passGenCharset: Ember.computed(function () {
+        "use strict";
+
+        // 33 start symbols
+        // 48 start numbers
+        // 58 start symbols again
+        // 65 start chars
+        // 91 start symbols again
+        // 97 start chars again
+        // 123 start symbols again
+        // 126 end (included)
+
+        var charset = "",
+            i;
+
+        for (i = 33; i < 127; i += 1) {
+            if (i >= 33 && i < 48 && this.passGenUseSymbols) {
+                charset += String.fromCharCode(i);
+            } else if (i >= 48 && i < 58 && this.passGenUseNumbers) {
+                charset += String.fromCharCode(i);
+            } else if (i >= 58 && i < 65 && this.passGenUseSymbols) {
+                charset += String.fromCharCode(i);
+            } else if (i >= 65 && i < 91 && this.passGenUseChars) {
+                charset += String.fromCharCode(i);
+            } else if (i >= 91 && i < 97 && this.passGenUseSymbols) {
+                charset += String.fromCharCode(i);
+            } else if (i >= 97 && i < 123 && this.passGenUseChars) {
+                charset += String.fromCharCode(i);
+            } else if (i >= 123 && i < 127 && this.passGenUseSymbols) {
+                charset += String.fromCharCode(i);
+            }
+        }
+
+        return charset;
+    }).property("passGenUseChars", "passGenUseNumbers", "passGenUseSymbols")
+});
+
 // *****
 // VIEWS
 // *****
@@ -182,7 +228,7 @@ Yith.ListPasswordsView = Ember.View.extend({
             node.next().val(secret).show().focus().select();
             secret = null;
 
-            if (Yith.settings.disableCountdown) {
+            if (Yith.settings.get("disableCountdown")) {
                 close.off("click");
                 close.click(function (evt) {
                     node.next().hide().attr("value", "");
@@ -448,17 +494,14 @@ Yith.EditPasswordView = Ember.View.extend({
         evt.stopPropagation();
 
         var password = "",
-            max = 127,
-            min = 33,
+            charset = Yith.settings.get("passGenCharset"),
+            length = Yith.settings.get("passGenLength"),
             aux,
             i;
 
-//         String.fromCharCode(33) "!"
-//         String.fromCharCode(126) "~"
-
-        for (i = 0; i < 20; i += 1) {
-            aux = Math.floor(Math.random() * (max - min + 1)) + min;
-            password += String.fromCharCode(aux);
+        for (i = 0; i < length; i += 1) {
+            aux = Math.floor(Math.random() * charset.length);
+            password += charset.charAt(aux);
         }
 
         $("#edit-secret1").val(password);
@@ -627,10 +670,10 @@ Yith.askMasterPassword = function (callback, changeMaster) {
     $("#master-done").click(function () {
         var success = callback($("#master-password").val(), $("#new-master-password").val());
         if (success) {
-            if (Yith.settings.rememberMaster && $("#new-master-password").val() === "") {
-                Yith.settings.masterPassword = $("#master-password").val();
+            if (Yith.settings.get("rememberMaster") && $("#new-master-password").val() === "") {
+                Yith.settings.set("masterPassword", $("#master-password").val());
                 setTimeout(function () {
-                    Yith.settings.masterPassword = undefined;
+                    Yith.settings.set("masterPassword", undefined);
                 }, 300000);
             }
             Yith.masterModal.modal("hide");
@@ -643,8 +686,8 @@ Yith.askMasterPassword = function (callback, changeMaster) {
         $(".change-master").show();
     } else {
         $(".change-master").hide();
-        if (Yith.settings.rememberMaster && Yith.settings.masterPassword !== undefined) {
-            callback(Yith.settings.masterPassword);
+        if (Yith.settings.get("rememberMaster") && Yith.settings.get("masterPassword") !== undefined) {
+            callback(Yith.settings.get("masterPassword"));
             return;
         }
     }
@@ -798,11 +841,7 @@ Yith.ajax.deletePassword = function (password) {
 // INITIALIZATION
 // **************
 
-Yith.settings = {
-    disableCountdown: false,
-    rememberMaster: false,
-    masterPassword: undefined
-};
+Yith.settings = Yith.Settings.create();
 
 $(document).ready(function () {
     "use strict";
@@ -830,15 +869,15 @@ $(document).ready(function () {
     $("#disable-countdown").click(function (evt) {
         var target = $(evt.target);
         target.toggleClass("active");
-        Yith.settings.disableCountdown = target.hasClass("active");
+        Yith.settings.set("disableCountdown", target.hasClass("active"));
     });
 
     $("#remember-master").click(function (evt) {
         var target = $(evt.target);
         target.toggleClass("active");
-        Yith.settings.rememberMaster = target.hasClass("active");
-        if (!Yith.settings.rememberMaster) {
-            Yith.settings.masterPassword = undefined;
+        Yith.settings.set("rememberMaster", target.hasClass("active"));
+        if (!Yith.settings.get("rememberMaster")) {
+            Yith.settings.set("masterPassword", undefined);
         }
     });
 
