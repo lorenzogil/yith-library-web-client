@@ -14,13 +14,8 @@ body {
     color: red;
 }
 
-.row.settings {
-    margin: 10px 0 0 0;
-}
-
-.row.settings .pull-right {
-    position: relative;
-    right: 20px;
+.row.advanced {
+    margin-top: 10px;
 }
 
 ul.typeahead.dropdown-menu {

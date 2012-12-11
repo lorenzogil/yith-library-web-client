@@ -510,6 +510,49 @@ Yith.EditPasswordView = Ember.View.extend({
     }
 });
 
+Yith.SettingsView = Ember.View.extend({
+    templateName: "settings",
+    advanced: false,
+
+    advancedClass: Ember.computed(function () {
+        "use strict";
+        var cssClass = "row advanced";
+        if (!this.advanced) {
+            cssClass += " hide";
+        }
+        return cssClass;
+    }).property("advanced"),
+
+    showAdvanced: function (evt) {
+        "use strict";
+        var target = $(evt.target);
+        target.toggleClass("active");
+        this.set("advanced", target.hasClass("active"));
+    },
+
+    disableCountdown: function (evt) {
+        "use strict";
+        var target = $(evt.target);
+        target.toggleClass("active");
+        Yith.settings.set("disableCountdown", target.hasClass("active"));
+    },
+
+    rememberMaster: function (evt) {
+        "use strict";
+        var target = $(evt.target);
+        target.toggleClass("active");
+        Yith.settings.set("rememberMaster", target.hasClass("active"));
+        if (!Yith.settings.get("rememberMaster")) {
+            Yith.settings.set("masterPassword", undefined);
+        }
+    },
+
+    changeMaster: function (evt) {
+        "use strict";
+        Yith.changeMasterPassword();
+    }
+});
+
 // *********
 // UTILITIES
 // *********
@@ -854,6 +897,8 @@ $(document).ready(function () {
 
     Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
 
+    Yith.settingsView = Yith.SettingsView.create().appendTo("#settings");
+
     Yith.setProgressBar(50);
 
     // *********
@@ -866,26 +911,9 @@ $(document).ready(function () {
     // SOME EVENTS
     // ***********
 
-    $("#disable-countdown").click(function (evt) {
-        var target = $(evt.target);
-        target.toggleClass("active");
-        Yith.settings.set("disableCountdown", target.hasClass("active"));
-    });
-
-    $("#remember-master").click(function (evt) {
-        var target = $(evt.target);
-        target.toggleClass("active");
-        Yith.settings.set("rememberMaster", target.hasClass("active"));
-        if (!Yith.settings.get("rememberMaster")) {
-            Yith.settings.set("masterPassword", undefined);
-        }
-    });
-
     Yith.creditsModal = $("#credits");
     Yith.creditsModal.modal({ show: false });
     $("#creditsButton").click(function () {
         Yith.creditsModal.modal("show");
     });
-
-    $("#change-master").click(Yith.changeMasterPassword);
 });

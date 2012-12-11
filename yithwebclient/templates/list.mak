@@ -142,19 +142,27 @@
             {{/if}}
         </div>
     </script>
-    </%text>
-
-    <div id="page" class="container">
+    <script type="text/x-handlebars" data-template-name="settings">
         <div class="row">
             <div class="span3">
                 <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
             </div>
             <div class="span9"><div class="pull-right">
-                <button class="btn" id="change-master">Change master password</button>
-                <button class="btn" id="disable-countdown">Disable countdown</button>
-                <button class="btn" id="remember-master">Remember master password</button>
+                <button class="btn" {{action "disableCountdown"}}>Disable countdown</button>
+                <button class="btn" {{action "rememberMaster"}}>Remember master password</button>
+                <button class="btn" {{action "showAdvanced"}}><i class="icon-wrench"></i> Show advanced options</button>
             </div></div>
         </div>
+        <div {{bindAttr class="advancedClass"}}>
+            <div class="span12"><div class="well">
+                <button class="btn" {{action "changeMaster"}}>Change master password</button>
+            </div></div>
+        </div>
+    </script>
+    </%text>
+
+    <div id="page" class="container">
+        <div id="settings"></div>
         <div class="row password-list"></div>
         <div class="row">
             <div class="span4 offset4 progress progress-striped active">
