@@ -18,6 +18,14 @@ body {
     margin-top: 10px;
 }
 
+.nomb {
+    margin-bottom: 0;
+}
+
+#settingsRight {
+    margin-left: 89px;
+}
+
 ul.typeahead.dropdown-menu {
     z-index: 1200;
 }
