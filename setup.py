@@ -23,10 +23,10 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
-    'pyramid',
-    'pyramid_debugtoolbar',
-    'requests',
-    'waitress',
+    'pyramid==1.3.4',
+    'pyramid_debugtoolbar==1.0.2',
+    'requests==0.14.0',
+    'waitress==0.8.1',
     ]
 
 setup(name='yith-web-client',
