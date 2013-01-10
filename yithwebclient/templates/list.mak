@@ -105,6 +105,9 @@
                     </div>
                     <span class="help-block match" style="display: none;">The passwords don't match</span>
                     <span class="help-block req" style="display: none;">This field is required</span>
+                    <div id="strength-meter">
+                        <div class="progressbar"></div><div class="verdict"></div>
+                    </div>
                 </div>
                 <div class="control-group">
                     <div class="controls form-inline">
@@ -245,6 +248,7 @@
 <%def name="extrabody()">
     <script src="${request.static_path('yithwebclient:static/js/libs/ember-0.9.8.1.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
 
     % if google_analytics is not None:

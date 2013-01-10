@@ -586,6 +586,12 @@ Yith.initEditModal = function () {
     "use strict";
     if (Yith.editModal === undefined) {
         Yith.editModal = $("#edit");
+        Yith.editModal.find("#secret-group #edit-secret1").pwstrength({
+            viewports: {
+                progress: Yith.editModal.find("#strength-meter .progressbar"),
+                verdict: Yith.editModal.find("#strength-meter .verdict")
+            }
+        });
         Yith.editModal.modal({ show: false, keyboard: false });
         Yith.editModal.on("shown", function (evt) {
             $("#edit-tags").val("").typeahead({
@@ -598,6 +604,7 @@ Yith.initEditModal = function () {
                 $("#secret-group").addClass("hide");
                 $("#modify-secret-group").removeClass("hide");
             }
+            Yith.editModal.find("#secret-group #edit-secret1").pwstrength("forceUpdate");
         });
         Yith.editModal.on("hidden", function (evt) {
             $("#edit-secret1").attr("value", "");
