@@ -504,8 +504,8 @@ Yith.EditPasswordView = Ember.View.extend({
             password += charset.charAt(aux);
         }
 
-        $("#edit-secret1").val(password);
         $("#edit-secret2").val(password);
+        $("#edit-secret1").val(password).trigger("keyup");
         password = null;
     }
 });
