@@ -57,7 +57,7 @@
         </ul>
         <ul class="pull-right">
             <li><a href="${server_host}/contact">Contact</a> |</li>
-            <li><a href="${server_host}/contact" id="creditsButton">Credits</a></li>
+            <li><a href="#" id="creditsButton">Credits</a></li>
         </ul>
     </footer>
 
