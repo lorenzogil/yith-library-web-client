@@ -21,6 +21,8 @@
     ${self.extraheader()}
 </head>
 <body>
+    <a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
     ${self.mainbody()}
 
     <div class="modal hide" id="credits">
@@ -51,8 +53,7 @@
 
     <footer class="container">
         <ul class="pull-left">
-            <li><a href="/tos">Terms of service</a> |</li>
-            <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork us in GitHub!</a></li>
+            <li><a href="/tos">Terms of service</a></li>
         </ul>
         <ul class="pull-right">
             <li><a href="${server_host}/contact">Contact</a> |</li>
