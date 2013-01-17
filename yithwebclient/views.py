@@ -69,7 +69,8 @@ def list_passwords(request):
             response = requests.get(url, headers=headers)
             request.session['allow_google_analytics'] = (
                 response.json.get('allow_google_analytics', False))
-        if request.session['allow_google_analytics']:
+        if ('allow_google_analytics' in request.session and
+                request.session['allow_google_analytics']):
             google_analytics = (
                 request.registry.settings['yith_google_analytics'])
     return {'server_host': request.registry.settings['yith_server'],
