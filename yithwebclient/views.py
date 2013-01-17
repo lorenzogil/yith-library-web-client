@@ -61,7 +61,8 @@ def logout(request):
 def list_passwords(request):
     google_analytics = None
     if 'yith_google_analytics' in request.registry.settings:
-        if not 'allow_google_analytics' in request.session:
+        if (not 'allow_google_analytics' in request.session and
+                'access_code' in request.session):
             url = "%s/user" % request.registry.settings['yith_server']
             headers = {
                 'Authorization': "Bearer %s" % request.session['access_code']}
