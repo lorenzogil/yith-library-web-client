@@ -53,11 +53,11 @@
         <ul class="pull-left">
             <li><a href="/tos">Terms of service</a> |</li>
             <li><a href="${server_host}/contact">Contact</a> |</li>
-            <li><a href="https://twitter.com/YithLibrary" target="_blank">Twitter</a></li>
+            <li><a href="#" id="creditsButton">Credits</a></li>
         </ul>
         <ul class="pull-right">
-            <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork me on GitHub</a> |</li>
-            <li><a href="#" id="creditsButton">Credits</a></li>
+            <li><a href="https://twitter.com/YithLibrary" target="_blank">Follow me on Twitter</a> |</li>
+            <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork me on GitHub</a></li>
         </ul>
     </footer>
 
