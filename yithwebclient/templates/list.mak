@@ -3,7 +3,7 @@
 <%def name="title()">Your passwords</%def>
 
 <%def name="extraheader()">
-    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
         var yithServerHost = "${server_host}";
     </script>
