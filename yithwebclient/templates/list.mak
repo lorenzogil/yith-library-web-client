@@ -3,6 +3,7 @@
 <%def name="title()">Your passwords</%def>
 
 <%def name="extraheader()">
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
         var yithServerHost = "${server_host}";
     </script>
@@ -50,7 +51,7 @@
                     <tr {{bindAttr id="_id"}}>
                         <td>
                             <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
-                            <input type="text" style="display: none;" class="input-medium" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
+                            <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
                         </td>
                         <td>{{account}}</td>
                         <td>{{#each tags}}

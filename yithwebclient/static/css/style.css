@@ -22,6 +22,10 @@ body {
     margin-bottom: 0;
 }
 
+.unambiguous {
+    font-family: 'Source Code Pro', sans-serif;
+}
+
 #settingsRight {
     margin-left: 89px;
 }
