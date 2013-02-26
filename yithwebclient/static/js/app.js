@@ -805,6 +805,7 @@ Yith.setProgressBar = function (width) {
 Yith.ajax = {};
 
 Yith.ajax.host = yithServerHost + "/passwords";
+Yith.ajax.client_id_suffix = '?client_id=' + yithClientId;
 
 Yith.ajax.getAccessToken = function (callback) {
     "use strict";
@@ -826,7 +827,7 @@ Yith.ajax.getAccessToken = function (callback) {
 
 Yith.ajax.getPasswordList = function () {
     "use strict";
-    $.ajax(Yith.ajax.host, {
+    $.ajax(Yith.ajax.host + Yith.ajax.client_id_suffix, {
         dataType: 'json',
         headers: {
             "Authorization": "Bearer " + Yith.ajax.accessCode
@@ -854,7 +855,7 @@ Yith.ajax.getPasswordList = function () {
 
 Yith.ajax.createPassword = function (password) {
     "use strict";
-    $.ajax(Yith.ajax.host, {
+    $.ajax(Yith.ajax.host + Yith.ajax.client_id_suffix, {
         type: "POST",
         dataType: "json",
         headers: {
@@ -877,7 +878,7 @@ Yith.ajax.createPassword = function (password) {
 Yith.ajax.updatePassword = function (password) {
     "use strict";
     var _id = password.get("_id");
-    $.ajax(Yith.ajax.host + '/' + _id, {
+    $.ajax(Yith.ajax.host + '/' + _id + Yith.ajax.client_id_suffix, {
         data: password.get("json"),
         dataType: "json",
         type: "PUT",
@@ -897,7 +898,7 @@ Yith.ajax.updatePassword = function (password) {
 Yith.ajax.deletePassword = function (password) {
     "use strict";
     var _id = password.get("_id");
-    $.ajax(Yith.ajax.host + '/' + _id, {
+    $.ajax(Yith.ajax.host + '/' + _id + Yith.ajax.client_id_suffix, {
         type: "DELETE",
         headers: {
             "Authorization": "Bearer " + Yith.ajax.accessCode

@@ -6,6 +6,7 @@
     <link href='//fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
         var yithServerHost = "${server_host}";
+        var yithClientId = "${client_id}";
     </script>
 </%def>
 
