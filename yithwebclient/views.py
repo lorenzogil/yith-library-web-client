@@ -74,6 +74,7 @@ def list_passwords(request):
             google_analytics = (
                 request.registry.settings['yith_google_analytics'])
     return {'server_host': request.registry.settings['yith_server'],
+            'client_id': request.registry.settings['yith_client_id'],
             'google_analytics': google_analytics, }
 
 
