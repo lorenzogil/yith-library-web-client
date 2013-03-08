@@ -51,8 +51,9 @@
 
     <footer class="container">
         <ul class="pull-left">
+            <li><a href="${server_host}/faq" target="_blank">FAQ</a> |</li>
             <li><a href="/tos">Terms of service</a> |</li>
-            <li><a href="${server_host}/contact">Contact</a> |</li>
+            <li><a href="${server_host}/contact" target="_blank">Contact</a> |</li>
             <li><a href="#" id="creditsButton">Credits</a></li>
         </ul>
         <ul class="pull-right">
