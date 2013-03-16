@@ -248,10 +248,7 @@
 </%def>
 
 <%def name="extrabody()">
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-0.9.8.1.min.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
 
     % if google_analytics is not None:
     <script type="text/javascript">
