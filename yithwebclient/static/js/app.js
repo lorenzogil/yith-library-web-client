@@ -1,5 +1,5 @@
-/*jslint vars: false, browser: true, nomen: true */
-/*global Ember, $, sjcl, yithServerHost */
+/*jslint browser: true, nomen: true */
+/*global Ember, $, sjcl, yithServerHost, yithClientId */
 
 // Yith Library web client
 // Copyright (C) 2012  Yaco Sistemas S.L.
