@@ -248,7 +248,17 @@
 </%def>
 
 <%def name="extrabody()">
+    % if debug:
+    <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.3.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.1.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
+    % else:
     <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
+    % endif
 
     % if google_analytics is not None:
     <script type="text/javascript">
