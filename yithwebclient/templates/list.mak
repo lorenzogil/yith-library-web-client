@@ -256,6 +256,7 @@
     <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/router.js')}"></script>
     % else:
     <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
     % endif
