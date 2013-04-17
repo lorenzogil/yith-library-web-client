@@ -1,8 +1,8 @@
-/*jslint browser: true */
-/*global Ember, $ */
+/*jslint browser: true, nomen: true */
+/*global Ember, $, Yith, DS, yithServerHost, yithClientId, yithAccessCode */
 
 // Yith Library web client
-// Copyright (C) 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
+// Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -20,37 +20,41 @@
 (function () {
     "use strict";
 
-    if (window.Yith === undefined) {
-        window.Yith = Ember.Application.create();
-    }
-
-    Yith.Password = Ember.Object.extend({
-        _id: null,
-        service: null,
-        account: null,
-        secret: null,
-        creation: null,
-        last_modification: null,
-        expiration: 0,
-        notes: null,
-        tags: [],
-
-        json: Ember.computed(function () {
-            "use strict";
-            var result = {};
-            if (this._id !== null) {
-                result._id = this._id;
-            }
-            result.service = this.service;
-            result.account = this.account;
-            result.secret = this.secret;
-            result.creation = this.creation;
-            result.last_modification = this.last_modification;
-            result.expiration = this.expiration;
-            result.notes = this.notes;
-            result.tags = this.tags;
-            return JSON.stringify(result);
-        }).property("_id", "service", "account", "secret", "creation",
-                    "last_modification", "expiration", "notes", "tags")
+    var adapter = DS.RESTAdapter.create({
+        url: yithServerHost
     });
-}())
+
+    adapter.reopen({
+        ajax: function (url, type, hash) {
+            // Prepare the adapter for the oAuth stuff
+            url += "?client_id=" + yithClientId;
+            hash.headers = {
+                "Authorization": "Bearer " + yithAccessCode
+            };
+            this._super(url, type, hash);
+        }
+    });
+
+    adapter.registerTransform("stringarray", {
+        serialize: function (value) { return value; },
+        deserialize: function (value) { return value; }
+    });
+
+    Yith.Store = DS.Store.extend({
+        adapter: adapter,
+        revision: 12
+    });
+
+    Yith.Password = DS.Model.extend({
+        _id: DS.attr("string"),
+        account: DS.attr("string"),
+        creation: DS.attr("number"),
+        expiration: DS.attr("number"),
+        lastModification: DS.attr("number"),
+        notes: DS.attr("string"),
+        owner: DS.attr("string"),
+        secret: DS.attr("string"),
+        service: DS.attr("string"),
+        tags: DS.attr("stringarray")
+    });
+}());

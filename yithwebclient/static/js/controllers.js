@@ -1,8 +1,9 @@
 /*jslint browser: true */
-/*global Ember, $ */
+/*global Ember, $, Yith */
 
 // Yith Library web client
-// Copyright (C) 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
+// Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
+// Copyright (C) 2012  Yaco Sistemas S.L.
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -19,10 +20,6 @@
 
 (function () {
     "use strict";
-
-    if (window.Yith === undefined) {
-        window.Yith = Ember.Application.create();
-    }
 
     Yith.PasswordController = Ember.Controller.extend({
         provisionalTags: [],
@@ -59,8 +56,69 @@
         }).property("notes")
     });
 
-    Yith.PasswordListController = Ember.ArrayController.extend({
-        // TODO
+    Yith.PasswordsController = Ember.ArrayController.extend({
+        initialized: false,
+        passwordList: [],
+        activeFilters: [],
+
+        activeFiltersLength: Ember.computed(function () {
+            return this.activeFilters.length;
+        }).property("activeFilters"),
+
+        processedPasswordList: Ember.computed(function () {
+            var filters = this.activeFilters,
+                result;
+
+            result = this.passwordList.sort(function (pass1, pass2) {
+                var a = pass1.get("service").toLowerCase(),
+                    b = pass2.get("service").toLowerCase(),
+                    result = 0;
+
+                if (a > b) {
+                    result = 1;
+                } else if (a < b) {
+                    result = -1;
+                }
+
+                return result;
+            });
+
+            if (filters.length > 0) {
+                result = result.filter(function (password, index) {
+                    var tags = password.get("tags");
+                    return filters.every(function (f, index) {
+                        return tags.some(function (t, index) {
+                            return f === t;
+                        });
+                    });
+                });
+            }
+
+            return result;
+        }).property("passwordList", "activeFilters"),
+
+        allTags: Ember.computed(function () {
+            var allTags = new Ember.Set();
+            this.passwordList.forEach(function (item) {
+                allTags.addEach(item.get("tags"));
+            });
+            allTags = allTags.toArray().sort(function (a, b) {
+                return a.localeCompare(b);
+            });
+            return allTags;
+        }).property("passwordList"),
+
+        activateFilter: function (filter) {
+            var filters = new Ember.Set(this.activeFilters);
+            filters.push(filter);
+            this.set("activeFilters", filters.toArray());
+        },
+
+        deactivateFilter: function (filter) {
+            var filters = new Ember.Set(this.activeFilters);
+            filters.remove(filter);
+            this.set("activeFilters", filters.toArray());
+        }
     });
 
     Yith.Settings = Ember.Controller.extend({
@@ -73,8 +131,6 @@
         passGenLength: 20,
 
         passGenCharset: Ember.computed(function () {
-            "use strict";
-
             // 33 start symbols
             // 48 start numbers
             // 58 start symbols again
@@ -108,4 +164,4 @@
             return charset;
         }).property("passGenUseChars", "passGenUseNumbers", "passGenUseSymbols")
     });
-}())
+}());

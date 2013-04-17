@@ -1,8 +1,8 @@
 /*jslint browser: true */
-/*global Ember, $ */
+/*global Ember, $, Yith: true, DS, yithAccessCode: true */
 
 // Yith Library web client
-// Copyright (C) 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
+// Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
@@ -20,18 +20,35 @@
 (function () {
     "use strict";
 
-    if (window.Yith === undefined) {
-        window.Yith = Ember.Application.create();
-    }
-
-    Yith.ApplicationRoute = Ember.Route.extend({
-        setupController: function (controller) {
-            // `controller` is the instance of ApplicationController
-            controller.set('title', "Hello world!");
+    // TODO this should be part of the loading process
+    $.ajax("/token", {
+        success: function (data, textStatus, XHR) {
+            window.yithAccessCode = data.access_code;
+//             Yith.setProgressBar(70);
+//             callback();
+        },
+        error: function (XHR, textStatus, errorThrown) {
+            $("#error").find(".access").removeClass("hide");
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            setTimeout(function () {
+                window.open("/", "_self");
+            }, 4000);
         }
     });
 
+    window.Yith = Ember.Application.create();
+
+    Yith.Router.map(function() {
+        this.resource('secret',  function () {
+            this.route('new');
+        });
+    });
+
     Yith.ApplicationController = Ember.Controller.extend({
+        initialized: false
+    });
+
+    Yith.IndexController = Ember.ArrayController.extend({
         appName: 'Yith Library web client'
     });
-}())
+}());

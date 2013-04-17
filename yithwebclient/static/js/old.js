@@ -20,179 +20,42 @@
 
 var Yith = Ember.Application.create();
 
+Yith.Password = Ember.Object.extend({
+    _id: null,
+    service: null,
+    account: null,
+    secret: null,
+    creation: null,
+    last_modification: null,
+    expiration: 0,
+    notes: null,
+    tags: [],
+
+    json: Ember.computed(function () {
+        "use strict";
+        var result = {};
+        if (this._id !== null) {
+            result._id = this._id;
+        }
+        result.service = this.service;
+        result.account = this.account;
+        result.secret = this.secret;
+        result.creation = this.creation;
+        result.last_modification = this.last_modification;
+        result.expiration = this.expiration;
+        result.notes = this.notes;
+        result.tags = this.tags;
+        return JSON.stringify(result);
+    }).property("_id", "service", "account", "secret", "creation",
+                "last_modification", "expiration", "notes", "tags")
+});
+
+
 // *****
 // VIEWS
 // *****
 
-Yith.ListPasswordsView = Ember.View.extend({
-    templateName: "password-list",
-    initialized: false,
-    passwordList: [],
-    activeFilters: [],
 
-    activeFiltersLength: Ember.computed(function () {
-        "use strict";
-        return this.activeFilters.length;
-    }).property("activeFilters"),
-
-    processedPasswordList: Ember.computed(function () {
-        "use strict";
-        var filters = this.activeFilters,
-            result;
-
-        result = this.passwordList.sort(function (pass1, pass2) {
-            var a = pass1.get("service").toLowerCase(),
-                b = pass2.get("service").toLowerCase(),
-                result = 0;
-
-            if (a > b) {
-                result = 1;
-            } else if (a < b) {
-                result = -1;
-            }
-
-            return result;
-        });
-
-        if (filters.length > 0) {
-            result = result.filter(function (password, index) {
-                var tags = password.get("tags");
-                return filters.every(function (f, index) {
-                    return tags.some(function (t, index) {
-                        return f === t;
-                    });
-                });
-            });
-        }
-
-        return result;
-    }).property("passwordList", "activeFilters"),
-
-    passwordListClass: Ember.computed(function () {
-        "use strict";
-        if (this.passwordList.length > 0) {
-            return "span12";
-        }
-        return "hide";
-    }).property("passwordList"),
-
-    allTags: Ember.computed(function () {
-        "use strict";
-        var allTags = new Ember.Set();
-        this.passwordList.forEach(function (item) {
-            allTags.addEach(item.get("tags"));
-        });
-        allTags = allTags.toArray().sort(function (a, b) {
-            return a.localeCompare(b);
-        });
-        return allTags;
-    }).property("passwordList"),
-
-    noPasswordsClass: Ember.computed(function () {
-        "use strict";
-        if (this.initialized && this.passwordList.length === 0) {
-            return "span6 offset3";
-        }
-        return "hide";
-    }).property("initialized", "passwordList"),
-
-    getPassword: function (evt) {
-        "use strict";
-        Yith.askMasterPassword(function (masterPassword) {
-            var secret = evt.context.get("secret"),
-                node = $(evt.target),
-                countdown = node.next().next(),
-                close = countdown.next(),
-                timer;
-            try {
-                secret = Yith.decipher(masterPassword, secret);
-            } catch (err) {
-                return false;
-            }
-            masterPassword = null;
-            node.next().val(secret).show().focus().select();
-            secret = null;
-
-            if (Yith.settings.get("disableCountdown")) {
-                close.off("click");
-                close.click(function (evt) {
-                    node.next().hide().attr("value", "");
-                    close.hide();
-                });
-                close.show();
-            } else {
-                countdown.text("5");
-                countdown.show();
-                timer = setInterval(function () {
-                    countdown.text(parseInt(countdown.text(), 10) - 1);
-                }, 1000);
-                setTimeout(function () {
-                    clearInterval(timer);
-                    node.next().hide().attr("value", "");
-                    countdown.hide();
-                }, 5500);
-            }
-            return true;
-        });
-    },
-
-    filterByTag: function (evt) {
-        "use strict";
-        var filters = new Ember.Set(this.activeFilters);
-        filters.push($(evt.target).text());
-        this.set("activeFilters", filters.toArray());
-    },
-
-    removeFilter: function (evt) {
-        "use strict";
-        var filters = new Ember.Set(this.activeFilters),
-            target = evt.target;
-        if (target.tagName === "I") {
-            target = target.parentNode;
-        }
-        filters.remove($(target).text().trim());
-        this.set("activeFilters", filters.toArray());
-    },
-
-    notes: function (evt) {
-        "use strict";
-        var node = $(evt.target),
-            _id,
-            passwordList,
-            password,
-            content;
-
-        if (node.data().popover === undefined) {
-            _id = node.parent().parent().attr("id");
-            passwordList = Yith.listPasswdView.get("passwordList");
-            password = passwordList.filter(function (item) {
-                return item.get("_id") === _id;
-            })[0];
-            content = password.get("notes");
-
-            if (content !== "" && content !== null) {
-                node.popover({
-                    placement: "left",
-                    content: content,
-                    title: password.get("service"),
-                    trigger: "hover"
-                });
-                node.popover("show");
-            }
-        }
-    },
-
-    edit: function (evt) {
-        "use strict";
-        var password = evt.context;
-        Yith.initEditModal();
-        password.set("provisionalTags", password.get("tags"));
-        Yith.editView.set("password", password);
-        Yith.editView.set("isnew", false);
-        Yith.editView.set("isExpirationDisabled", password.get("expiration") <= 0);
-        Yith.editModal.modal("show");
-    }
-});
 
 Yith.EditPasswordView = Ember.View.extend({
     templateName: "password-edit",
@@ -691,24 +554,6 @@ Yith.ajax = {};
 
 Yith.ajax.host = yithServerHost + "/passwords";
 Yith.ajax.client_id_suffix = '?client_id=' + yithClientId;
-
-Yith.ajax.getAccessToken = function (callback) {
-    "use strict";
-    $.ajax("/token", {
-        success: function (data, textStatus, XHR) {
-            Yith.ajax.accessCode = data.access_code;
-            Yith.setProgressBar(70);
-            callback();
-        },
-        error: function (XHR, textStatus, errorThrown) {
-            $("#error").modal({ keyboard: false, backdrop: "static" });
-            $("#error").find(".access").removeClass("hide");
-            setTimeout(function () {
-                window.open("/", "_self");
-            }, 4000);
-        }
-    });
-};
 
 Yith.ajax.getPasswordList = function () {
     "use strict";
