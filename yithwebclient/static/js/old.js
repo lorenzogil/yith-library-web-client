@@ -541,11 +541,6 @@ Yith.changeMasterPassword = function () {
     }
 };
 
-Yith.setProgressBar = function (width) {
-    "use strict";
-    $("#page .progress .bar").css("width", width + "%");
-};
-
 // ****
 // AJAX
 // ****
@@ -661,22 +656,4 @@ $(document).ready(function () {
     Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
 
     Yith.settingsView = Yith.SettingsView.create().appendTo("#settings");
-
-    Yith.setProgressBar(50);
-
-    // *********
-    // LOAD DATA
-    // *********
-
-    Yith.ajax.getAccessToken(Yith.ajax.getPasswordList);
-
-    // ***********
-    // SOME EVENTS
-    // ***********
-
-    Yith.creditsModal = $("#credits");
-    Yith.creditsModal.modal({ show: false });
-    $("#creditsButton").click(function () {
-        Yith.creditsModal.modal("show");
-    });
 });

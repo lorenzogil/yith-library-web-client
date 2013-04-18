@@ -19,27 +19,52 @@
         </ul>
     </div></div>
 
+    <div id="loading" class="container"><div class="row">
+        <div class="span4 offset4 progress progress-striped active">
+            <div class="bar" style="width: 10%;"></div>
+        </div>
+    </div></div>
+
     <%text>
         <script type="text/x-handlebars">
             <div id="page" class="container">
                 <div id="settings"></div>
-                {{#if initialized}}
-                    <div class="row password-list">
-                        {{outlet}}
-                    </div>
-                {{else}}
-                    <div class="row">
-                        <div class="span4 offset4 progress progress-striped active">
-                            <div class="bar" style="width: 10%;"></div>
-                        </div>
-                    </div>
-                {{/if}}
+                <div class="row password-list">
+                    {{outlet}}
+                </div>
             </div>
         </script>
 
-        <script type="text/x-handlebars" data-template-name="index">
-            <h1>{{ appName }}</h1>
-            <h2>{{ title }}</h2>
+        <script type="text/x-handlebars" data-template-name="passwords">
+            {{outlet}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="passwords/index">
+            <div {{bindAttr class="passwordListClass"}}>
+                <table class="table table-striped passwords">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Account</th>
+                        <th>Tags</th>
+                        <th>Expiration</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each content}}
+                        a
+                    {{/each}}
+                </tbody>
+                </table>
+            </div>
+            <div {{bindAttr class="noPasswordsClass"}}>
+                <div class="alert alert-info">
+                    <h3>No passwords stored yet</h3>
+                    <p>Please, add a password using the button.</p>
+                </div>
+            </div>
         </script>
     </%text>
 
@@ -73,6 +98,7 @@
     <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
     % else:
     <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
     % endif

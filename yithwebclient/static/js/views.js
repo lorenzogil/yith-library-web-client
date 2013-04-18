@@ -22,26 +22,8 @@
 (function () {
     "use strict";
 
-    if (window.Yith === undefined) {
-        window.Yith = Ember.Application.create();
-    }
-
-    Yith.PasswordListView = Ember.View.extend({
-        templateName: "password-list",
-
-        passwordListClass: Ember.computed(function () {
-            if (this.passwordList.length > 0) {
-                return "span12";
-            }
-            return "hide";
-        }).property("passwordList"),
-
-        noPasswordsClass: Ember.computed(function () {
-            if (this.initialized && this.passwordList.length === 0) {
-                return "span6 offset3";
-            }
-            return "hide";
-        }).property("initialized", "passwordList"),
+    Yith.PasswordsView = Ember.View.extend({
+//         templateName: "password-list",
 
         getPassword: function (evt) {
             Yith.askMasterPassword(function (masterPassword) {

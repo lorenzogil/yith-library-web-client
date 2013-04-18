@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global Ember, $, Yith: true, DS, yithAccessCode: true */
+/*global Ember, Yith: true, DS, $ */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -19,36 +19,59 @@
 
 (function () {
     "use strict";
-
-    // TODO this should be part of the loading process
-    $.ajax("/token", {
-        success: function (data, textStatus, XHR) {
-            window.yithAccessCode = data.access_code;
-//             Yith.setProgressBar(70);
-//             callback();
-        },
-        error: function (XHR, textStatus, errorThrown) {
-            $("#error").find(".access").removeClass("hide");
-            $("#error").modal({ keyboard: false, backdrop: "static" });
-            setTimeout(function () {
-                window.open("/", "_self");
-            }, 4000);
-        }
+    window.Yith = Ember.Application.create({
+        LOG_TRANSITIONS: true
     });
-
-    window.Yith = Ember.Application.create();
+    Yith.deferReadiness();
 
     Yith.Router.map(function() {
-        this.resource('secret',  function () {
+        this.resource('passwords', { path: '/' }, function() {
             this.route('new');
+            this.route('edit');
         });
     });
 
-    Yith.ApplicationController = Ember.Controller.extend({
-        initialized: false
+    Yith.PasswordsIndexRoute = Ember.Route.extend({
+        model: function () {
+            return Yith.Password.find();
+        },
+
+        setupController: function (controller, model) {
+            controller.set("content", model);
+        }
     });
 
-    Yith.IndexController = Ember.ArrayController.extend({
-        appName: 'Yith Library web client'
+    // INITIALIZATION CODE
+    $(document).ready(function () {
+        var creditsModal,
+            setProgressBar;
+
+        setProgressBar = function (width) {
+            $("#loading .progress .bar").css("width", width + "%");
+        };
+
+        $.ajax("/token", {
+            success: function (data, textStatus, XHR) {
+                window.yithAccessCode = data.access_code;
+                setProgressBar(100);
+                Yith.advanceReadiness();
+                $("#loading").remove();
+            },
+            error: function (XHR, textStatus, errorThrown) {
+                $("#error").find(".access").removeClass("hide");
+                $("#error").modal({ keyboard: false, backdrop: "static" });
+                setTimeout(function () {
+                    window.open("/", "_self");
+                }, 4000);
+            }
+        });
+
+        creditsModal = $("#credits");
+        creditsModal.modal({ show: false });
+        $("#creditsButton").click(function () {
+            creditsModal.modal("show");
+        });
+
+        setProgressBar(60);
     });
 }());
