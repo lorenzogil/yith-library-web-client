@@ -16,49 +16,8 @@
                 {{/each}}
             </div>
             {{/if}}
-            <table class="table table-striped passwords">
-            <thead>
-                <tr>
-                    <th>Service</th>
-                    <th>Account</th>
-                    <th>Tags</th>
-                    <th>Expiration</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each processedPasswordList}}
-                    <tr {{bindAttr id="_id"}}>
-                        <td>
-                            <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
-                            <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
-                        </td>
-                        <td>{{account}}</td>
-                        <td>{{#each tags}}
-                        <span class="label pointer" {{action "filterByTag"}}>{{this}}</span>
-                        {{/each}}</td>
-                        <td>
-                            {{#if expiration}}
-                            <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
-                            {{else}}
-                            <span class="badge">Never</span>
-                            {{/if}}
-                        </td>
-                        <td><button {{bindAttr class="notesClass"}} {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
-                        <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
-                    </tr>
-                {{/each}}
-            </tbody>
-            </table>
-        </div>
-        <div {{bindAttr class="noPasswordsClass"}}>
-            <div class="alert alert-info">
-                <h3>No passwords stored yet</h3>
-                <p>Please, add a password using the button.</p>
-            </div>
-        </div>
     </script>
+
     <script type="text/x-handlebars" data-template-name="password-edit">
         <div class="modal-header">
             <button class="close" data-dismiss="modal">&times;</button>
@@ -127,6 +86,7 @@
             {{/if}}
         </div>
     </script>
+
     <script type="text/x-handlebars" data-template-name="settings">
         <div class="row">
             <div class="span3">

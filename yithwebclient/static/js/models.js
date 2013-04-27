@@ -20,21 +20,20 @@
 (function () {
     "use strict";
 
-    var adapter = DS.RESTAdapter.create({
-        url: yithServerHost
-    });
+    var YithRESTAdapter = DS.RESTAdapter.extend({
+            url: yithServerHost,
+            ajax: function (url, type, hash) {
+                // Prepare the adapter for the oAuth stuff
+                url += "?client_id=" + yithClientId;
+                hash.headers = {
+                    "Authorization": "Bearer " + yithAccessCode
+                };
+                this._super(url, type, hash);
+            }
+        }),
+        adapter;
 
-    adapter.reopen({
-        ajax: function (url, type, hash) {
-            // Prepare the adapter for the oAuth stuff
-            url += "?client_id=" + yithClientId;
-            hash.headers = {
-                "Authorization": "Bearer " + yithAccessCode
-            };
-            this._super(url, type, hash);
-        }
-    });
-
+    adapter = YithRESTAdapter.create({});
     adapter.registerTransform("stringarray", {
         serialize: function (value) { return value; },
         deserialize: function (value) { return value; }
@@ -46,7 +45,6 @@
     });
 
     Yith.Password = DS.Model.extend({
-        _id: DS.attr("string"),
         account: DS.attr("string"),
         creation: DS.attr("number"),
         expiration: DS.attr("number"),

@@ -40,31 +40,52 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="passwords/index">
-            <div {{bindAttr class="passwordListClass"}}>
-                <table class="table table-striped passwords">
-                <thead>
-                    <tr>
-                        <th>Service</th>
-                        <th>Account</th>
-                        <th>Tags</th>
-                        <th>Expiration</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each content}}
-                        a
-                    {{/each}}
-                </tbody>
-                </table>
-            </div>
-            <div {{bindAttr class="noPasswordsClass"}}>
-                <div class="alert alert-info">
-                    <h3>No passwords stored yet</h3>
-                    <p>Please, add a password using the button.</p>
+            {{#if content}}
+                <div class="span12">
+                    <table class="table table-striped passwords">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Account</th>
+                            <th>Tags</th>
+                            <th>Expiration</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each controller}}
+                            <tr {{bindAttr id="id"}}>
+                                <td>
+                                    <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
+                                    <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
+                                </td>
+                                <td>{{account}}</td>
+                                <td>{{#each tags}}
+                                <span class="label pointer" {{action "filterByTag"}}>{{this}}</span>
+                                {{/each}}</td>
+                                <td>
+                                    {{#if expiration}}
+                                    <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
+                                    {{else}}
+                                    <span class="badge">Never</span>
+                                    {{/if}}
+                                </td>
+                                <td><button {{bindAttr class="notesClass"}} {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
+                                <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                    </table>
                 </div>
-            </div>
+            {{else}}
+                <div class="span6 offset3">
+                    <div class="alert alert-info">
+                        <h3>No passwords stored yet</h3>
+                        <p>Please, add a password using the button.</p>
+                    </div>
+                </div>
+            {{/if}}
         </script>
     </%text>
 

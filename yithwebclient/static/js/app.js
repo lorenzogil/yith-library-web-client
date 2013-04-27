@@ -22,6 +22,7 @@
     window.Yith = Ember.Application.create({
         LOG_TRANSITIONS: true
     });
+    // Wait until we have the access code
     Yith.deferReadiness();
 
     Yith.Router.map(function() {
