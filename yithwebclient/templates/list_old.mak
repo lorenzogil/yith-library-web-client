@@ -135,26 +135,3 @@
     </%text>
 
     <div class="modal fade hide" id="edit"></div>
-
-    <div class="modal hide" id="master">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">&times;</button>
-            <h3>Master Password</h3>
-        </div>
-        <div class="modal-body">
-            <form>
-                <label for="master-password" class="change-master">Old password</label>
-                <input type="password" id="master-password"/>
-                <label for="new-master-password" class="change-master">New password</label>
-                <input type="password" id="new-master-password" class="change-master" style="display: none;"/>
-            </form>
-            <div class="alert alert-error" id="master-error" style="display: none;">
-                <h4>Wrong password!</h4>
-                That's not your master password, try another.
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-            <a href="#" class="btn btn-primary" id="master-done">Accept</a>
-        </div>
-    </div>

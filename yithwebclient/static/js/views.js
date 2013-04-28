@@ -1,5 +1,5 @@
 /*jslint browser: true, nomen: true */
-/*global Ember, $, Yith */
+/*global Ember, $, Yith, sjcl */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -22,96 +22,176 @@
 (function () {
     "use strict";
 
-    Yith.PasswordsView = Ember.View.extend({
-//         templateName: "password-list",
+    Yith.ViewsUtils = {
+        askMasterPassword: function (callback, changeMaster) {
+            // Initialize the modal only once
+            if (Yith.ViewsUtils.masterModal === undefined) {
+                Yith.ViewsUtils.masterModal = $("#master");
+                Yith.ViewsUtils.masterModal.modal({
+                    show: false
+                });
 
-        getPassword: function (evt) {
-            Yith.askMasterPassword(function (masterPassword) {
-                var secret = evt.context.get("secret"),
-                    node = $(evt.target),
-                    countdown = node.next().next(),
-                    close = countdown.next(),
+                Yith.ViewsUtils.masterModal.find("#master-password").keypress(function (evt) {
+                    var code = (evt.keyCode || evt.which);
+                    Yith.ViewsUtils.masterModal.find("#master-error").hide();
+                    if (code === 13) { // The "Enter" key
+                        Yith.ViewsUtils.masterModal.find("#master-done").trigger("click");
+                    }
+                });
+
+                Yith.ViewsUtils.masterModal.on("shown", function (evt) {
+//                     var backdrops = $(".modal-backdrop"),
+//                         backdrop = $(backdrops[backdrops.length - 1]);
+//
+//                     backdrop.css("z-index", 1060);
+                    Yith.ViewsUtils.masterModal.find("#master-error").hide().end()
+                                               .find("#master-password").focus();
+                });
+
+                Yith.ViewsUtils.masterModal.on("hidden", function (evt) {
+                    Yith.ViewsUtils.masterModal.find("#master-password").attr("value", "").end()
+                                               .find("#new-master-password").attr("value", "");
+                });
+            }
+
+            Yith.ViewsUtils.masterModal.find("#master-done")
+                .off("click")
+                .on("click", function () {
+                    var success = callback(
+                        Yith.ViewsUtils.masterModal.find("#master-password").val(),
+                        Yith.ViewsUtils.masterModal.find("#new-master-password").val()
+                    );
+
+                    if (success) {
+//                         if (Yith.settings.get("rememberMaster") && $("#new-master-password").val() === "") {
+//                             Yith.settings.set("masterPassword", $("#master-password").val());
+//                             setTimeout(function () {
+//                                 Yith.settings.set("masterPassword", undefined);
+//                             }, 300000);
+//                         }
+                        Yith.ViewsUtils.masterModal.modal("hide");
+                    } else {
+                        Yith.ViewsUtils.masterModal.find("#master-error").show().end()
+                                                   .find("#master-password").focus().select();
+                    }
+                });
+
+            if (changeMaster) {
+                Yith.ViewsUtils.masterModal.find(".change-master").show();
+            } else {
+                Yith.ViewsUtils.masterModal.find(".change-master").hide();
+//                 if (Yith.settings.get("rememberMaster") && Yith.settings.get("masterPassword") !== undefined) {
+//                     callback(Yith.settings.get("masterPassword"));
+//                     return;
+//                 }
+            }
+
+            Yith.ViewsUtils.masterModal.modal("show");
+        },
+
+        decipher: function (masterPassword, cipheredSecret) {
+            var result = null;
+            if (cipheredSecret !== null) {
+                result = sjcl.decrypt(masterPassword, cipheredSecret);
+            }
+            masterPassword = null;
+            return result;
+        }
+    };
+
+    Yith.ServiceButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn btn-info"],
+
+        click: function (evt) {
+            Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
+                var $node = $(evt.target).parents("tr"),
+                    $input = $node.find("td:first-child input"),
+                    $countdown = $node.find("td:first-child span"),
+                    $close = $countdown.next(),
+                    secret = Yith.Password.find($node.attr("id")),
                     timer;
+
                 try {
-                    secret = Yith.decipher(masterPassword, secret);
+                    secret = Yith.ViewsUtils.decipher(masterPassword, secret.get("secret"));
                 } catch (err) {
                     return false;
                 }
                 masterPassword = null;
-                node.next().val(secret).show().focus().select();
+                $input.val(secret).show().focus().select();
                 secret = null;
 
-                if (Yith.settings.get("disableCountdown")) {
-                    close.off("click");
-                    close.click(function (evt) {
-                        node.next().hide().attr("value", "");
-                        close.hide();
-                    });
-                    close.show();
-                } else {
-                    countdown.text("5");
-                    countdown.show();
-                    timer = setInterval(function () {
-                        countdown.text(parseInt(countdown.text(), 10) - 1);
-                    }, 1000);
-                    setTimeout(function () {
-                        clearInterval(timer);
-                        node.next().hide().attr("value", "");
-                        countdown.hide();
-                    }, 5500);
-                }
+//                 if (Yith.settings.get("disableCountdown")) {
+//                     $close.off("click");
+//                     $close.click(function (evt) {
+//                         $input.hide().attr("value", "");
+//                         $close.hide();
+//                     });
+//                     $close.show();
+//                 } else {
+                $countdown.text("5");
+                $countdown.show();
+                timer = setInterval(function () {
+                    $countdown.text(parseInt($countdown.text(), 10) - 1);
+                }, 1000);
+                setTimeout(function () {
+                    clearInterval(timer);
+                    $input.hide().attr("value", "");
+                    $countdown.hide();
+                }, 5500);
+//                 }
                 return true;
             });
-        },
-
-        filterByTag: function (evt) {
-            // TODO controller.activateFilter($(evt.target).text());
-        },
-
-        removeFilter: function (evt) {
-            var target = evt.target;
-            if (target.tagName === "I") {
-                target = target.parentNode;
-            }
-            // TODO controller.deactivateFilter($(target).text().trim());
-        },
-
-        notes: function (evt) {
-            var node = $(evt.target),
-                _id,
-                passwordList,
-                password,
-                content;
-
-            if (node.data().popover === undefined) {
-                _id = node.parent().parent().attr("id");
-                passwordList = Yith.listPasswdView.get("passwordList");
-                password = passwordList.filter(function (item) {
-                    return item.get("_id") === _id;
-                })[0];
-                content = password.get("notes");
-
-                if (content !== "" && content !== null) {
-                    node.popover({
-                        placement: "left",
-                        content: content,
-                        title: password.get("service"),
-                        trigger: "hover"
-                    });
-                    node.popover("show");
-                }
-            }
-        },
-
-        edit: function (evt) {
-            var password = evt.context;
-            Yith.initEditModal();
-            password.set("provisionalTags", password.get("tags"));
-            Yith.editView.set("password", password);
-            Yith.editView.set("isnew", false);
-            Yith.editView.set("isExpirationDisabled", password.get("expiration") <= 0);
-            Yith.editModal.modal("show");
         }
+//
+//         filterByTag: function (evt) {
+//             // TODO controller.activateFilter($(evt.target).text());
+//         },
+//
+//         removeFilter: function (evt) {
+//             var target = evt.target;
+//             if (target.tagName === "I") {
+//                 target = target.parentNode;
+//             }
+//             // TODO controller.deactivateFilter($(target).text().trim());
+//         },
+//
+//         notes: function (evt) {
+//             var node = $(evt.target),
+//                 _id,
+//                 passwordList,
+//                 password,
+//                 content;
+//
+//             if (node.data().popover === undefined) {
+//                 _id = node.parent().parent().attr("id");
+//                 passwordList = Yith.listPasswdView.get("passwordList");
+//                 password = passwordList.filter(function (item) {
+//                     return item.get("_id") === _id;
+//                 })[0];
+//                 content = password.get("notes");
+//
+//                 if (content !== "" && content !== null) {
+//                     node.popover({
+//                         placement: "left",
+//                         content: content,
+//                         title: password.get("service"),
+//                         trigger: "hover"
+//                     });
+//                     node.popover("show");
+//                 }
+//             }
+//         },
+//
+//         edit: function (evt) {
+//             var password = evt.context;
+//             Yith.initEditModal();
+//             password.set("provisionalTags", password.get("tags"));
+//             Yith.editView.set("password", password);
+//             Yith.editView.set("isnew", false);
+//             Yith.editView.set("isExpirationDisabled", password.get("expiration") <= 0);
+//             Yith.editModal.modal("show");
+//         }
     });
 
 }());

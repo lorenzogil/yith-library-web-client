@@ -59,22 +59,6 @@
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
         // RENDER
 
-
-        // TODO esto no se recalcula con el computed
-        passwordListClass: Ember.computed(function () {
-            if (this.content.toArray().length > 0) {
-                return "span12";
-            }
-            return "hide";
-        }).observes("content"),
-
-        noPasswordsClass: Ember.computed(function () {
-            if (this.content.toArray().length <= 0) {
-                return "span6 offset3";
-            }
-            return "hide";
-        }).observes("content")
-
 //         activeFilters: [],
 //
 //         activeFiltersLength: Ember.computed(function () {
