@@ -37,7 +37,7 @@ def oauth2cb(request):
     basic_auth = (request.registry.settings['yith_client_id'],
                   request.registry.settings['yith_client_secret'])
     response = requests.post(url, data=payload, auth=basic_auth)
-    data = response.json
+    data = response.json()
     request.session['access_code'] = data['access_code']
     return HTTPFound(location=request.route_path('list'))
 
@@ -68,7 +68,7 @@ def list_passwords(request):
                 'Authorization': "Bearer %s" % request.session['access_code']}
             response = requests.get(url, headers=headers)
             request.session['allow_google_analytics'] = (
-                response.json.get('allow_google_analytics', False))
+                response.json().get('allow_google_analytics', False))
         if ('allow_google_analytics' in request.session and
                 request.session['allow_google_analytics']):
             google_analytics = (

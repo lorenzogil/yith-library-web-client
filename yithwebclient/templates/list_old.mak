@@ -88,16 +88,6 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="settings">
-        <div class="row">
-            <div class="span3">
-                <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
-            </div>
-            <div class="span9"><div class="pull-right">
-                <button class="btn" {{action "disableCountdown"}}>Disable countdown</button>
-                <button class="btn" {{action "rememberMaster"}}>Remember master password</button>
-                <button class="btn" {{action "showAdvanced"}}><i class="icon-wrench"></i> Show advanced options</button>
-            </div></div>
-        </div>
         <div {{bindAttr class="advancedClass"}}>
             <div class="span12"><div class="well">
                 <div class="row">

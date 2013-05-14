@@ -278,13 +278,6 @@ Yith.SettingsView = Ember.View.extend({
         this.set("advanced", target.hasClass("active"));
     },
 
-    disableCountdown: function (evt) {
-        "use strict";
-        var target = $(evt.target);
-        target.toggleClass("active");
-        Yith.settings.set("disableCountdown", target.hasClass("active"));
-    },
-
     rememberMaster: function (evt) {
         "use strict";
         var target = $(evt.target);

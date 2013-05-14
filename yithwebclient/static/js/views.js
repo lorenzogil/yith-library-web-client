@@ -70,6 +70,8 @@
 //                             }, 300000);
 //                         }
                         Yith.ViewsUtils.masterModal.modal("hide");
+                        Yith.ViewsUtils.masterModal.find("#master-password").val("");
+                        Yith.ViewsUtils.masterModal.find("#new-master-password").val("");
                     } else {
                         Yith.ViewsUtils.masterModal.find("#master-error").show().end()
                                                    .find("#master-password").focus().select();
@@ -99,6 +101,39 @@
         }
     };
 
+    // GLOBAL VIEWS
+
+    Yith.DisableCountdownButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn"],
+
+        click: function (evt) {
+            var target = $(evt.target);
+            target.toggleClass("active");
+            Yith.settings.set("disableCountdown", target.hasClass("active"));
+        }
+    });
+
+    Yith.RememberMasterButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn"],
+
+        click: function (evt) {
+            // TODO
+        }
+    });
+
+    Yith.ShowAdvancedButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn"],
+
+        click: function (evt) {
+            // TODO
+        }
+    });
+
+    // LIST PASSWORDS' ITEMS VIEWS
+
     Yith.ServiceButton = Ember.View.extend({
         tagName: "button",
         classNames: ["btn btn-info"],
@@ -121,25 +156,25 @@
                 $input.val(secret).show().focus().select();
                 secret = null;
 
-//                 if (Yith.settings.get("disableCountdown")) {
-//                     $close.off("click");
-//                     $close.click(function (evt) {
-//                         $input.hide().attr("value", "");
-//                         $close.hide();
-//                     });
-//                     $close.show();
-//                 } else {
-                $countdown.text("5");
-                $countdown.show();
-                timer = setInterval(function () {
-                    $countdown.text(parseInt($countdown.text(), 10) - 1);
-                }, 1000);
-                setTimeout(function () {
-                    clearInterval(timer);
-                    $input.hide().attr("value", "");
-                    $countdown.hide();
-                }, 5500);
-//                 }
+                if (Yith.settings.get("disableCountdown")) {
+                    $close.off("click");
+                    $close.click(function (evt) {
+                        $input.hide().attr("value", "");
+                        $close.hide();
+                    });
+                    $close.show();
+                } else {
+                    $countdown.text("5");
+                    $countdown.show();
+                    timer = setInterval(function () {
+                        $countdown.text(parseInt($countdown.text(), 10) - 1);
+                    }, 1000);
+                    setTimeout(function () {
+                        clearInterval(timer);
+                        $input.hide().attr("value", "");
+                        $countdown.hide();
+                    }, 5500);
+                }
                 return true;
             });
         }

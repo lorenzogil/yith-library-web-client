@@ -28,7 +28,16 @@
     <%text>
         <script type="text/x-handlebars">
             <div id="page" class="container">
-                <div id="settings"></div>
+                <div class="row">
+                    <div class="span3">
+                        <a class="btn" href="/new"><i class="icon-plus"></i> Add new password</a>
+                    </div>
+                    <div class="span9"><div class="pull-right">
+                        {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
+                        {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
+                        {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
+                    </div></div>
+                </div>
                 <div class="row password-list">
                     {{outlet}}
                 </div>
@@ -140,6 +149,7 @@
     <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
