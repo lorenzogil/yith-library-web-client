@@ -278,16 +278,6 @@ Yith.SettingsView = Ember.View.extend({
         this.set("advanced", target.hasClass("active"));
     },
 
-    rememberMaster: function (evt) {
-        "use strict";
-        var target = $(evt.target);
-        target.toggleClass("active");
-        Yith.settings.set("rememberMaster", target.hasClass("active"));
-        if (!Yith.settings.get("rememberMaster")) {
-            Yith.settings.set("masterPassword", undefined);
-        }
-    },
-
     changeMaster: function (evt) {
         "use strict";
         Yith.changeMasterPassword();

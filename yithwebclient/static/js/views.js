@@ -24,14 +24,23 @@
 
     Yith.ViewsUtils = {
         askMasterPassword: function (callback, changeMaster) {
+            var firstTime = Yith.ViewsUtils.masterModal === undefined,
+                $master,
+                $newMaster;
+
             // Initialize the modal only once
-            if (Yith.ViewsUtils.masterModal === undefined) {
+            if (firstTime) {
                 Yith.ViewsUtils.masterModal = $("#master");
                 Yith.ViewsUtils.masterModal.modal({
                     show: false
                 });
+            }
 
-                Yith.ViewsUtils.masterModal.find("#master-password").keypress(function (evt) {
+            $master = Yith.ViewsUtils.masterModal.find("#master-password");
+            $newMaster = Yith.ViewsUtils.masterModal.find("#new-master-password");
+
+            if (firstTime) {
+                $master.keypress(function (evt) {
                     var code = (evt.keyCode || evt.which);
                     Yith.ViewsUtils.masterModal.find("#master-error").hide();
                     if (code === 13) { // The "Enter" key
@@ -40,17 +49,13 @@
                 });
 
                 Yith.ViewsUtils.masterModal.on("shown", function (evt) {
-//                     var backdrops = $(".modal-backdrop"),
-//                         backdrop = $(backdrops[backdrops.length - 1]);
-//
-//                     backdrop.css("z-index", 1060);
                     Yith.ViewsUtils.masterModal.find("#master-error").hide().end()
                                                .find("#master-password").focus();
                 });
 
                 Yith.ViewsUtils.masterModal.on("hidden", function (evt) {
-                    Yith.ViewsUtils.masterModal.find("#master-password").attr("value", "").end()
-                                               .find("#new-master-password").attr("value", "");
+                    $master.val("");
+                    $newMaster.val("");
                 });
             }
 
@@ -58,20 +63,20 @@
                 .off("click")
                 .on("click", function () {
                     var success = callback(
-                        Yith.ViewsUtils.masterModal.find("#master-password").val(),
-                        Yith.ViewsUtils.masterModal.find("#new-master-password").val()
+                        $master.val(),
+                        $newMaster.val()
                     );
 
                     if (success) {
-//                         if (Yith.settings.get("rememberMaster") && $("#new-master-password").val() === "") {
-//                             Yith.settings.set("masterPassword", $("#master-password").val());
-//                             setTimeout(function () {
-//                                 Yith.settings.set("masterPassword", undefined);
-//                             }, 300000);
-//                         }
+                        if (Yith.settings.get("rememberMaster") && $master.val() !== "") {
+                            Yith.settings.set("masterPassword", $master.val());
+                            setTimeout(function () {
+                                Yith.settings.set("masterPassword", undefined);
+                            }, 300000); // 5 min
+                        }
                         Yith.ViewsUtils.masterModal.modal("hide");
-                        Yith.ViewsUtils.masterModal.find("#master-password").val("");
-                        Yith.ViewsUtils.masterModal.find("#new-master-password").val("");
+                        $master.val("");
+                        $newMaster.val("");
                     } else {
                         Yith.ViewsUtils.masterModal.find("#master-error").show().end()
                                                    .find("#master-password").focus().select();
@@ -82,10 +87,10 @@
                 Yith.ViewsUtils.masterModal.find(".change-master").show();
             } else {
                 Yith.ViewsUtils.masterModal.find(".change-master").hide();
-//                 if (Yith.settings.get("rememberMaster") && Yith.settings.get("masterPassword") !== undefined) {
-//                     callback(Yith.settings.get("masterPassword"));
-//                     return;
-//                 }
+                if (Yith.settings.get("rememberMaster") && Yith.settings.get("masterPassword") !== undefined) {
+                    callback(Yith.settings.get("masterPassword"));
+                    return;
+                }
             }
 
             Yith.ViewsUtils.masterModal.modal("show");
@@ -108,9 +113,9 @@
         classNames: ["btn"],
 
         click: function (evt) {
-            var target = $(evt.target);
-            target.toggleClass("active");
-            Yith.settings.set("disableCountdown", target.hasClass("active"));
+            var $target = $(evt.target);
+            $target.toggleClass("active");
+            Yith.settings.set("disableCountdown", $target.hasClass("active"));
         }
     });
 
@@ -119,7 +124,12 @@
         classNames: ["btn"],
 
         click: function (evt) {
-            // TODO
+            var $target = $(evt.target);
+            $target.toggleClass("active");
+            Yith.settings.set("rememberMaster", $target.hasClass("active"));
+            if (!Yith.settings.get("rememberMaster")) {
+                Yith.settings.set("masterPassword", undefined);
+            }
         }
     });
 
