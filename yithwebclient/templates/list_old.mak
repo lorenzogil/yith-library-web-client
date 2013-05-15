@@ -86,42 +86,6 @@
             {{/if}}
         </div>
     </script>
-
-    <script type="text/x-handlebars" data-template-name="settings">
-        <div {{bindAttr class="advancedClass"}}>
-            <div class="span12"><div class="well">
-                <div class="row">
-                    <div class="span5 alert alert-info nomb">
-                        <p>We use cookies to collect anonymous statistics
-                        about the usage of Yith Library to help us improve.
-                        You can choose to allow this or not:</p>
-                        <button class="btn pull-right" {{action "serverPreferencesUrl"}}>Open preferences</button>.
-                    </div>
-                    <div id="settingsRight" class="span5">
-                        <p><button class="btn" {{action "changeMaster"}}>Change master password</button></p>
-                        <b>Password generation</b>
-                        <div class="row">
-                            <div class="span3">
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" {{action "useSymbols" on="change"}}> Use symbols
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" {{action "useNumbers" on="change"}}> Use numbers
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" {{action "useChars" on="change"}}> Use characters
-                                </label>
-                            </div>
-                            <div class="span2">
-                                <label>Password length</label>
-                                <input type="number" min="0" step="1" class="span2" value="20" {{action "passLength" on="change"}} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div></div>
-        </div>
-    </script>
     </%text>
 
     <div class="modal fade hide" id="edit"></div>

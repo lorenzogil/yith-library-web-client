@@ -138,7 +138,45 @@
         classNames: ["btn"],
 
         click: function (evt) {
+            var $advanced = $("#advanced-options");
+            if ($advanced.hasClass("hide")) {
+                $advanced.removeClass("hide").addClass("row");
+            } else {
+                $advanced.removeClass("row").addClass("hide");
+            }
+        }
+    });
+
+    Yith.ServerPreferencesButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn", "pull-right"],
+
+        click: function (evt) {
+            window.open(yithServerHost + "/preferences", "_blank");
+        }
+    });
+
+    Yith.ChangeMasterButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn"],
+
+        click: function (evt) {
             // TODO
+        }
+    });
+
+    Yith.PasswordLengthInput = Ember.View.extend({
+        tagName: "input",
+        attributeBindings: ["type", "min", "step", "value"],
+        type: "number",
+        min: 0,
+        step: 1,
+        value: 20,
+        classNames: ["span2"],
+
+        change: function (evt) {
+            var $target = $(evt.target);
+            Yith.settings.set("passGenLength", parseInt($(evt.target).val(), 10));
         }
     });
 

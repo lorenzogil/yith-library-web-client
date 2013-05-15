@@ -14,7 +14,7 @@ body {
     color: red;
 }
 
-.row.advanced {
+#advanced-options {
     margin-top: 10px;
 }
 

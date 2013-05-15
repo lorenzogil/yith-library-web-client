@@ -28,24 +28,57 @@
     <%text>
         <script type="text/x-handlebars">
             <div id="page" class="container">
-                <div class="row">
-                    <div class="span3">
-                        <a class="btn" href="/new"><i class="icon-plus"></i> Add new password</a>
-                    </div>
-                    <div class="span9"><div class="pull-right">
-                        {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
-                        {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
-                        {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
-                    </div></div>
-                </div>
-                <div class="row password-list">
-                    {{outlet}}
-                </div>
+                {{outlet}}
             </div>
         </script>
 
         <script type="text/x-handlebars" data-template-name="passwords">
-            {{outlet}}
+            <div class="row">
+                <div class="span3">
+                    <a class="btn" href="/new"><i class="icon-plus"></i> Add new password</a>
+                </div>
+                <div class="span9"><div class="pull-right">
+                    {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
+                    {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
+                    {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
+                </div></div>
+            </div>
+            <div id="advanced-options" class="hide">
+                <div class="span12"><div class="well">
+                    <div class="row">
+                        <div class="span5 alert alert-info nomb">
+                            <p>We use cookies to collect anonymous statistics
+                            about the usage of Yith Library to help us improve.
+                            You can choose to allow this or not:</p>
+                            {{#view Yith.ServerPreferencesButton}}Open preferences{{/view}}
+                        </div>
+                        <div id="settingsRight" class="span5">
+                            <p>{{#view Yith.ChangeMasterButton}}Change master password{{/view}}</p>
+                            <b>Password generation</b>
+                            <div class="row">
+                                <div class="span3">
+                                    <label class="checkbox">
+                                        {{view Ember.Checkbox checkedBinding="Yith.settings.passGenUseSymbols"}} Use symbols
+                                    </label>
+                                    <label class="checkbox">
+                                        {{view Ember.Checkbox checkedBinding="Yith.settings.passGenUseNumbers"}} Use numbers
+                                    </label>
+                                    <label class="checkbox">
+                                        {{view Ember.Checkbox checkedBinding="Yith.settings.passGenUseChars"}} Use characters
+                                    </label>
+                                </div>
+                                <div class="span2">
+                                    <label>Password length</label>
+                                    {{view Yith.PasswordLengthInput}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+            <div class="row password-list">
+                {{outlet}}
+            </div>
         </script>
 
         <script type="text/x-handlebars" data-template-name="passwords/index">

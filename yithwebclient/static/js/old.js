@@ -281,31 +281,6 @@ Yith.SettingsView = Ember.View.extend({
     changeMaster: function (evt) {
         "use strict";
         Yith.changeMasterPassword();
-    },
-
-    serverPreferencesUrl: function (evt) {
-        "use strict";
-        window.open(yithServerHost + "/preferences", "_blank");
-    },
-
-    useSymbols: function (evt) {
-        "use strict";
-        Yith.settings.set("passGenUseSymbols", $(evt.target).is(":checked"));
-    },
-
-    useNumbers: function (evt) {
-        "use strict";
-        Yith.settings.set("passGenUseNumbers", $(evt.target).is(":checked"));
-    },
-
-    useChars: function (evt) {
-        "use strict";
-        Yith.settings.set("passGenUseChars", $(evt.target).is(":checked"));
-    },
-
-    passLength: function (evt) {
-        "use strict";
-        Yith.settings.set("passGenLength", parseInt($(evt.target).val(), 10));
     }
 });
 
