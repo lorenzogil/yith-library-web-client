@@ -76,12 +76,19 @@
                     </div>
                 </div></div>
             </div>
-            <div class="row password-list">
-                {{outlet}}
-            </div>
+            {{outlet}}
         </script>
 
         <script type="text/x-handlebars" data-template-name="passwords/index">
+            <div>
+                <b>All tags (filter by):</b>
+                <ul id="tag-list" class="unstyled">
+                    {{#each allTags}}
+                    <li>{{#view Yith.TagButton}}{{this}}{{/view}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="row password-list">
             {{#if content}}
                 <div class="span12">
                     <table class="table table-striped passwords">
@@ -113,7 +120,7 @@
                                     <span class="badge">Never</span>
                                     {{/if}}
                                 </td>
-                                <td><button {{bindAttr class="notesClass"}} {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
+                                <td>{{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}</td>
                                 <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
                             </tr>
                         {{/each}}
@@ -128,6 +135,7 @@
                     </div>
                 </div>
             {{/if}}
+            </div>
         </script>
     </%text>
 

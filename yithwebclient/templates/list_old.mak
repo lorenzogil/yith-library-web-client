@@ -1,7 +1,5 @@
 
-    <%text>
     <script type="text/x-handlebars" data-template-name="password-list">
-        <div {{bindAttr class="passwordListClass"}}>
             <b>All tags (filter by):</b>
             <ul id="tag-list" class="unstyled">
                 {{#each allTags}}
@@ -86,6 +84,3 @@
             {{/if}}
         </div>
     </script>
-    </%text>
-
-    <div class="modal fade hide" id="edit"></div>

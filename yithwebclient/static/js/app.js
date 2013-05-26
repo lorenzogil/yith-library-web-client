@@ -52,13 +52,13 @@
         };
 
         $.ajax("/token", {
-            success: function (data, textStatus, XHR) {
+            success: function (data) {
                 window.yithAccessCode = data.access_code;
                 setProgressBar(100);
                 Yith.advanceReadiness();
                 $("#loading").remove();
             },
-            error: function (XHR, textStatus, errorThrown) {
+            error: function () {
                 $("#error").find(".access").removeClass("hide");
                 $("#error").modal({ keyboard: false, backdrop: "static" });
                 setTimeout(function () {

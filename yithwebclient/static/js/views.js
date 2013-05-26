@@ -1,5 +1,5 @@
 /*jslint browser: true, nomen: true */
-/*global Ember, $, Yith, sjcl */
+/*global Ember, $, Yith, sjcl, yithServerHost */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -48,12 +48,12 @@
                     }
                 });
 
-                Yith.ViewsUtils.masterModal.on("shown", function (evt) {
+                Yith.ViewsUtils.masterModal.on("shown", function () {
                     Yith.ViewsUtils.masterModal.find("#master-error").hide().end()
                                                .find("#master-password").focus();
                 });
 
-                Yith.ViewsUtils.masterModal.on("hidden", function (evt) {
+                Yith.ViewsUtils.masterModal.on("hidden", function () {
                     $master.val("");
                     $newMaster.val("");
                 });
@@ -137,7 +137,7 @@
         tagName: "button",
         classNames: ["btn"],
 
-        click: function (evt) {
+        click: function () {
             var $advanced = $("#advanced-options");
             if ($advanced.hasClass("hide")) {
                 $advanced.removeClass("hide").addClass("row");
@@ -151,18 +151,18 @@
         tagName: "button",
         classNames: ["btn", "pull-right"],
 
-        click: function (evt) {
+        click: function () {
             window.open(yithServerHost + "/preferences", "_blank");
         }
     });
 
     Yith.ChangeMasterButton = Ember.View.extend({
         tagName: "button",
-        classNames: ["btn"],
+        classNames: ["btn"]
 
-        click: function (evt) {
-            // TODO
-        }
+//         click: function (evt) {
+//             // TODO
+//         }
     });
 
     Yith.PasswordLengthInput = Ember.View.extend({
@@ -175,7 +175,6 @@
         classNames: ["span2"],
 
         change: function (evt) {
-            var $target = $(evt.target);
             Yith.settings.set("passGenLength", parseInt($(evt.target).val(), 10));
         }
     });
@@ -206,7 +205,7 @@
 
                 if (Yith.settings.get("disableCountdown")) {
                     $close.off("click");
-                    $close.click(function (evt) {
+                    $close.click(function () {
                         $input.hide().attr("value", "");
                         $close.hide();
                     });
@@ -277,4 +276,33 @@
 //         }
     });
 
+    Yith.TagButton = Ember.View.extend({
+        tagName: "span",
+        classNames: ["label", "pointer"]
+
+//         click: function (evt) {
+//             // TODO
+//         }
+    });
+
+    Yith.NotesButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn", "notes"],
+
+        didInsertElement: function () {
+            var id = this.$().parents("tr").attr("id"),
+                notes = Yith.Password.find(id).get("notes");
+
+            if (notes !== "") {
+                this.$().popover({
+                    placement: "left",
+                    title: "Notes",
+                    content: notes
+                });
+            } else {
+                this.$().popover("destroy");
+                this.$().addClass("disabled");
+            }
+        }
+    });
 }());

@@ -47,18 +47,9 @@
 //             return cssClass;
 //         }).property("daysLeft"),
 //
-//         notesClass: Ember.computed(function () {
-//             var css = "btn notes";
-//             if (this.notes === null || this.notes === "") {
-//                 css += " disabled";
-//             }
-//             return css;
-//         }).property("notes")
     });
 
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
-        // RENDER
-
 //         activeFilters: [],
 //
 //         activeFiltersLength: Ember.computed(function () {
@@ -107,6 +98,9 @@
 //             });
 //             return allTags;
 //         }).property("passwordList"),
+
+        allTags: ['a', 'b', 'c']
+
 //
 //         activateFilter: function (filter) {
 //             var filters = new Ember.Set(this.activeFilters);
