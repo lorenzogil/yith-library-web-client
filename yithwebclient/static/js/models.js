@@ -40,8 +40,7 @@
     });
 
     Yith.Store = DS.Store.extend({
-        adapter: adapter,
-        revision: 12
+        adapter: adapter
     });
 
     Yith.Password = DS.Model.extend({
