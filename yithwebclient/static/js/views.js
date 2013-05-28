@@ -238,33 +238,6 @@
 //             // TODO controller.deactivateFilter($(target).text().trim());
 //         },
 //
-//         notes: function (evt) {
-//             var node = $(evt.target),
-//                 _id,
-//                 passwordList,
-//                 password,
-//                 content;
-//
-//             if (node.data().popover === undefined) {
-//                 _id = node.parent().parent().attr("id");
-//                 passwordList = Yith.listPasswdView.get("passwordList");
-//                 password = passwordList.filter(function (item) {
-//                     return item.get("_id") === _id;
-//                 })[0];
-//                 content = password.get("notes");
-//
-//                 if (content !== "" && content !== null) {
-//                     node.popover({
-//                         placement: "left",
-//                         content: content,
-//                         title: password.get("service"),
-//                         trigger: "hover"
-//                     });
-//                     node.popover("show");
-//                 }
-//             }
-//         },
-//
 //         edit: function (evt) {
 //             var password = evt.context;
 //             Yith.initEditModal();
@@ -300,7 +273,6 @@
                     content: notes
                 });
             } else {
-                this.$().popover("destroy");
                 this.$().addClass("disabled");
             }
         }

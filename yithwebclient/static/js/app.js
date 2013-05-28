@@ -35,10 +35,6 @@
     Yith.PasswordsIndexRoute = Ember.Route.extend({
         model: function () {
             return Yith.Password.find();
-        },
-
-        setupController: function (controller, model) {
-            controller.set("content", model);
         }
     });
 

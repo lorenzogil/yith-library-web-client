@@ -28,7 +28,7 @@
                 hash.headers = {
                     "Authorization": "Bearer " + yithAccessCode
                 };
-                this._super(url, type, hash);
+                return this._super(url, type, hash);
             }
         }),
         adapter;
