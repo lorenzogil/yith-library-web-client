@@ -251,11 +251,19 @@
 
     Yith.TagButton = Ember.View.extend({
         tagName: "span",
-        classNames: ["label", "pointer"]
+        classNames: ["label", "pointer"],
 
-//         click: function (evt) {
-//             // TODO
-//         }
+        click: function () {
+            var controller = Yith.__container__.lookup("controller:PasswordsIndex");
+            controller.activeFilters.push(this.$().text());
+        }
+    });
+
+    Yith.FilterButton = Yith.TagButton.extend({
+        click: function () {
+            var controller = Yith.__container__.lookup("controller:PasswordsIndex");
+//             controller.activeFilters.push(this.$().text()); TODO
+        }
     });
 
     Yith.NotesButton = Ember.View.extend({

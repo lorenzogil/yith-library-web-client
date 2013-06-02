@@ -50,58 +50,58 @@
     });
 
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
-//         activeFilters: [],
-//
-//         activeFiltersLength: Ember.computed(function () {
-//             return this.activeFilters.length;
-//         }).property("activeFilters"),
-//
-//         processedPasswordList: Ember.computed(function () {
-//             var filters = this.activeFilters,
-//                 result;
-//
-//             result = this.passwordList.sort(function (pass1, pass2) {
-//                 var a = pass1.get("service").toLowerCase(),
-//                     b = pass2.get("service").toLowerCase(),
-//                     result = 0;
-//
-//                 if (a > b) {
-//                     result = 1;
-//                 } else if (a < b) {
-//                     result = -1;
-//                 }
-//
-//                 return result;
-//             });
-//
-//             if (filters.length > 0) {
-//                 result = result.filter(function (password, index) {
-//                     var tags = password.get("tags");
-//                     return filters.every(function (f, index) {
-//                         return tags.some(function (t, index) {
-//                             return f === t;
-//                         });
-//                     });
-//                 });
-//             }
-//
-//             return result;
-//         }).property("passwordList", "activeFilters"),
-//
-//         allTags: Ember.computed(function () {
-//             var allTags = new Ember.Set();
-//             this.passwordList.forEach(function (item) {
-//                 allTags.addEach(item.get("tags"));
-//             });
-//             allTags = allTags.toArray().sort(function (a, b) {
-//                 return a.localeCompare(b);
-//             });
-//             return allTags;
-//         }).property("passwordList"),
+        activeFilters: [],
 
-        allTags: ['a', 'b', 'c']
+        activeFiltersLength: Ember.computed(function () {
+            return this.activeFilters.length;
+        }).property("activeFilters.@each"),
 
-//
+        processedPasswordList: Ember.computed(function () {
+            var filters = this.activeFilters,
+                result;
+
+            result = this.toArray().sort(function (pass1, pass2) {
+                var a = pass1.get("service").toLowerCase(),
+                    b = pass2.get("service").toLowerCase(),
+                    result = 0;
+
+                if (a > b) {
+                    result = 1;
+                } else if (a < b) {
+                    result = -1;
+                }
+
+                return result;
+            });
+
+            if (filters.length > 0) {
+                result = result.filter(function (password) {
+                    var tags = password.get("tags");
+                    return filters.every(function (f) {
+                        return tags.some(function (t) {
+                            return f === t;
+                        });
+                    });
+                });
+            }
+
+            return result;
+        }).property("@each", "activeFilters.@each"),
+
+        allTags: Ember.computed(function() {
+            var allTags = new Ember.Set();
+            this.forEach(function (password) {
+                var tags = password.get("tags");
+                if (tags !== undefined) {
+                    allTags.addEach(tags);
+                }
+            });
+            allTags = allTags.toArray().sort(function (a, b) {
+                return a.localeCompare(b);
+            });
+            return allTags;
+        }).property("@each.tags")
+
 //         activateFilter: function (filter) {
 //             var filters = new Ember.Set(this.activeFilters);
 //             filters.push(filter);

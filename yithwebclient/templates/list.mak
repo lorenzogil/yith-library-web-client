@@ -84,9 +84,17 @@
                 <b>All tags (filter by):</b>
                 <ul id="tag-list" class="unstyled">
                     {{#each allTags}}
-                    <li>{{#view Yith.TagButton}}{{this}}{{/view}}</li>
+                        <li>{{#view Yith.TagButton}}{{this}}{{/view}}</li>
                     {{/each}}
                 </ul>
+                {{#if activeFiltersLength}}
+                    <div id="filter">
+                        <b>Active filters:</b>
+                        {{#each activeFilters}}
+                            <li>{{#view Yith.FilterButton}}<i class="icon-remove" {{action "removeFilter"}}></i> {{this}}{{/view}}</li>
+                        {{/each}}
+                    </div>
+                {{/if}}
             </div>
             <div class="row password-list">
             {{#if content}}
@@ -103,7 +111,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each controller}}
+                        {{#each processedPasswordList}}
                             <tr {{bindAttr id="id"}}>
                                 <td>
                                     {{#view Yith.ServiceButton}}{{service}}{{/view}}
@@ -111,7 +119,7 @@
                                 </td>
                                 <td>{{account}}</td>
                                 <td>{{#each tags}}
-                                <span class="label pointer" {{action "filterByTag"}}>{{this}}</span>
+                                    {{#view Yith.TagButton}}{{this}}{{/view}}
                                 {{/each}}</td>
                                 <td>
                                     {{#if expiration}}
@@ -184,7 +192,7 @@
     % if debug:
     <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.4.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.5.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-0.13.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
