@@ -34,6 +34,10 @@ ul.typeahead.dropdown-menu {
     z-index: 1200;
 }
 
+#tags-and-filters {
+    margin-top: 20px;
+}
+
 #tag-list li {
     display: inline-block;
     margin-right: 10px;
@@ -49,10 +53,6 @@ ul.typeahead.dropdown-menu {
 
 #master {
     z-index: 1070;
-}
-
-.password-list {
-    margin-top: 20px;
 }
 
 .passwords td:first-child .btn.btn-info {

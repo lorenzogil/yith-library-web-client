@@ -52,10 +52,6 @@
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
         activeFilters: [],
 
-        activeFiltersLength: Ember.computed(function () {
-            return this.activeFilters.length;
-        }).property("activeFilters.@each"),
-
         processedPasswordList: Ember.computed(function () {
             var filters = this.activeFilters,
                 result;
@@ -77,6 +73,7 @@
             if (filters.length > 0) {
                 result = result.filter(function (password) {
                     var tags = password.get("tags");
+                    tags = tags || [];
                     return filters.every(function (f) {
                         return tags.some(function (t) {
                             return f === t;
@@ -100,18 +97,18 @@
                 return a.localeCompare(b);
             });
             return allTags;
-        }).property("@each.tags")
+        }).property("@each.tags"),
 
-//         activateFilter: function (filter) {
-//             var filters = new Ember.Set(this.activeFilters);
-//             filters.push(filter);
-//             this.set("activeFilters", filters.toArray());
-//         },
-//
-//         deactivateFilter: function (filter) {
-//             var filters = new Ember.Set(this.activeFilters);
-//             filters.remove(filter);
-//             this.set("activeFilters", filters.toArray());
-//         }
+        activateFilter: function (filter) {
+            var filters = new Ember.Set(this.activeFilters);
+            filters.push(filter);
+            this.set("activeFilters", filters.toArray());
+        },
+
+        deactivateFilter: function (filter) {
+            var filters = new Ember.Set(this.activeFilters);
+            filters.remove(filter);
+            this.set("activeFilters", filters.toArray());
+        }
     });
 }());

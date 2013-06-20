@@ -226,18 +226,6 @@
             });
         }
 //
-//         filterByTag: function (evt) {
-//             // TODO controller.activateFilter($(evt.target).text());
-//         },
-//
-//         removeFilter: function (evt) {
-//             var target = evt.target;
-//             if (target.tagName === "I") {
-//                 target = target.parentNode;
-//             }
-//             // TODO controller.deactivateFilter($(target).text().trim());
-//         },
-//
 //         edit: function (evt) {
 //             var password = evt.context;
 //             Yith.initEditModal();
@@ -254,15 +242,13 @@
         classNames: ["label", "pointer"],
 
         click: function () {
-            var controller = Yith.__container__.lookup("controller:PasswordsIndex");
-            controller.activeFilters.push(this.$().text());
+            this.get("controller").activateFilter(this.$().text().trim());
         }
     });
 
     Yith.FilterButton = Yith.TagButton.extend({
         click: function () {
-            var controller = Yith.__container__.lookup("controller:PasswordsIndex");
-//             controller.activeFilters.push(this.$().text()); TODO
+            this.get("controller").deactivateFilter(this.$().text().trim());
         }
     });
 
