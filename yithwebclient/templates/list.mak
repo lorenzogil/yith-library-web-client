@@ -44,7 +44,7 @@
                 </div></div>
             </div>
             <div id="advanced-options" class="hide">
-                <div class="span12"><div class="well">
+                <div class="span12"><div class="well nomb">
                     <div class="row">
                         <div class="span5 alert alert-info nomb">
                             <p>We use cookies to collect anonymous statistics
@@ -115,7 +115,7 @@
                             <tr {{bindAttr id="id"}}>
                                 <td>
                                     {{#view Yith.ServiceButton}}{{service}}{{/view}}
-                                    <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
+                                    <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" ></i>
                                 </td>
                                 <td>{{account}}</td>
                                 <td>{{#each tags}}
