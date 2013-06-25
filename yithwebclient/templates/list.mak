@@ -123,9 +123,9 @@
                                 {{/each}}</td>
                                 <td>
                                     {{#if expiration}}
-                                    <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
+                                        <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
                                     {{else}}
-                                    <span class="badge">Never</span>
+                                        <span class="badge">Never</span>
                                     {{/if}}
                                 </td>
                                 <td>{{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}</td>

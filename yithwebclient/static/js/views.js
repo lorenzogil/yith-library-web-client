@@ -242,7 +242,11 @@
         classNames: ["label", "pointer"],
 
         click: function () {
-            this.get("controller").activateFilter(this.$().text().trim());
+            var controller = this.get("controller");
+            if (!controller.activateFilter) {
+                controller = controller.get("list_controller");
+            }
+            controller.activateFilter(this.$().text().trim());
         }
     });
 

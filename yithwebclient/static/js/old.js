@@ -18,44 +18,9 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-var Yith = Ember.Application.create();
-
-Yith.Password = Ember.Object.extend({
-    _id: null,
-    service: null,
-    account: null,
-    secret: null,
-    creation: null,
-    last_modification: null,
-    expiration: 0,
-    notes: null,
-    tags: [],
-
-    json: Ember.computed(function () {
-        "use strict";
-        var result = {};
-        if (this._id !== null) {
-            result._id = this._id;
-        }
-        result.service = this.service;
-        result.account = this.account;
-        result.secret = this.secret;
-        result.creation = this.creation;
-        result.last_modification = this.last_modification;
-        result.expiration = this.expiration;
-        result.notes = this.notes;
-        result.tags = this.tags;
-        return JSON.stringify(result);
-    }).property("_id", "service", "account", "secret", "creation",
-                "last_modification", "expiration", "notes", "tags")
-});
-
-
 // *****
 // VIEWS
 // *****
-
-
 
 Yith.EditPasswordView = Ember.View.extend({
     templateName: "password-edit",
@@ -258,32 +223,6 @@ Yith.EditPasswordView = Ember.View.extend({
     }
 });
 
-Yith.SettingsView = Ember.View.extend({
-    templateName: "settings",
-    advanced: false,
-
-    advancedClass: Ember.computed(function () {
-        "use strict";
-        var cssClass = "row advanced";
-        if (!this.advanced) {
-            cssClass += " hide";
-        }
-        return cssClass;
-    }).property("advanced"),
-
-    showAdvanced: function (evt) {
-        "use strict";
-        var target = $(evt.target);
-        target.toggleClass("active");
-        this.set("advanced", target.hasClass("active"));
-    },
-
-    changeMaster: function (evt) {
-        "use strict";
-        Yith.changeMasterPassword();
-    }
-});
-
 // *********
 // UTILITIES
 // *********
@@ -387,15 +326,6 @@ Yith.updateNotesPopover = function (password) {
     }
 };
 
-Yith.cloneList = function (list) {
-    "use strict";
-    var newlist = [];
-    list.forEach(function (item) {
-        newlist.push(item);
-    });
-    return newlist;
-};
-
 Yith.cipher = function (masterPassword, secret, notEnforce) {
     "use strict";
     var passwordList = Yith.listPasswdView.get("passwordList"),
@@ -442,34 +372,6 @@ Yith.ajax = {};
 
 Yith.ajax.host = yithServerHost + "/passwords";
 Yith.ajax.client_id_suffix = '?client_id=' + yithClientId;
-
-Yith.ajax.getPasswordList = function () {
-    "use strict";
-    $.ajax(Yith.ajax.host + Yith.ajax.client_id_suffix, {
-        dataType: 'json',
-        headers: {
-            "Authorization": "Bearer " + Yith.ajax.accessCode
-        },
-        success: function (data) {
-            Yith.setProgressBar(100);
-            $("#page .progress").parent().remove();
-            data.forEach(function (item) {
-                var password = Yith.Password.create(item),
-                    passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
-                passwordList.push(password);
-                Yith.listPasswdView.set("passwordList", passwordList);
-            });
-            Yith.listPasswdView.set("initialized", true);
-        },
-        error: function (XHR, textStatus, errorThrown) {
-            $("#error").modal({ keyboard: false, backdrop: "static" });
-            $("#error").find(".access").removeClass("hide");
-            setTimeout(function () {
-                window.open("/", "_self");
-            }, 4000);
-        }
-    });
-};
 
 Yith.ajax.createPassword = function (password) {
     "use strict";
@@ -530,23 +432,3 @@ Yith.ajax.deletePassword = function (password) {
         }
     });
 };
-
-// **************
-// INITIALIZATION
-// **************
-
-Yith.settings = Yith.Settings.create();
-
-$(document).ready(function () {
-    "use strict";
-
-    // **********
-    // INIT VIEWS
-    // **********
-
-    Yith.listPasswdView = Yith.ListPasswordsView.create().appendTo("#page div.password-list");
-
-    Yith.editView = Yith.EditPasswordView.create().appendTo("#edit");
-
-    Yith.settingsView = Yith.SettingsView.create().appendTo("#settings");
-});

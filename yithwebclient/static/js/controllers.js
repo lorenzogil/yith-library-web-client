@@ -21,32 +21,29 @@
 (function () {
     "use strict";
 
-    Yith.PasswordController = Ember.Controller.extend({
-//         provisionalTags: [],
-//
-//         daysLeft: Ember.computed(function () {
-//             // One day milliseconds: 86400000
-//             var now = (new Date()).getTime(),
-//                 diff = now - this.creation,
-//                 diffDays = Math.round(diff / 86400000);
-//
-//             return this.expiration - diffDays;
-//         }).property("creation", "expiration"),
-//
-//         expirationClass: Ember.computed(function () {
-//             var cssClass = "badge ";
-//
-//             if (this.get("daysLeft") > 30) {
-//                 cssClass += "badge-success";
-//             } else if (this.get("daysLeft") > 7) {
-//                 cssClass += "badge-warning";
-//             } else {
-//                 cssClass += "badge-important";
-//             }
-//
-//             return cssClass;
-//         }).property("daysLeft"),
-//
+    Yith.PasswordController = Ember.ObjectController.extend({
+        daysLeft: Ember.computed(function () {
+            // One day milliseconds: 86400000
+            var now = (new Date()).getTime(),
+                diff = now - this.creation,
+                diffDays = Math.round(diff / 86400000);
+
+            return this.expiration - diffDays;
+        }).property("creation", "expiration"),
+
+        expirationClass: Ember.computed(function () {
+            var cssClass = "badge ";
+
+            if (this.get("daysLeft") > 30) {
+                cssClass += "badge-success";
+            } else if (this.get("daysLeft") > 7) {
+                cssClass += "badge-warning";
+            } else {
+                cssClass += "badge-important";
+            }
+
+            return cssClass;
+        }).property("daysLeft")
     });
 
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
@@ -54,6 +51,7 @@
 
         processedPasswordList: Ember.computed(function () {
             var filters = this.activeFilters,
+                self = this,
                 result;
 
             result = this.toArray().sort(function (pass1, pass2) {
@@ -82,7 +80,12 @@
                 });
             }
 
-            return result;
+            return result.map(function(password) {
+                var controller = new Yith.PasswordController();
+                controller.set("model", password);
+                controller.set("list_controller", self);
+                return controller;
+            });
         }).property("@each", "activeFilters.@each"),
 
         allTags: Ember.computed(function() {
