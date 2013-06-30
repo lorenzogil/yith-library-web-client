@@ -35,7 +35,7 @@
         <script type="text/x-handlebars" data-template-name="passwords">
             <div class="row">
                 <div class="span3">
-                    <a class="btn" href="/new"><i class="icon-plus"></i> Add new password</a>
+                    {{#linkTo passwords.new class="btn"}}<i class="icon-plus"></i> Add new password{{/linkTo}}
                 </div>
                 <div class="span9"><div class="pull-right">
                     {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
@@ -144,6 +144,84 @@
                 </div>
             {{/if}}
             </div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="passwords/new">
+            <div class="row"><div class="span12">
+                <h3>Add a new password</h3>
+                {{partial "edit-password"}}
+            </div></div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="_edit-password">
+            <form class="form-horizontal">
+
+                <div class="control-group">
+                    <label class="control-label" for="edit-service">
+                        <span class="red">*</span> Service
+                    </label>
+                    <div class="controls">
+                        <input type="text" id="edit-service" {{bindAttr value="password.service"}} {{action "checkEmptiness" on="change"}}/>
+                        <span class="help-block" style="display: none;">This field is required</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="edit-account">Account</label>
+                    <div class="controls">
+                        <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
+                    </div>
+                </div>
+
+                <div class="control-group" id="secret-group">
+                    <label class="control-label" for="edit-secret1">
+                        <span class="red">*</span> Secret</label>
+                    </label>
+                    <div class="controls form-inline">
+                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="keyUp"}} placeholder="Repeat"/>
+                        {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
+                    </div>
+                    <span class="help-block match" style="display: none;">The passwords don't match</span>
+                    <span class="help-block req" style="display: none;">This field is required</span>
+                    <div id="strength-meter">
+                        <div class="progressbar"></div><div class="verdict"></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls form-inline">
+                        <label class="checkbox">
+                            <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="isExpirationEnabled"}} {{action "enableExpiration" on="change"}}/> Expirate in
+                        </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="isExpirationDisabled"}} {{bindAttr value="password.daysLeft"}} /> days
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="edit-tags">Tags</label>
+                    <div class="controls">
+                        <div class="input-append">
+                            <input type="text" id="edit-tags" autocomplete="off" /><button class="btn" {{action "addTag"}}><i class="icon icon-plus"></i> Add</button>
+                        </div>
+                        <ul>
+                            {{#each tag in password.provisionalTags}}
+                                <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="edit-notes">Notes</label>
+                    <div class="controls">
+                        <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="password.notes"}}></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    {{#view Yith.SaveButton}}Create{{/view}}
+                    {{#linkTo passwords class="btn"}}Cancel{{/linkTo}}
+                </div>
+            </form>
         </script>
     </%text>
 

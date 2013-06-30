@@ -25,18 +25,19 @@
         daysLeft: Ember.computed(function () {
             // One day milliseconds: 86400000
             var now = (new Date()).getTime(),
-                diff = now - this.creation,
+                diff = now - this.get("creation"),
                 diffDays = Math.round(diff / 86400000);
 
-            return this.expiration - diffDays;
+            return this.get("expiration") - diffDays;
         }).property("creation", "expiration"),
 
         expirationClass: Ember.computed(function () {
-            var cssClass = "badge ";
+            var cssClass = "badge ",
+                daysLeft = this.get("daysLeft");
 
-            if (this.get("daysLeft") > 30) {
+            if (daysLeft > 30) {
                 cssClass += "badge-success";
-            } else if (this.get("daysLeft") > 7) {
+            } else if (daysLeft > 7) {
                 cssClass += "badge-warning";
             } else {
                 cssClass += "badge-important";
@@ -92,7 +93,7 @@
             var allTags = new Ember.Set();
             this.forEach(function (password) {
                 var tags = password.get("tags");
-                if (tags !== undefined) {
+                if (tags !== undefined && tags !== null) {
                     allTags.addEach(tags);
                 }
             });
@@ -114,4 +115,72 @@
             this.set("activeFilters", filters.toArray());
         }
     });
+
+    Yith.PasswordsNewController = Ember.ArrayController.extend({
+        validate: function () {
+            //TODO
+            return true;
+        },
+
+        getFormData: function ($form, creation) {
+            var enableExpiration = $form.find("#edit-enable-expiration:checked").length > 0,
+                now = new Date(),
+                data = { creation: creation };
+
+            data.service = $form.find("#edit-service").val();
+            data.account = $form.find("#edit-account").val().trim();
+            data.lastModification = now.getTime();
+            if (enableExpiration) {
+                data.expiration = now.getTime() + (parseInt($form.find("#edit-expiration").val(), 10) * 86400000);
+                data.expiration = Math.round((data.expiration - creation) / 86400000);
+            } else {
+                data.expiration = 0;
+            }
+            data.notes = $form.find("#edit-notes").val();
+            // TODO tags
+            data.secret = $form.find("#edit-secret1").val();
+
+            return data;
+        },
+
+        save: function ($form) {
+            if (this.validate()) {
+                var data = this.getFormData($form, (new Date()).getTime()),
+                    callback;
+
+                callback = function (cipheredSecret) {
+                    var password;
+
+                    delete data.secret;
+                    if (cipheredSecret) {
+                        data.secret = cipheredSecret;
+                    }
+                    password = Yith.Password.createRecord(data);
+                    password.save();
+
+                    data = null;
+                };
+
+                if (data.secret !== "") { // TODO remove these checks if overwritten in subclass
+                    Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
+                        var cipheredSecret;
+
+                        try {
+                            cipheredSecret = Yith.ViewsUtils.cipher(masterPassword, data.secret);
+                        } catch (err) {
+                            return false;
+                        }
+
+                        data.secret = null;
+                        callback(cipheredSecret);
+                        return true;
+                    });
+                } else {
+                    callback();
+                }
+            }
+        }
+    });
+
+    Yith.PasswordsEditController = Yith.PasswordsNewController.extend({});
 }());

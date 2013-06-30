@@ -199,27 +199,6 @@ Yith.EditPasswordView = Ember.View.extend({
         if (!valid) {
             throw "Not valid";
         }
-    },
-
-    generatePassword: function (evt) {
-        "use strict";
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        var password = "",
-            charset = Yith.settings.get("passGenCharset"),
-            length = Yith.settings.get("passGenLength"),
-            aux,
-            i;
-
-        for (i = 0; i < length; i += 1) {
-            aux = Math.floor(Math.random() * charset.length);
-            password += charset.charAt(aux);
-        }
-
-        $("#edit-secret2").val(password);
-        $("#edit-secret1").val(password).trigger("keyup");
-        password = null;
     }
 });
 
@@ -269,75 +248,6 @@ Yith.addNewPassword = function () {
     Yith.editView.set("isnew", true);
     Yith.editView.set("isExpirationDisabled", true);
     Yith.editModal.modal("show");
-};
-
-Yith.saveChangesInPassword = function (password, savePassword, callback) {
-    "use strict";
-    var enableExpiration = $("#edit-enable-expiration:checked").length > 0,
-        now = new Date(),
-        secret,
-        expiration;
-
-    password.set("service", $("#edit-service").val());
-    password.set("account", $("#edit-account").val());
-    password.set("last_modification", now.getTime());
-    if (enableExpiration) {
-        expiration = now.getTime() + (parseInt($("#edit-expiration").val(), 10) * 86400000);
-        expiration = Math.round((expiration - password.get("creation")) / 86400000);
-        password.set("expiration", expiration);
-    } else {
-        password.set("expiration", 0);
-    }
-    password.set("notes", $("#edit-notes").val());
-    Yith.updateNotesPopover(password); // This can't be done using ember perks
-    password.set("tags", password.get("provisionalTags"));
-
-    if (savePassword) {
-        Yith.askMasterPassword(function (masterPassword) {
-            secret = $("#edit-secret1").val();
-            try {
-                secret = Yith.cipher(masterPassword, secret);
-            } catch (err) {
-                secret = null;
-                return false;
-            }
-            password.set("secret", secret);
-            secret = null;
-            masterPassword = null;
-            callback();
-            return true;
-        });
-    } else {
-        callback();
-    }
-};
-
-Yith.updateNotesPopover = function (password) {
-    "use strict";
-    var node = $("#" + password.get("_id") + " button.notes");
-    if (node.length > 0 && node.data().popover !== undefined) {
-        if (password.get("notes") === "" || password.get("notes") === null) {
-            node.popover("disable");
-        } else {
-            node.data().popover.options.content = password.get("notes");
-            node.data().popover.options.title = password.get("service");
-            node.popover("enable");
-        }
-    }
-};
-
-Yith.cipher = function (masterPassword, secret, notEnforce) {
-    "use strict";
-    var passwordList = Yith.listPasswdView.get("passwordList"),
-        result;
-
-    if (passwordList.length > 0 && !notEnforce) {
-        // Enforce unique master password
-        sjcl.decrypt(masterPassword, passwordList[0].get("secret"));
-    }
-    result = sjcl.encrypt(masterPassword, secret);
-    masterPassword = null;
-    return result;
 };
 
 Yith.changeMasterPassword = function () {

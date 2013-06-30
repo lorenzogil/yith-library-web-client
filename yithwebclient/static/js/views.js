@@ -61,7 +61,10 @@
 
             Yith.ViewsUtils.masterModal.find("#master-done")
                 .off("click")
-                .on("click", function () {
+                .on("click", function (evt) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+
                     var success = callback(
                         $master.val(),
                         $newMaster.val()
@@ -94,6 +97,21 @@
             }
 
             Yith.ViewsUtils.masterModal.modal("show");
+        },
+
+        cipher: function (masterPassword, secret, notEnforce) {
+            var passwordList = Yith.Password.find(),
+                result;
+
+            // FIXME TODO passwordList always is empty until the server answers
+
+            if (passwordList.length > 0 && !notEnforce) {
+                // Enforce unique master password
+                sjcl.decrypt(masterPassword, passwordList[0].get("secret"));
+            }
+            result = sjcl.encrypt(masterPassword, secret);
+            masterPassword = null;
+            return result;
         },
 
         decipher: function (masterPassword, cipheredSecret) {
@@ -225,16 +243,6 @@
                 return true;
             });
         }
-//
-//         edit: function (evt) {
-//             var password = evt.context;
-//             Yith.initEditModal();
-//             password.set("provisionalTags", password.get("tags"));
-//             Yith.editView.set("password", password);
-//             Yith.editView.set("isnew", false);
-//             Yith.editView.set("isExpirationDisabled", password.get("expiration") <= 0);
-//             Yith.editModal.modal("show");
-//         }
     });
 
     Yith.TagButton = Ember.View.extend({
@@ -273,6 +281,44 @@
             } else {
                 this.$().addClass("disabled");
             }
+        }
+    });
+
+    Yith.GenerateSecretButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn"],
+
+        click: function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var password = "",
+                charset = Yith.settings.get("passGenCharset"),
+                length = Yith.settings.get("passGenLength"),
+                aux,
+                i;
+
+            for (i = 0; i < length; i += 1) {
+                aux = Math.floor(Math.random() * charset.length);
+                password += charset.charAt(aux);
+            }
+
+            this.$().parent()
+                .find("#edit-secret2").val(password).end()
+                .find("#edit-secret1").val(password).trigger("keyup");
+            password = null;
+        }
+    });
+
+    Yith.SaveButton = Ember.View.extend({
+        tagName: "button",
+        classNames: ["btn", "btn-primary"],
+
+        click: function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            this.get("controller").save(this.$().parents("form"));
         }
     });
 }());
