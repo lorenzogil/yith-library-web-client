@@ -117,9 +117,62 @@
     });
 
     Yith.PasswordsNewController = Ember.ArrayController.extend({
-        validate: function () {
+        checkerList: [],
+
+        validateSecretChecker: function ($form) {
+            var input1 = $form.find("#edit-secret1"),
+                equal = input1.val() === $form.find("#edit-secret2").val();
+
+            if (input1.val() !== "") {
+                input1.parent().parent()
+                    .removeClass("error")
+                    .find(".help-block.req").hide();
+            }
+
+            if (equal) {
+                input1.parent().parent()
+                    .removeClass("error")
+                    .find(".help-block.match").hide();
+            } else {
+                input1.parent().parent()
+                    .addClass("error")
+                    .find(".help-block.match").show();
+            }
+
+            return equal;
+        },
+
+        checkSecret: function () {
+            // TODO FIXME the event from the template desn't work, move to view?
+            var $form = $("form"),
+                context = this;
+            while (this.checkerList.length > 0) {
+                clearTimeout(this.checkerList.pop());
+            }
+            this.checkerList.push(setTimeout(function () {
+                context.validateSecretChecker($form);
+            }, 500));
+        },
+
+        validateRequired: function ($input) {
+            if ($input.val() !== "") {
+                $input.parent().removeClass("error");
+                $input.next().hide();
+                return true;
+            }
+            return false;
+        },
+
+        checkEmptiness: function (evt) {
+            this.validateRequired($("#edit-service"));
+        },
+
+        validate: function ($form) {
+            var valid = true;
+            valid = valid && this.validateSecretChecker($form);
+            valid = valid && this.validateRequired($form.find("#edit-service"));
             //TODO
-            return true;
+            return valid;
         },
 
         getFormData: function ($form, creation) {
@@ -144,7 +197,7 @@
         },
 
         save: function ($form) {
-            if (this.validate()) {
+            if (this.validate($form)) {
                 var data = this.getFormData($form, (new Date()).getTime()),
                     callback;
 

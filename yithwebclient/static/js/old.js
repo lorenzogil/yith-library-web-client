@@ -26,7 +26,6 @@ Yith.EditPasswordView = Ember.View.extend({
     templateName: "password-edit",
     password: null,
     isnew: false,
-    checkerList: [],
     isExpirationDisabled: false,
 
     isExpirationEnabled: Ember.computed(function () {
@@ -47,37 +46,6 @@ Yith.EditPasswordView = Ember.View.extend({
         "use strict";
         $("#secret-group").removeClass("hide");
         $("#modify-secret-group").addClass("hide");
-    },
-
-    validateSecretChecker: function () {
-        "use strict";
-        var equal = $("#edit-secret1").val() === $("#edit-secret2").val();
-
-        if ($("#edit-secret1").val() !== "") {
-            $("#edit-secret1").parent().parent().removeClass("error");
-            $("#edit-secret1").parent().parent().find(".help-block.req").hide();
-        }
-
-        if (equal) {
-            $("#edit-secret1").parent().parent().removeClass("error");
-            $("#edit-secret1").parent().parent().find(".help-block.match").hide();
-        } else {
-            $("#edit-secret1").parent().parent().addClass("error");
-            $("#edit-secret1").parent().parent().find(".help-block.match").show();
-        }
-
-        return equal;
-    },
-
-    validateSecret: function (evt) {
-        "use strict";
-        var context = this;
-        while (this.checkerList.length > 0) {
-            clearTimeout(this.checkerList.pop());
-        }
-        this.checkerList.push(setTimeout(function () {
-            context.validateSecretChecker();
-        }, 500));
     },
 
     enableExpiration: function (evt) {
@@ -164,14 +132,6 @@ Yith.EditPasswordView = Ember.View.extend({
         password.destroy();
         Yith.ajax.deletePassword(password);
         Yith.editModal.modal("hide");
-    },
-
-    checkEmptiness: function (evt) {
-        "use strict";
-        if ($("#edit-service").val() !== "") {
-            $("#edit-service").parent().removeClass("error");
-            $("#edit-service").next().hide();
-        }
     },
 
     validateForm: function () {

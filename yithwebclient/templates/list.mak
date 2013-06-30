@@ -161,7 +161,7 @@
                         <span class="red">*</span> Service
                     </label>
                     <div class="controls">
-                        <input type="text" id="edit-service" {{bindAttr value="password.service"}} {{action "checkEmptiness" on="change"}}/>
+                        <input type="text" id="edit-service" {{bindAttr value="service"}} {{action checkEmptiness on="change"}}/>
                         <span class="help-block" style="display: none;">This field is required</span>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                 <div class="control-group">
                     <label class="control-label" for="edit-account">Account</label>
                     <div class="controls">
-                        <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
+                        <input type="text" id="edit-account" {{bindAttr value="account"}}/>
                     </div>
                 </div>
 
@@ -178,7 +178,7 @@
                         <span class="red">*</span> Secret</label>
                     </label>
                     <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="keyUp"}} placeholder="Repeat"/>
+                        <input type="password" id="edit-secret1" class="input-small" {{action checkSecret on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action checkSecret on="keyUp"}} placeholder="Repeat"/>
                         {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
                     </div>
                     <span class="help-block match" style="display: none;">The passwords don't match</span>
@@ -271,7 +271,7 @@
     <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.4.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.5.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.6.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-0.13.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
