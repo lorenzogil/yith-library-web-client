@@ -23,16 +23,6 @@
 // *****
 
 Yith.EditPasswordView = Ember.View.extend({
-    templateName: "password-edit",
-    password: null,
-    isnew: false,
-    isExpirationDisabled: false,
-
-    isExpirationEnabled: Ember.computed(function () {
-        "use strict";
-        return !this.get("isExpirationDisabled");
-    }).property("isExpirationDisabled"),
-
     secretGroupClass: Ember.computed(function () {
         "use strict";
         var cssClass = "control-group";
@@ -46,12 +36,6 @@ Yith.EditPasswordView = Ember.View.extend({
         "use strict";
         $("#secret-group").removeClass("hide");
         $("#modify-secret-group").addClass("hide");
-    },
-
-    enableExpiration: function (evt) {
-        "use strict";
-        var enable = evt.target.checked;
-        Yith.editView.set("isExpirationDisabled", !enable);
     },
 
     addTag: function (evt) {
@@ -165,50 +149,6 @@ Yith.EditPasswordView = Ember.View.extend({
 // *********
 // UTILITIES
 // *********
-
-Yith.initEditModal = function () {
-    "use strict";
-    if (Yith.editModal === undefined) {
-        Yith.editModal = $("#edit");
-        Yith.editModal.find("#secret-group #edit-secret1").pwstrength({
-            viewports: {
-                progress: Yith.editModal.find("#strength-meter .progressbar"),
-                verdict: Yith.editModal.find("#strength-meter .verdict")
-            }
-        });
-        Yith.editModal.modal({ show: false, keyboard: false });
-        Yith.editModal.on("shown", function (evt) {
-            $("#edit-tags").val("").typeahead({
-                items: 3,
-                source: function () {
-                    return Yith.listPasswdView.get("allTags");
-                }
-            });
-            if (!Yith.editView.isnew) {
-                $("#secret-group").addClass("hide");
-                $("#modify-secret-group").removeClass("hide");
-            }
-            Yith.editModal.find("#secret-group #edit-secret1").pwstrength("forceUpdate");
-        });
-        Yith.editModal.on("hidden", function (evt) {
-            $("#edit-secret1").attr("value", "");
-            $("#edit-secret2").attr("value", "");
-        });
-    }
-};
-
-Yith.addNewPassword = function () {
-    "use strict";
-    var now = new Date();
-    Yith.initEditModal();
-    Yith.editView.set("password", Yith.Password.create({
-        creation: now.getTime(),
-        last_modification: now.getTime()
-    }));
-    Yith.editView.set("isnew", true);
-    Yith.editView.set("isExpirationDisabled", true);
-    Yith.editModal.modal("show");
-};
 
 Yith.changeMasterPassword = function () {
     "use strict";

@@ -154,7 +154,7 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="_edit-password">
-            <form class="form-horizontal">
+            <form class="form-horizontal edit-password">
 
                 <div class="control-group">
                     <label class="control-label" for="edit-service">
@@ -173,37 +173,22 @@
                     </div>
                 </div>
 
-                <div class="control-group" id="secret-group">
-                    <label class="control-label" for="edit-secret1">
-                        <span class="red">*</span> Secret</label>
-                    </label>
-                    <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{action checkSecret on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action checkSecret on="keyUp"}} placeholder="Repeat"/>
-                        {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
-                    </div>
-                    <span class="help-block match" style="display: none;">The passwords don't match</span>
-                    <span class="help-block req" style="display: none;">This field is required</span>
-                    <div id="strength-meter">
-                        <div class="progressbar"></div><div class="verdict"></div>
-                    </div>
-                </div>
+                {{view Yith.SecretGroup}}
 
                 <div class="control-group">
                     <div class="controls form-inline">
                         <label class="checkbox">
-                            <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="isExpirationEnabled"}} {{action "enableExpiration" on="change"}}/> Expirate in
-                        </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="isExpirationDisabled"}} {{bindAttr value="password.daysLeft"}} /> days
+                            <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="expirationActive"}} {{action expirationToggle on="change"}} /> Expirate in
+                        </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="expirationDisabled"}} {{bindAttr value="daysLeft"}} /> days
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="edit-tags">Tags</label>
                     <div class="controls">
-                        <div class="input-append">
-                            <input type="text" id="edit-tags" autocomplete="off" /><button class="btn" {{action "addTag"}}><i class="icon icon-plus"></i> Add</button>
-                        </div>
+                        {{view Yith.TagsInput}}
                         <ul>
-                            {{#each tag in password.provisionalTags}}
+                            {{#each tag in provisionalTags}}
                                 <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
                             {{/each}}
                         </ul>
@@ -213,7 +198,7 @@
                 <div class="control-group">
                     <label class="control-label" for="edit-notes">Notes</label>
                     <div class="controls">
-                        <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="password.notes"}}></textarea>
+                        <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="notes"}}></textarea>
                     </div>
                 </div>
 
@@ -223,6 +208,31 @@
                 </div>
             </form>
         </script>
+
+        <script type="text/x-handlebars" data-template-name="secret-group">
+            <div class="control-group" id="secret-group">
+                <label class="control-label" for="edit-secret1">
+                    <span class="red">*</span> Secret</label>
+                </label>
+                <div class="controls form-inline">
+                    <input type="password" id="edit-secret1" class="input-small edit-secret" /> <input type="password" id="edit-secret2" class="input-small edit-secret" placeholder="Repeat"/>
+                    {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
+
+                    <span class="help-block match" style="display: none;">The passwords don't match</span>
+                    <span class="help-block req" style="display: none;">This field is required</span>
+                    <div id="strength-meter">
+                        <div class="progressbar"></div><div class="verdict"></div>
+                    </div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="tags-input">
+            <div class="input-append">
+                <input type="text" autocomplete="off" /><button class="btn"><i class="icon icon-plus"></i> Add</button>
+            </div>
+        </script>
+
     </%text>
 
     <div class="modal hide" id="master">

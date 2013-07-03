@@ -284,6 +284,39 @@
         }
     });
 
+    Yith.SecretGroup = Ember.View.extend({
+        templateName: "secret-group",
+        checkerList: [],
+
+        validateSecret: function () {
+            var $form = this.$().parents("form"),
+                that = this;
+            while (this.get("checkerList").length > 0) {
+                clearTimeout(this.get("checkerList").pop());
+            }
+            this.get("checkerList").push(setTimeout(function () {
+                that.get("controller").validateSecretChecker($form);
+            }, 500));
+        },
+
+        didInsertElement: function () {
+            var that = this;
+
+            this.$().find("#edit-secret1").pwstrength({
+                viewports: {
+                    progress: this.$().find("#strength-meter .progressbar"),
+                    verdict: this.$().find("#strength-meter .verdict")
+                }
+            });
+
+            // This cannot be done with ember and handlebars' actions because
+            // an unknown reason, I couldn't make it work
+            this.$().find(".edit-secret").on("keyup", function () {
+                that.validateSecret();
+            });
+        }
+    });
+
     Yith.GenerateSecretButton = Ember.View.extend({
         tagName: "button",
         classNames: ["btn"],
@@ -307,6 +340,40 @@
                 .find("#edit-secret2").val(password).end()
                 .find("#edit-secret1").val(password).trigger("keyup");
             password = null;
+        }
+    });
+
+    Yith.TagsInput = Ember.View.extend({
+        templateName: "tags-input",
+
+        addTag: function () {
+            var tag = this.$().find("input").val();
+            this.get("controller").addProvisionalTag(tag);
+            this.$().find("input").val("");
+        },
+
+        didInsertElement: function () {
+            var that = this;
+            // FIXME TODO
+//             $("#edit-tags").val("").typeahead({
+//                 items: 3,
+//                 source: function () {
+//                     return Yith.listPasswdView.get("allTags");
+//                 }
+//             });
+//             if (!Yith.editView.isnew) {
+//                 $("#secret-group").addClass("hide");
+//                 $("#modify-secret-group").removeClass("hide");
+//             }
+//             Yith.editModal.find("#secret-group #edit-secret1").pwstrength("forceUpdate");
+
+            // This cannot be done with ember and handlebars' actions because
+            // an unknown reason, I couldn't make it work
+            this.$().find("button").on("click", function (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                that.addTag();
+            });
         }
     });
 

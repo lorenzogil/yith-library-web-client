@@ -116,8 +116,24 @@
         }
     });
 
-    Yith.PasswordsNewController = Ember.ArrayController.extend({
-        checkerList: [],
+    Yith.PasswordsNewController = Ember.ObjectController.extend({
+        isNew: true,
+        expirationActive: false,
+        provisionalTags: [],
+
+        expirationDisabled: Ember.computed(function () {
+            return !this.get("expirationActive");
+        }).property("expirationActive"),
+
+        expirationToggle: function () {
+            this.set("expirationActive", !this.get("expirationActive"));
+        },
+
+        addProvisionalTag: function (tag) {
+            var tags = new Ember.Set(this.get("provisionalTags"));
+            tags.add(tag);
+            this.set("provisionalTags", tags.toArray());
+        },
 
         validateSecretChecker: function ($form) {
             var input1 = $form.find("#edit-secret1"),
@@ -140,18 +156,6 @@
             }
 
             return equal;
-        },
-
-        checkSecret: function () {
-            // TODO FIXME the event from the template desn't work, move to view?
-            var $form = $("form"),
-                context = this;
-            while (this.checkerList.length > 0) {
-                clearTimeout(this.checkerList.pop());
-            }
-            this.checkerList.push(setTimeout(function () {
-                context.validateSecretChecker($form);
-            }, 500));
         },
 
         validateRequired: function ($input) {
@@ -190,7 +194,7 @@
                 data.expiration = 0;
             }
             data.notes = $form.find("#edit-notes").val();
-            // TODO tags
+            data.tags = this.get("provisionalTags");
             data.secret = $form.find("#edit-secret1").val();
 
             return data;

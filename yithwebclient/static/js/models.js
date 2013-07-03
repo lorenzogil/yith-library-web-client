@@ -2,7 +2,7 @@
 /*global Ember, $, Yith, DS, yithServerHost, yithClientId, yithAccessCode */
 
 // Yith Library web client
-// Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
+// Copyright (C) 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Affero General Public License as published by
