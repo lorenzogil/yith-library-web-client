@@ -129,9 +129,9 @@
             this.set("expirationActive", !this.get("expirationActive"));
         },
 
-        addProvisionalTag: function (tag) {
+        addProvisionalTags: function (newTags) {
             var tags = new Ember.Set(this.get("provisionalTags"));
-            tags.add(tag);
+            tags.addEach(newTags);
             this.set("provisionalTags", tags.toArray());
         },
 

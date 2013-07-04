@@ -347,8 +347,8 @@
         templateName: "tags-input",
 
         addTag: function () {
-            var tag = this.$().find("input").val();
-            this.get("controller").addProvisionalTag(tag);
+            var tags = this.$().find("input").val().split(',');
+            this.get("controller").addProvisionalTags(tags);
             this.$().find("input").val("");
         },
 
