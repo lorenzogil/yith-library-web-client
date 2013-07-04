@@ -66,6 +66,7 @@ ul.typeahead.dropdown-menu {
 }
 
 form.edit-password #secret-group .help-block {
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 

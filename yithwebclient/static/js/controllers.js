@@ -137,33 +137,43 @@
 
         validateSecretChecker: function ($form) {
             var input1 = $form.find("#edit-secret1"),
-                equal = input1.val() === $form.find("#edit-secret2").val();
+                equal = input1.val() === $form.find("#edit-secret2").val(),
+                notEmpty = false;
 
             if (input1.val() !== "") {
-                input1.parent().parent()
+                input1.parents("#secret-group")
                     .removeClass("error")
                     .find(".help-block.req").hide();
+                notEmpty = true;
+            } else {
+                input1.parents("#secret-group")
+                    .addClass("error")
+                    .find(".help-block.req").show();
             }
 
             if (equal) {
-                input1.parent().parent()
-                    .removeClass("error")
+                input1.parents("#secret-group")
                     .find(".help-block.match").hide();
+                if (notEmpty) {
+                    input1.parents("#secret-group").removeClass("error");
+                }
             } else {
-                input1.parent().parent()
+                input1.parents("#secret-group")
                     .addClass("error")
                     .find(".help-block.match").show();
             }
 
-            return equal;
+            return equal && notEmpty;
         },
 
         validateRequired: function ($input) {
             if ($input.val() !== "") {
-                $input.parent().removeClass("error");
+                $input.parents(".control-group").removeClass("error");
                 $input.next().hide();
                 return true;
             }
+            $input.parents(".control-group").addClass("error");
+            $input.next().show();
             return false;
         },
 
@@ -172,11 +182,8 @@
         },
 
         validate: function ($form) {
-            var valid = true;
-            valid = valid && this.validateSecretChecker($form);
-            valid = valid && this.validateRequired($form.find("#edit-service"));
-            //TODO
-            return valid;
+            var valid = this.validateSecretChecker($form);
+            return this.validateRequired($form.find("#edit-service")) && valid;
         },
 
         getFormData: function ($form, creation) {

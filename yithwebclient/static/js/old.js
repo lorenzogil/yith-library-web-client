@@ -116,33 +116,6 @@ Yith.EditPasswordView = Ember.View.extend({
         password.destroy();
         Yith.ajax.deletePassword(password);
         Yith.editModal.modal("hide");
-    },
-
-    validateForm: function () {
-        "use strict";
-        var valid = true,
-            aux;
-
-        if (this.isnew) {
-            valid = valid && this.validateSecretChecker();
-            aux = $("#edit-secret1").val() !== "";
-            if (!aux) {
-                $("#edit-secret1").parent().parent().addClass("error");
-                $("#edit-secret1").parent().parent().find(".help-block.req").show();
-            }
-            valid = valid && aux;
-        }
-
-        aux = $("#edit-service").val() !== "";
-        if (!aux) {
-            $("#edit-service").parent().addClass("error");
-            $("#edit-service").next().show();
-        }
-        valid = valid && aux;
-
-        if (!valid) {
-            throw "Not valid";
-        }
     }
 });
 
