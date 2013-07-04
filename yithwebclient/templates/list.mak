@@ -153,9 +153,20 @@
                     {{partial "edit-password"}}
                     <div class="form-actions">
                         {{#view Yith.SaveButton}}Create{{/view}}
-                        {{!-- Can't use a linkTo helper here, it doesn't
-                        recognize the route and add a wrong 'active' class --}}
-                        <a class="btn" href="#/">Cancel</a>
+                        {{#linkTo passwords class="btn" activeClass=""}}Cancel{{/linkTo}}
+                    </div>
+                </form>
+            </div></div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="passwords/edit">
+            <div class="row"><div class="span12">
+                <h3>Edit password</h3>
+                <form class="form-horizontal edit-password">
+                    {{partial "edit-password"}}
+                    <div class="form-actions">
+                        {{#view Yith.SaveButton}}Save changes{{/view}}
+                        {{#linkTo passwords class="btn"}}Cancel{{/linkTo}}
                     </div>
                 </form>
             </div></div>

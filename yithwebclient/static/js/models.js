@@ -25,6 +25,9 @@
             ajax: function (url, type, hash) {
                 // Prepare the adapter for the oAuth stuff
                 url += "?client_id=" + yithClientId;
+                if (hash === undefined) {
+                    hash = {};
+                }
                 hash.headers = {
                     "Authorization": "Bearer " + yithAccessCode
                 };

@@ -177,7 +177,7 @@
             return false;
         },
 
-        checkEmptiness: function (evt) {
+        checkEmptiness: function () {
             this.validateRequired($("#edit-service"));
         },
 
