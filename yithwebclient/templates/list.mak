@@ -149,64 +149,64 @@
         <script type="text/x-handlebars" data-template-name="passwords/new">
             <div class="row"><div class="span12">
                 <h3>Add a new password</h3>
-                {{partial "edit-password"}}
+                <form class="form-horizontal edit-password">
+                    {{partial "edit-password"}}
+                    <div class="form-actions">
+                        {{#view Yith.SaveButton}}Create{{/view}}
+                        {{!-- Can't use a linkTo helper here, it doesn't
+                        recognize the route and add a wrong 'active' class --}}
+                        <a class="btn" href="#/">Cancel</a>
+                    </div>
+                </form>
             </div></div>
         </script>
 
         <script type="text/x-handlebars" data-template-name="_edit-password">
-            <form class="form-horizontal edit-password">
-
-                <div class="control-group">
-                    <label class="control-label" for="edit-service">
-                        <span class="red">*</span> Service
-                    </label>
-                    <div class="controls">
-                        <input type="text" id="edit-service" {{bindAttr value="service"}} {{action checkEmptiness on="change"}}/>
-                        <span class="help-block" style="display: none;">This field is required</span>
-                    </div>
+            <div class="control-group">
+                <label class="control-label" for="edit-service">
+                    <span class="red">*</span> Service
+                </label>
+                <div class="controls">
+                    <input type="text" id="edit-service" {{bindAttr value="service"}} {{action checkEmptiness on="change"}}/>
+                    <span class="help-block" style="display: none;">This field is required</span>
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <label class="control-label" for="edit-account">Account</label>
-                    <div class="controls">
-                        <input type="text" id="edit-account" {{bindAttr value="account"}}/>
-                    </div>
+            <div class="control-group">
+                <label class="control-label" for="edit-account">Account</label>
+                <div class="controls">
+                    <input type="text" id="edit-account" {{bindAttr value="account"}}/>
                 </div>
+            </div>
 
-                {{view Yith.SecretGroup}}
+            {{view Yith.SecretGroup}}
 
-                <div class="control-group">
-                    <div class="controls form-inline">
-                        <label class="checkbox">
-                            <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="expirationActive"}} {{action expirationToggle on="change"}} /> Expirate in
-                        </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="expirationDisabled"}} {{bindAttr value="daysLeft"}} /> days
-                    </div>
+            <div class="control-group">
+                <div class="controls form-inline">
+                    <label class="checkbox">
+                        <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="expirationActive"}} {{action expirationToggle on="change"}} /> Expirate in
+                    </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="expirationDisabled"}} {{bindAttr value="daysLeft"}} /> days
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <label class="control-label" for="edit-tags">Tags</label>
-                    <div class="controls">
-                        {{view Yith.TagsInput}}
-                        <ul>
-                            {{#each tag in provisionalTags}}
-                                <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
-                            {{/each}}
-                        </ul>
-                    </div>
+            <div class="control-group">
+                <label class="control-label" for="edit-tags">Tags</label>
+                <div class="controls">
+                    {{view Yith.TagsInput}}
+                    <ul>
+                        {{#each tag in provisionalTags}}
+                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
+                        {{/each}}
+                    </ul>
                 </div>
+            </div>
 
-                <div class="control-group">
-                    <label class="control-label" for="edit-notes">Notes</label>
-                    <div class="controls">
-                        <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="notes"}}></textarea>
-                    </div>
+            <div class="control-group">
+                <label class="control-label" for="edit-notes">Notes</label>
+                <div class="controls">
+                    <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="notes"}}></textarea>
                 </div>
-
-                <div class="form-actions">
-                    {{#view Yith.SaveButton}}Create{{/view}}
-                    {{#linkTo passwords class="btn"}}Cancel{{/linkTo}}
-                </div>
-            </form>
+            </div>
         </script>
 
         <script type="text/x-handlebars" data-template-name="secret-group">

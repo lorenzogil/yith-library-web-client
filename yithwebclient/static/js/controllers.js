@@ -210,6 +210,7 @@
         save: function ($form) {
             if (this.validate($form)) {
                 var data = this.getFormData($form, (new Date()).getTime()),
+                    that = this,
                     callback;
 
                 callback = function (cipheredSecret) {
@@ -223,6 +224,7 @@
                     password.save();
 
                     data = null;
+                    that.transitionToRoute('/');
                 };
 
                 if (data.secret !== "") { // TODO remove these checks if overwritten in subclass

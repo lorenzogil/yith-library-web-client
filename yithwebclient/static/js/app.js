@@ -28,7 +28,7 @@
     Yith.Router.map(function() {
         this.resource('passwords', { path: '/' }, function() {
             this.route('new');
-            this.route('edit');
+            this.route(':pass_id');
         });
     });
 
