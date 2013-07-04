@@ -35,6 +35,16 @@
     Yith.PasswordsIndexRoute = Ember.Route.extend({
         model: function () {
             return Yith.Password.find();
+        },
+
+        enter: function () {
+            $(".list-options").removeClass("hide");
+        }
+    });
+
+    Yith.PasswordsNewRoute = Ember.Route.extend({
+        enter: function () {
+            $(".list-options").addClass("hide");
         }
     });
 

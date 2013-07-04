@@ -37,7 +37,7 @@
                 <div class="span3">
                     {{#linkTo passwords.new class="btn"}}<i class="icon-plus"></i> Add new password{{/linkTo}}
                 </div>
-                <div class="span9"><div class="pull-right">
+                <div class="span9"><div class="pull-right list-options">
                     {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
                     {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
                     {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
