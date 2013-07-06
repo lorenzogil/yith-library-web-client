@@ -226,21 +226,27 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="secret-group">
-            <div class="control-group" id="secret-group">
-                <label class="control-label" for="edit-secret1">
-                    <span class="red">*</span> Secret</label>
-                </label>
-                <div class="controls form-inline">
-                    <input type="password" id="edit-secret1" class="input-small edit-secret" /> <input type="password" id="edit-secret2" class="input-small edit-secret" placeholder="Repeat"/>
-                    {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
+            {{#if modifySecret}}
+                <div class="control-group" id="secret-group">
+                    <label class="control-label" for="edit-secret1">
+                        <span class="red">*</span> Secret</label>
+                    </label>
+                    <div class="controls form-inline">
+                        <input type="password" id="edit-secret1" class="input-small edit-secret" /> <input type="password" id="edit-secret2" class="input-small edit-secret" placeholder="Repeat"/>
+                        {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
 
-                    <span class="help-block match" style="display: none;">The passwords don't match</span>
-                    <span class="help-block req" style="display: none;">This field is required</span>
-                    <div id="strength-meter">
-                        <div class="progressbar"></div><div class="verdict"></div>
+                        <span class="help-block match" style="display: none;">The passwords don't match</span>
+                        <span class="help-block req" style="display: none;">This field is required</span>
+                        <div id="strength-meter">
+                            <div class="progressbar"></div><div class="verdict"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            {{else}}
+                <div class="control-group"><div class="controls">
+                    <button class="btn" id="show-secret-group">Modify password</button>
+                </div></div>
+            {{/if}}
         </script>
 
         <script type="text/x-handlebars" data-template-name="tags-input">

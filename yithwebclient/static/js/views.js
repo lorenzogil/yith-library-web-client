@@ -299,20 +299,51 @@
             }, 500));
         },
 
+        initStrengthMeter: function (insist) {
+            var input = this.$().find("#edit-secret1"),
+                that = this;
+            if (input.length > 0) {
+                input.pwstrength({
+                    viewports: {
+                        progress: this.$().find("#strength-meter .progressbar"),
+                        verdict: this.$().find("#strength-meter .verdict")
+                    }
+                });
+            } else if (insist) {
+                setTimeout(function () {
+                    that.initStrengthMeter(true);
+                }, 100);
+            }
+        },
+
+        bindValidation: function (insist) {
+            var inputs = this.$().find(".edit-secret"),
+                that = this;
+            if (inputs.length > 0) {
+                inputs.on("keyup", function () {
+                    that.validateSecret();
+                });
+            } else if (insist) {
+                setTimeout(function () {
+                    that.bindValidation(true);
+                }, 100);
+            }
+        },
+
         didInsertElement: function () {
             var that = this;
 
-            this.$().find("#edit-secret1").pwstrength({
-                viewports: {
-                    progress: this.$().find("#strength-meter .progressbar"),
-                    verdict: this.$().find("#strength-meter .verdict")
-                }
-            });
+            this.initStrengthMeter(false);
 
             // This cannot be done with ember and handlebars' actions because
             // an unknown reason, I couldn't make it work
-            this.$().find(".edit-secret").on("keyup", function () {
-                that.validateSecret();
+            this.bindValidation(false);
+            this.$().find("#show-secret-group").on("click", function (evt) {
+                evt.preventDefault();
+                evt.stopPropagation();
+                that.get("controller").set("modifySecret", true);
+                that.bindValidation(true);
+                that.initStrengthMeter(true);
             });
         }
     });

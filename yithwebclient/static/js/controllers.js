@@ -118,7 +118,7 @@
     });
 
     Yith.PasswordsNewController = Ember.ObjectController.extend({
-        isNew: true,
+        modifySecret: true,
         expirationActive: false,
         provisionalTags: [],
 
@@ -250,8 +250,10 @@
     });
 
     Yith.PasswordController = Yith.PasswordsNewController.extend({
+        modifySecret: false,
+
         deletePassword: function () {
-            alert("TODO");
+            alert("TODO"); // TODO
             return false;
         }
     });
