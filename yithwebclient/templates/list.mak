@@ -33,11 +33,11 @@
         </script>
 
         <script type="text/x-handlebars" data-template-name="passwords">
-            <div class="row">
+            <div class="row" id="top-bar">
                 <div class="span3">
                     {{#linkTo passwords.new class="btn"}}<i class="icon-plus"></i> Add new password{{/linkTo}}
                 </div>
-                <div class="span9"><div class="pull-right list-options">
+                <div class="span9"><div class="pull-right">
                     {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
                     {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
                     {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
@@ -111,25 +111,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{#each processedPasswordList}}
-                            <tr {{bindAttr id="id"}}>
+                        {{#each pass in processedPasswordList}}
+                            <tr>
                                 <td>
-                                    {{#view Yith.ServiceButton}}{{service}}{{/view}}
+                                    {{#view Yith.ServiceButton}}{{pass.service}}{{/view}}
                                     <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" ></i>
                                 </td>
-                                <td>{{account}}</td>
-                                <td>{{#each tags}}
+                                <td>{{pass.account}}</td>
+                                <td>{{#each pass.tags}}
                                     {{#view Yith.TagButton}}{{this}}{{/view}}
                                 {{/each}}</td>
                                 <td>
-                                    {{#if expiration}}
-                                        <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
+                                    {{#if pass.expiration}}
+                                        <span {{bindAttr class="expirationClass"}}>{{pass.daysLeft}}</span>
                                     {{else}}
                                         <span class="badge">Never</span>
                                     {{/if}}
                                 </td>
-                                <td>{{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}</td>
-                                <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
+                                <td>
+                                    {{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}
+                                </td>
+                                <td>
+                                    {{#linkTo password pass class="btn btn-warning"}}<i class="icon-white icon-edit"></i> Edit{{/linkTo}}
+                                </td>
                             </tr>
                         {{/each}}
                     </tbody>
@@ -159,14 +163,15 @@
             </div></div>
         </script>
 
-        <script type="text/x-handlebars" data-template-name="passwords/edit">
+        <script type="text/x-handlebars" data-template-name="password">
             <div class="row"><div class="span12">
                 <h3>Edit password</h3>
                 <form class="form-horizontal edit-password">
                     {{partial "edit-password"}}
                     <div class="form-actions">
                         {{#view Yith.SaveButton}}Save changes{{/view}}
-                        {{#linkTo passwords class="btn"}}Cancel{{/linkTo}}
+                        <button class="btn btn-danger" {{action deletePassword}}>Delete password</button>
+                        {{#linkTo passwords class="btn" activeClass=""}}Cancel{{/linkTo}}
                     </div>
                 </form>
             </div></div>

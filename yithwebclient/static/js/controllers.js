@@ -21,7 +21,7 @@
 (function () {
     "use strict";
 
-    Yith.PasswordController = Ember.ObjectController.extend({
+    Yith.PasswordInListController = Ember.ObjectController.extend({
         daysLeft: Ember.computed(function () {
             // One day milliseconds: 86400000
             var now = (new Date()).getTime(),
@@ -52,7 +52,7 @@
 
         processedPasswordList: Ember.computed(function () {
             var filters = this.activeFilters,
-                self = this,
+                that = this,
                 result;
 
             result = this.toArray().sort(function (pass1, pass2) {
@@ -82,9 +82,10 @@
             }
 
             return result.map(function(password) {
-                var controller = new Yith.PasswordController();
+                var controller = Yith.PasswordInListController.create();
                 controller.set("model", password);
-                controller.set("list_controller", self);
+                controller.set("container", that.container);
+                controller.set("list_controller", that);
                 return controller;
             });
         }).property("@each", "activeFilters.@each"),
@@ -248,5 +249,10 @@
         }
     });
 
-    Yith.PasswordsEditController = Yith.PasswordsNewController.extend({});
+    Yith.PasswordController = Yith.PasswordsNewController.extend({
+        deletePassword: function () {
+            alert("TODO");
+            return false;
+        }
+    });
 }());

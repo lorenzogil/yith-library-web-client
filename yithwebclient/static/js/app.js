@@ -28,7 +28,9 @@
     Yith.Router.map(function() {
         this.resource('passwords', { path: '/' }, function() {
             this.route('new');
-            this.route(':password_id/edit');
+            this.resource('password', {
+                path: ':password_id'
+            });
         });
     });
 
@@ -38,23 +40,23 @@
         },
 
         enter: function () {
-            $(".list-options").removeClass("hide");
+            $("#top-bar").removeClass("hide");
         }
     });
 
     Yith.PasswordsNewRoute = Ember.Route.extend({
         enter: function () {
-            $(".list-options").addClass("hide");
+            $("#top-bar").addClass("hide");
         }
     });
 
-    Yith.PasswordsEditRoute = Ember.Route.extend({
+    Yith.PasswordRoute = Ember.Route.extend({
         model: function (params) {
             return Yith.Password.find(params.password_id);
         },
 
         enter: function () {
-            $(".list-options").addClass("hide");
+            $("#top-bar").addClass("hide");
         }
     });
 
