@@ -294,8 +294,10 @@
         },
 
         deletePassword: function () {
-            this.get("model").deleteRecord();
-            that.transitionToRoute('/');
+            var model = this.get("model");
+            model.deleteRecord();
+            model.save();
+            this.transitionToRoute('/');
             return false;
         }
     });
