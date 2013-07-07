@@ -190,8 +190,11 @@
         },
 
         validate: function ($form) {
-            var valid = this.validateSecretChecker($form);
-            return this.validateRequired($form.find("#edit-service")) && valid;
+            var valid = this.validateRequired($form.find("#edit-service"));
+            if (this.get("modifySecret")) {
+                valid = this.validateSecretChecker($form) && valid;
+            }
+            return valid;
         },
 
         getFormData: function ($form, creation) {
@@ -210,7 +213,9 @@
             }
             data.notes = $form.find("#edit-notes").val();
             data.tags = this.get("provisionalTags");
-            data.secret = $form.find("#edit-secret1").val();
+            if (this.get("modifySecret")) {
+                data.secret = $form.find("#edit-secret1").val();
+            }
 
             return data;
         },
@@ -235,7 +240,7 @@
                     that.transitionToRoute('/');
                 };
 
-                if (data.secret !== "") { // TODO remove these checks if overwritten in subclass
+                if (data.secret !== undefined) {
                     Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
                         var cipheredSecret;
 
