@@ -269,7 +269,7 @@
         classNames: ["btn", "notes"],
 
         didInsertElement: function () {
-            var id = this.$().parents("tr").attr("id"),
+            var id = this.get("controller").get("id"),
                 notes = Yith.Password.find(id).get("notes");
 
             if (notes !== "") {
