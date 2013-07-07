@@ -1,4 +1,4 @@
-/*jslint browser: true */
+/*jslint browser: true, nomen: true */
 /*global Ember, $, Yith */
 
 // Yith Library web client
@@ -21,14 +21,21 @@
 (function () {
     "use strict";
 
+    Yith.ControllersUtils = {
+        oneDayInMilliseconds: 86400000,
+
+        daysLeft: function (creation, expiration) {
+            var now = (new Date()).getTime(),
+                diff = now - creation,
+                diffDays = Math.round(diff / Yith.ControllersUtils.oneDayInMilliseconds);
+
+            return expiration - diffDays;
+        }
+    };
+
     Yith.PasswordInListController = Ember.ObjectController.extend({
         daysLeft: Ember.computed(function () {
-            // One day milliseconds: 86400000
-            var now = (new Date()).getTime(),
-                diff = now - this.get("creation"),
-                diffDays = Math.round(diff / 86400000);
-
-            return this.get("expiration") - diffDays;
+            return Yith.ControllersUtils.daysLeft(this.get("creation"), this.get("expiration"));
         }).property("creation", "expiration"),
 
         expirationClass: Ember.computed(function () {
@@ -251,6 +258,28 @@
 
     Yith.PasswordController = Yith.PasswordsNewController.extend({
         modifySecret: false,
+
+        init: function () {
+            var handler;
+            this._super();
+
+            handler = function (sender) {
+                if (sender.get("expiration") > 0) {
+                    sender.set("expirationActive", true);
+                } else {
+                    sender.set("expirationActive", false);
+                }
+            };
+            this.addObserver("expiration", this, handler);
+        },
+
+        daysLeft: Ember.computed(function () {
+            var days = '';
+            if (this.get("expirationActive")) {
+                days = Yith.ControllersUtils.daysLeft(this.get("creation"), this.get("expiration"));
+            }
+            return days;
+        }).property("creation", "expiration"),
 
         deletePassword: function () {
             alert("TODO"); // TODO

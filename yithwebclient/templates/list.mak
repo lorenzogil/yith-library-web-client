@@ -254,7 +254,6 @@
                 <input type="text" autocomplete="off" /><button class="btn"><i class="icon icon-plus"></i> Add</button>
             </div>
         </script>
-
     </%text>
 
     <div class="modal hide" id="master">

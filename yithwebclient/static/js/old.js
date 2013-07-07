@@ -23,21 +23,6 @@
 // *****
 
 Yith.EditPasswordView = Ember.View.extend({
-    secretGroupClass: Ember.computed(function () {
-        "use strict";
-        var cssClass = "control-group";
-        if (!this.isnew) {
-            cssClass += " hide";
-        }
-        return cssClass;
-    }).property("isnew"),
-
-    showSecretGroup: function () {
-        "use strict";
-        $("#secret-group").removeClass("hide");
-        $("#modify-secret-group").addClass("hide");
-    },
-
     addTag: function (evt) {
         "use strict";
         evt.stopPropagation();
@@ -66,42 +51,6 @@ Yith.EditPasswordView = Ember.View.extend({
             return item !== evt.context;
         });
         password.set("provisionalTags", provisionalTags);
-    },
-
-    saveChanges: function (evt) {
-        "use strict";
-        var password = evt.view.get("password"),
-            savePassword = ($("#edit-secret1").val() !== "");
-
-        try {
-            this.validateForm();
-        } catch (err) {
-            return;
-        }
-
-        Yith.saveChangesInPassword(password, savePassword, function () {
-            Yith.ajax.updatePassword(password);
-            Yith.editModal.modal("hide");
-        });
-    },
-
-    createPassword: function (evt) {
-        "use strict";
-        var password = evt.view.get("password"),
-            passwordList = Yith.cloneList(Yith.listPasswdView.get("passwordList"));
-
-        try {
-            this.validateForm();
-        } catch (err) {
-            return;
-        }
-
-        Yith.saveChangesInPassword(password, true, function () {
-            passwordList.push(password);
-            Yith.listPasswdView.set("passwordList", passwordList);
-            Yith.ajax.createPassword(password);
-            Yith.editModal.modal("hide");
-        });
     },
 
     deletePassword: function (evt) {
