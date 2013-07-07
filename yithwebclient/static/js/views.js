@@ -116,7 +116,7 @@
 
         decipher: function (masterPassword, cipheredSecret) {
             var result = null;
-            if (cipheredSecret !== null) {
+            if (cipheredSecret !== null && cipheredSecret !== undefined) {
                 result = sjcl.decrypt(masterPassword, cipheredSecret);
             }
             masterPassword = null;
@@ -204,12 +204,14 @@
         classNames: ["btn btn-info"],
 
         click: function (evt) {
+            var that = this;
+
             Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
                 var $node = $(evt.target).parents("tr"),
                     $input = $node.find("td:first-child input"),
                     $countdown = $node.find("td:first-child span"),
                     $close = $countdown.next(),
-                    secret = Yith.Password.find($node.attr("id")),
+                    secret = Yith.Password.find(that.get("controller").get("id")),
                     timer;
 
                 try {

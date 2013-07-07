@@ -220,6 +220,11 @@
             return data;
         },
 
+        saveData: function (data) {
+            var password = Yith.Password.createRecord(data);
+            password.save();
+        },
+
         save: function ($form) {
             if (this.validate($form)) {
                 var data = this.getFormData($form, (new Date()).getTime()),
@@ -227,15 +232,11 @@
                     callback;
 
                 callback = function (cipheredSecret) {
-                    var password;
-
                     delete data.secret;
                     if (cipheredSecret) {
                         data.secret = cipheredSecret;
                     }
-                    password = Yith.Password.createRecord(data);
-                    password.save();
-
+                    that.saveData(data);
                     data = null;
                     that.transitionToRoute('/');
                 };
@@ -286,8 +287,15 @@
             return days;
         }).property("creation", "expiration"),
 
+        saveData: function (data) {
+            var model = this.get("model");
+            model.setProperties(data);
+            model.save();
+        },
+
         deletePassword: function () {
-            alert("TODO"); // TODO
+            this.get("model").deleteRecord();
+            that.transitionToRoute('/');
             return false;
         }
     });
