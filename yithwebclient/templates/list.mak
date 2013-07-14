@@ -81,12 +81,14 @@
 
         <script type="text/x-handlebars" data-template-name="passwords/index">
             <div id="tags-and-filters">
-                <b>All tags (filter by):</b>
-                <ul id="tag-list" class="unstyled">
-                    {{#each allTags}}
-                        <li>{{#view Yith.TagButton}}{{this}}{{/view}}</li>
-                    {{/each}}
-                </ul>
+                {{#if allTags.length}}
+                    <b>All tags (filter by):</b>
+                    <ul id="tag-list" class="unstyled">
+                        {{#each allTags}}
+                            <li>{{#view Yith.TagButton}}{{this}}{{/view}}</li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
                 {{#if activeFilters.length}}
                     <div id="filter">
                         <b>Active filters:</b>

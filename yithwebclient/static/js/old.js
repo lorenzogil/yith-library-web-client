@@ -101,66 +101,9 @@ Yith.changeMasterPassword = function () {
 // ****
 
 Yith.ajax = {};
-
-Yith.ajax.host = yithServerHost + "/passwords";
-Yith.ajax.client_id_suffix = '?client_id=' + yithClientId;
-
-Yith.ajax.createPassword = function (password) {
-    "use strict";
-    $.ajax(Yith.ajax.host + Yith.ajax.client_id_suffix, {
-        type: "POST",
-        dataType: "json",
-        headers: {
-            "Authorization": "Bearer " + Yith.ajax.accessCode
-        },
-        data: password.get("json"),
-        success: function (data, textStatus, XHR) {
-            password.set("_id", data._id);
-        },
         error: function (XHR, textStatus, errorThrown) {
             $("#error").modal({ keyboard: false, backdrop: "static" });
             $("#error").find(".failure").removeClass("hide");
             setTimeout(function () {
                 window.open("/list", "_self");
             }, 4000);
-        }
-    });
-};
-
-Yith.ajax.updatePassword = function (password) {
-    "use strict";
-    var _id = password.get("_id");
-    $.ajax(Yith.ajax.host + '/' + _id + Yith.ajax.client_id_suffix, {
-        data: password.get("json"),
-        dataType: "json",
-        type: "PUT",
-        headers: {
-            "Authorization": "Bearer " + Yith.ajax.accessCode
-        },
-        error: function (XHR, textStatus, errorThrown) {
-            $("#error").modal({ keyboard: false, backdrop: "static" });
-            $("#error").find(".failure").removeClass("hide");
-            setTimeout(function () {
-                window.open("/list", "_self");
-            }, 4000);
-        }
-    });
-};
-
-Yith.ajax.deletePassword = function (password) {
-    "use strict";
-    var _id = password.get("_id");
-    $.ajax(Yith.ajax.host + '/' + _id + Yith.ajax.client_id_suffix, {
-        type: "DELETE",
-        headers: {
-            "Authorization": "Bearer " + Yith.ajax.accessCode
-        },
-        error: function (XHR, textStatus, errorThrown) {
-            $("#error").modal({ keyboard: false, backdrop: "static" });
-            $("#error").find(".failure").removeClass("hide");
-            setTimeout(function () {
-                window.open("/list", "_self");
-            }, 4000);
-        }
-    });
-};
