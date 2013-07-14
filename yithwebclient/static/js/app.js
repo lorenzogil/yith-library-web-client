@@ -47,6 +47,7 @@
     Yith.PasswordsNewRoute = Ember.Route.extend({
         enter: function () {
             $("#top-bar").addClass("hide");
+            $("#advanced-options").addClass("hide");
         }
     });
 
@@ -57,6 +58,7 @@
 
         enter: function () {
             $("#top-bar").addClass("hide");
+            $("#advanced-options").addClass("hide");
         }
     });
 

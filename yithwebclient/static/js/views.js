@@ -153,8 +153,9 @@
         tagName: "button",
         classNames: ["btn"],
 
-        click: function () {
+        click: function (evt) {
             var $advanced = $("#advanced-options");
+            $(evt.target).toggleClass("active");
             if ($advanced.hasClass("hide")) {
                 $advanced.removeClass("hide").addClass("row");
             } else {
