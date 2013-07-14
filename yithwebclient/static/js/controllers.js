@@ -212,6 +212,9 @@
                 data.expiration = 0;
             }
             data.notes = $form.find("#edit-notes").val();
+            if (data.notes === "") {
+                delete data.notes;
+            }
             data.tags = this.get("provisionalTags");
             if (this.get("modifySecret")) {
                 data.secret = $form.find("#edit-secret1").val();
@@ -295,9 +298,11 @@
 
         deletePassword: function () {
             var model = this.get("model");
+            model.one("didDelete", this, function() {
+                this.transitionToRoute('/');
+            });
             model.deleteRecord();
-            model.save();
-            this.transitionToRoute('/');
+            model.get("transaction").commit();
             return false;
         }
     });

@@ -103,11 +103,9 @@
             var passwordList = Yith.Password.find(),
                 result;
 
-            // FIXME TODO passwordList always is empty until the server answers
-
-            if (passwordList.length > 0 && !notEnforce) {
+            if (passwordList.toArray().length > 0 && !notEnforce) {
                 // Enforce unique master password
-                sjcl.decrypt(masterPassword, passwordList[0].get("secret"));
+                sjcl.decrypt(masterPassword, passwordList.objectAt(0).get("secret"));
             }
             result = sjcl.encrypt(masterPassword, secret);
             masterPassword = null;
@@ -274,7 +272,7 @@
             var id = this.get("controller").get("id"),
                 notes = Yith.Password.find(id).get("notes");
 
-            if (notes !== "") {
+            if (notes) {
                 this.$().popover({
                     placement: "left",
                     title: "Notes",
