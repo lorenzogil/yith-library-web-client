@@ -103,6 +103,8 @@
             var passwordList = Yith.Password.find(),
                 result;
 
+            // If the user access directly to the adding password view, then
+            // the models aren't loaded and the enforcing doesn't work
             if (passwordList.toArray().length > 0 && !notEnforce) {
                 // Enforce unique master password
                 sjcl.decrypt(masterPassword, passwordList.objectAt(0).get("secret"));

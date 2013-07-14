@@ -45,6 +45,10 @@
     });
 
     Yith.PasswordsNewRoute = Ember.Route.extend({
+        model: function () {
+            return Yith.Password.createRecord();
+        },
+
         enter: function () {
             $("#top-bar").addClass("hide");
             $("#advanced-options").addClass("hide");

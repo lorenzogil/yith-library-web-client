@@ -128,6 +128,29 @@
         modifySecret: true,
         expirationActive: false,
         provisionalTags: [],
+        savingEvent: "didCreate",
+
+        init: function () {
+            var expirationHandler,
+                tagsHandler;
+
+            this._super();
+
+            expirationHandler = function (sender) {
+                if (sender.get("expiration") > 0) {
+                    sender.set("expirationActive", true);
+                } else {
+                    sender.set("expirationActive", false);
+                }
+            };
+            this.addObserver("expiration", this, expirationHandler);
+
+            tagsHandler = function (sender) {
+                var tags = new Ember.Set(sender.get("tags"));
+                sender.set("provisionalTags", tags.toArray());
+            };
+            this.addObserver("tags", this, tagsHandler);
+        },
 
         expirationDisabled: Ember.computed(function () {
             return !this.get("expirationActive");
@@ -224,8 +247,13 @@
         },
 
         saveData: function (data) {
-            var password = Yith.Password.createRecord(data);
-            password.save();
+            var model = this.get("model");
+            model.one(this.get("savingEvent"), this, function () {
+                this.transitionToRoute('/');
+            });
+            model.setProperties(data);
+            model.save();
+            model.get("transaction").commit();
         },
 
         save: function ($form) {
@@ -241,7 +269,7 @@
                     }
                     that.saveData(data);
                     data = null;
-                    that.transitionToRoute('/');
+                    // the saveData method will transition to the password list
                 };
 
                 if (data.secret !== undefined) {
@@ -267,20 +295,10 @@
 
     Yith.PasswordController = Yith.PasswordsNewController.extend({
         modifySecret: false,
+        savingEvent: "didUpdate",
 
-        init: function () {
-            var handler;
-            this._super();
-
-            handler = function (sender) {
-                if (sender.get("expiration") > 0) {
-                    sender.set("expirationActive", true);
-                } else {
-                    sender.set("expirationActive", false);
-                }
-            };
-            this.addObserver("expiration", this, handler);
-        },
+        // FIXME modifySecret keeps its value because the controller instance
+        // is always the same, only the model instance changes
 
         daysLeft: Ember.computed(function () {
             var days = '';
@@ -289,12 +307,6 @@
             }
             return days;
         }).property("creation", "expiration"),
-
-        saveData: function (data) {
-            var model = this.get("model");
-            model.setProperties(data);
-            model.save();
-        },
 
         deletePassword: function () {
             var model = this.get("model");
