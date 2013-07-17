@@ -162,7 +162,15 @@
 
         addProvisionalTags: function (newTags) {
             var tags = new Ember.Set(this.get("provisionalTags"));
-            tags.addEach(newTags);
+            tags.addEach(newTags.filter(function (tag) {
+                return tag.trim().length > 0;
+            }));
+            this.set("provisionalTags", tags.toArray());
+        },
+
+        removeTag: function (tag) {
+            var tags = new Ember.Set(this.get("provisionalTags"));
+            tags.remove(tag);
             this.set("provisionalTags", tags.toArray());
         },
 

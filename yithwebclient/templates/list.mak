@@ -213,7 +213,7 @@
                     {{view Yith.TagsInput}}
                     <ul>
                         {{#each tag in provisionalTags}}
-                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
+                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" tag}}></i></li>
                         {{/each}}
                     </ul>
                 </div>
