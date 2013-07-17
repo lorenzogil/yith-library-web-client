@@ -129,6 +129,7 @@
         expirationActive: false,
         provisionalTags: [],
         savingEvent: "didCreate",
+        needs: ["PasswordsIndex"],
 
         init: function () {
             var expirationHandler,
@@ -306,7 +307,7 @@
         savingEvent: "didUpdate",
 
         // FIXME modifySecret keeps its value because the controller instance
-        // is always the same, only the model instance changes
+        // is always the same, only the model instance changes TODO
 
         daysLeft: Ember.computed(function () {
             var days = '';

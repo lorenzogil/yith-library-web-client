@@ -179,9 +179,30 @@
         tagName: "button",
         classNames: ["btn"]
 
-//         click: function (evt) {
-//             // TODO
-//         }
+        click: function () {
+//             var passwordList = Yith.listPasswdView.get("passwordList");
+//             if (passwordList.length > 0) {
+//                 Yith.askMasterPassword(function (masterPassword, newMasterPassword) {
+//                     try {
+//                         Yith.decipher(masterPassword, passwordList[0].get("secret"));
+//                     } catch (err) {
+//                         return false;
+//                     }
+//                     passwordList.forEach(function (password) {
+//                         var secret = Yith.decipher(masterPassword, password.get("secret"));
+//                         secret = Yith.cipher(newMasterPassword, secret, true);
+//                         password.set("secret", secret);
+//                         secret = null;
+//                         Yith.ajax.updatePassword(password);
+//                     });
+//                     masterPassword = null;
+//                     newMasterPassword = null;
+//                     return true;
+//                 }, true);
+//             }
+            // TODO
+            return false;
+        }
     });
 
     Yith.PasswordLengthInput = Ember.View.extend({
@@ -388,18 +409,20 @@
 
         didInsertElement: function () {
             var that = this;
-            // FIXME TODO
-//             $("#edit-tags").val("").typeahead({
-//                 items: 3,
-//                 source: function () {
-//                     return Yith.listPasswdView.get("allTags");
-//                 }
-//             });
-//             if (!Yith.editView.isnew) {
-//                 $("#secret-group").addClass("hide");
-//                 $("#modify-secret-group").removeClass("hide");
-//             }
-//             Yith.editModal.find("#secret-group #edit-secret1").pwstrength("forceUpdate");
+
+            this.$().find("input").typeahead({
+                items: 3,
+                source: function () {
+                    var controller = Yith.__container__.lookup('controller:passwords.index');
+                    // TODO We shouldn't be using the __container__ API which is
+                    // private, this should use the dependency system: "needs"
+                    // var controller = that.get("controller").get("controllers.PasswordsIndex");
+                    // But for some reason it doesn't work:
+                    //   https://github.com/emberjs/ember.js/pull/2131
+                    // That should have fixed it, but the problem persists.
+                    return controller.get("allTags");
+                }
+            });
 
             // This cannot be done with ember and handlebars' actions because
             // an unknown reason, I couldn't make it work
