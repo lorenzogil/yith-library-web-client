@@ -105,6 +105,8 @@
 
             // If the user access directly to the adding password view, then
             // the models aren't loaded and the enforcing doesn't work
+            // TODO maybe accessing the PasswordsIndex controller instance
+
             if (passwordList.toArray().length > 0 && !notEnforce) {
                 // Enforce unique master password
                 sjcl.decrypt(masterPassword, passwordList.objectAt(0).get("secret"));
@@ -177,31 +179,34 @@
 
     Yith.ChangeMasterButton = Ember.View.extend({
         tagName: "button",
-        classNames: ["btn"]
+        classNames: ["btn"],
 
-        click: function () {
-//             var passwordList = Yith.listPasswdView.get("passwordList");
-//             if (passwordList.length > 0) {
-//                 Yith.askMasterPassword(function (masterPassword, newMasterPassword) {
-//                     try {
-//                         Yith.decipher(masterPassword, passwordList[0].get("secret"));
-//                     } catch (err) {
-//                         return false;
-//                     }
-//                     passwordList.forEach(function (password) {
-//                         var secret = Yith.decipher(masterPassword, password.get("secret"));
-//                         secret = Yith.cipher(newMasterPassword, secret, true);
-//                         password.set("secret", secret);
-//                         secret = null;
-//                         Yith.ajax.updatePassword(password);
-//                     });
-//                     masterPassword = null;
-//                     newMasterPassword = null;
-//                     return true;
-//                 }, true);
-//             }
-            // TODO
-            return false;
+        click: function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+            var controller = Yith.__container__.lookup('controller:passwords.index');
+            // TODO We shouldn't be using the __container__ API which is
+            // private, this should use the dependency system: "needs"
+            if (controller.objectAt(0)) {
+                Yith.ViewsUtils.askMasterPassword(function (masterPassword, newMasterPassword) {
+                    try {
+                        Yith.ViewsUtils.decipher(masterPassword, controller.objectAt(0).get("secret"));
+                    } catch (err) {
+                        return false;
+                    }
+                    controller.forEach(function (password) {
+                        var secret = Yith.ViewsUtils.decipher(masterPassword, password.get("secret"));
+                        secret = Yith.ViewsUtils.cipher(newMasterPassword, secret, true);
+                        password.set("secret", secret);
+                        secret = null;
+                        password.save();
+                    });
+                    masterPassword = null;
+                    newMasterPassword = null;
+                    return true;
+                }, true);
+            }
         }
     });
 

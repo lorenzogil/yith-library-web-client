@@ -163,8 +163,11 @@
 
         addProvisionalTags: function (newTags) {
             var tags = new Ember.Set(this.get("provisionalTags"));
+            newTags = newTags.map(function (tag) {
+                return tag.trim();
+            });
             tags.addEach(newTags.filter(function (tag) {
-                return tag.trim().length > 0;
+                return tag.length > 0;
             }));
             this.set("provisionalTags", tags.toArray());
         },
