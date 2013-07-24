@@ -25,6 +25,7 @@
     Yith.ViewsUtils = {
         askMasterPassword: function (callback, changeMaster) {
             var firstTime = Yith.ViewsUtils.masterModal === undefined,
+                keyHandler,
                 $master,
                 $newMaster;
 
@@ -40,12 +41,20 @@
             $newMaster = Yith.ViewsUtils.masterModal.find("#new-master-password");
 
             if (firstTime) {
-                $master.keypress(function (evt) {
+                keyHandler = function (evt) {
                     var code = (evt.keyCode || evt.which);
-                    Yith.ViewsUtils.masterModal.find("#master-error").hide();
                     if (code === 13) { // The "Enter" key
                         Yith.ViewsUtils.masterModal.find("#master-done").trigger("click");
                     }
+                };
+
+                $master.keypress(function (evt) {
+                    Yith.ViewsUtils.masterModal.find("#master-error").hide();
+                    keyHandler(evt);
+                });
+
+                $newMaster.keypress(function (evt) {
+                    keyHandler(evt);
                 });
 
                 Yith.ViewsUtils.masterModal.on("shown", function () {
@@ -195,15 +204,27 @@
                     } catch (err) {
                         return false;
                     }
+
+                    var store = controller.get("store"),
+                        transaction = store.transaction();
+
+                    // Send pending changes
+                    store.commit();
+
                     controller.forEach(function (password) {
                         var secret = Yith.ViewsUtils.decipher(masterPassword, password.get("secret"));
                         secret = Yith.ViewsUtils.cipher(newMasterPassword, secret, true);
                         password.set("secret", secret);
                         secret = null;
-                        password.save();
+                        // TODO Ember data throws some errors here... tried to
+                        // avoid them using transactions. Failed...
+                        transaction.add(password);
                     });
                     masterPassword = null;
                     newMasterPassword = null;
+
+                    // Send changed passwords
+                    transaction.commit();
                     return true;
                 }, true);
             }
