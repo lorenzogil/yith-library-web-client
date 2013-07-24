@@ -22,6 +22,7 @@
 
     var YithRESTAdapter = DS.RESTAdapter.extend({
             url: yithServerHost,
+
             ajax: function (url, type, hash) {
                 // Prepare the adapter for the oAuth stuff
                 url += "?client_id=" + yithClientId;
@@ -32,6 +33,15 @@
                     "Authorization": "Bearer " + yithAccessCode
                 };
                 return this._super(url, type, hash);
+            },
+
+            didError: function() {
+                $("#error").modal({ keyboard: false, backdrop: "static" });
+                $("#error").find(".failure").removeClass("hide");
+                setTimeout(function () {
+                    window.open("/list", "_self");
+                }, 4000);
+                this._super.apply(this, arguments);
             }
         }),
         adapter;
