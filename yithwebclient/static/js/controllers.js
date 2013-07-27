@@ -82,7 +82,7 @@
                     tags = tags || [];
                     return filters.every(function (f) {
                         return tags.some(function (t) {
-                            return f === t;
+                            return f.trim() === t.trim();
                         });
                     });
                 });
