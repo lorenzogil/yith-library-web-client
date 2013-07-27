@@ -63,6 +63,12 @@
         enter: function () {
             $("#top-bar").addClass("hide");
             $("#advanced-options").addClass("hide");
+            var controller = this.get("controller");
+            if (controller) {
+                // If the controller has already been created then it's
+                // possible that it is showing the modify-secret controls
+                controller.set("modifySecret", false);
+            }
         }
     });
 
