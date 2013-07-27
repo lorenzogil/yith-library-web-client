@@ -304,7 +304,7 @@
     <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.4.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.6.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.6.1.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-0.13.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
