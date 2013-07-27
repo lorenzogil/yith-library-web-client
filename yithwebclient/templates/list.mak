@@ -222,7 +222,7 @@
             <div class="control-group">
                 <label class="control-label" for="edit-notes">Notes</label>
                 <div class="controls">
-                    <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="notes"}}></textarea>
+                    {{view Ember.TextArea id="edit-notes" class="input-xlarge" rows="3" valueBinding="notes"}}
                 </div>
             </div>
         </script>
