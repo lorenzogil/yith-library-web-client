@@ -300,34 +300,34 @@
 </%def>
 
 <%def name="extrabody()">
-    % if debug:
-    <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.4.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.6.1.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-0.13.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
+    % if debug_js:
+        <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.4.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.6.1.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-0.13.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
     % else:
-    <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
     % endif
 
     % if google_analytics is not None:
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '${google_analytics}']);
-        _gaq.push(['_trackPageview']);
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', '${google_analytics}']);
+            _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
     % endif
 </%def>

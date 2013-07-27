@@ -76,7 +76,7 @@ def list_passwords(request):
     return {'server_host': request.registry.settings['yith_server'],
             'client_id': request.registry.settings['yith_client_id'],
             'google_analytics': google_analytics,
-            'debug': request.registry.settings['yith_debug'] }
+            'debug_js': request.registry.settings['yith_debug'] }
 
 
 @view_config(route_name='tos', renderer='tos.mak')

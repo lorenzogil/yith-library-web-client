@@ -19,9 +19,7 @@
 
 (function () {
     "use strict";
-    window.Yith = Ember.Application.create({
-        LOG_TRANSITIONS: true
-    });
+    window.Yith = Ember.Application.create({});
     // Wait until we have the access code
     Yith.deferReadiness();
 
