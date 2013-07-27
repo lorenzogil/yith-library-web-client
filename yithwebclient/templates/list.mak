@@ -297,6 +297,19 @@
             </div>
         </div>
     </div>
+
+    <div class="modal hide" id="confirm-modal">
+        <div class="modal-header">
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="modal-body">
+            <p>This action can not be reversed. If you delete the password, you won't be able to restore it.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <a href="#" class="btn btn-danger" id="confirm-delete">Delete</a>
+        </div>
+    </div>
 </%def>
 
 <%def name="extrabody()">

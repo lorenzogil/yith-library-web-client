@@ -318,12 +318,27 @@
         }).property("creation", "expiration"),
 
         deletePassword: function () {
-            var model = this.get("model");
-            model.one("didDelete", this, function() {
-                this.transitionToRoute('/');
-            });
-            model.deleteRecord();
-            model.get("transaction").commit();
+            var that = this,
+                confirm = $("#confirm-modal");
+
+            confirm.modal({ show: false });
+            confirm.find("#confirm-delete")
+                .off("click")
+                .on("click", function (evt) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+
+                    var model = that.get("model");
+                    model.one("didDelete", that, function() {
+                        this.transitionToRoute('/');
+                    });
+                    model.deleteRecord();
+                    model.get("transaction").commit();
+
+                    confirm.modal("hide");
+                });
+
+            confirm.modal("show");
             return false;
         }
     });
