@@ -109,16 +109,23 @@
         },
 
         cipher: function (masterPassword, secret, notEnforce) {
-            var passwordList = Yith.Password.find(),
+            // TODO This shouldn't use the __container__ API
+            var model = Yith.ViewsUtils.passwordIndexController().get("model"),
                 result;
 
-            // If the user access directly to the adding password view, then
-            // the models aren't loaded and the enforcing doesn't work
-            // TODO maybe accessing the PasswordsIndex controller instance
+            if (!model.isLoaded) {
+                Yith.ViewsUtils.masterModal.modal("hide");
+                $("#error").modal({ keyboard: false, backdrop: "static" });
+                $("#error").find(".failure").removeClass("hide");
+                setTimeout(function () {
+                    window.open("/list", "_self");
+                }, 4000);
+                throw "The model isn't loaded";
+            }
 
-            if (passwordList.toArray().length > 0 && !notEnforce) {
+            if (model.objectAt(0) && !notEnforce) {
                 // Enforce unique master password
-                sjcl.decrypt(masterPassword, passwordList.objectAt(0).get("secret"));
+                sjcl.decrypt(masterPassword, model.objectAt(0).get("secret"));
             }
             result = sjcl.encrypt(masterPassword, secret);
             masterPassword = null;
@@ -132,6 +139,11 @@
             }
             masterPassword = null;
             return result;
+        },
+
+        passwordIndexController: function () {
+            // TODO To delete
+            return Yith.__container__.lookup('controller:passwords.index');
         }
     };
 
@@ -194,7 +206,7 @@
             evt.preventDefault();
             evt.stopPropagation();
 
-            var controller = Yith.__container__.lookup('controller:passwords.index');
+            var controller = Yith.ViewsUtils.passwordIndexController();
             // TODO We shouldn't be using the __container__ API which is
             // private, this should use the dependency system: "needs"
             if (controller.objectAt(0)) {
@@ -216,8 +228,6 @@
                         secret = Yith.ViewsUtils.cipher(newMasterPassword, secret, true);
                         password.set("secret", secret);
                         secret = null;
-                        // TODO Ember data throws some errors here... tried to
-                        // avoid them using transactions. Failed...
                         transaction.add(password);
                     });
                     masterPassword = null;
@@ -439,7 +449,7 @@
             this.$().find("input").typeahead({
                 items: 3,
                 source: function () {
-                    var controller = Yith.__container__.lookup('controller:passwords.index');
+                    var controller = Yith.ViewsUtils.passwordIndexController();
                     // TODO We shouldn't be using the __container__ API which is
                     // private, this should use the dependency system: "needs"
                     // var controller = that.get("controller").get("controllers.PasswordsIndex");
