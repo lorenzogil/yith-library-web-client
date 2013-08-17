@@ -14,7 +14,7 @@ body {
     color: red;
 }
 
-.row.advanced {
+#advanced-options {
     margin-top: 10px;
 }
 
@@ -34,6 +34,10 @@ ul.typeahead.dropdown-menu {
     z-index: 1200;
 }
 
+#tags-and-filters {
+    margin-top: 20px;
+}
+
 #tag-list li {
     display: inline-block;
     margin-right: 10px;
@@ -51,10 +55,6 @@ ul.typeahead.dropdown-menu {
     z-index: 1070;
 }
 
-.password-list {
-    margin-top: 20px;
-}
-
 .passwords td:first-child .btn.btn-info {
     display: block;
     margin-bottom: 5px;
@@ -65,26 +65,27 @@ ul.typeahead.dropdown-menu {
     width: 520px;
 }
 
-#edit-body #secret-group .help-block {
+form.edit-password #secret-group .help-block {
+    margin-top: 10px;
     margin-bottom: 0px;
 }
 
-#edit-body #strength-meter {
+form.edit-password #strength-meter {
     margin-top: 5px;
 }
 
-#edit-body #strength-meter .progressbar {
+form.edit-password #strength-meter .progressbar {
     display: inline-block;
     width: 235px;
     margin-right: 10px;
 }
 
-#edit-body #strength-meter .progressbar .progress {
+form.edit-password #strength-meter .progressbar .progress {
     margin-bottom: 0px;
     height: 10px;
 }
 
-#edit-body #strength-meter .verdict {
+form.edit-password #strength-meter .verdict {
     display: inline-block;
 }
 

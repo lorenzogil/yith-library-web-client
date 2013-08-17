@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
     <title>Yith Library - ${self.title()}</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="A free online secure password manager">
+    <meta name="author" content="Alejandro Blanco">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 

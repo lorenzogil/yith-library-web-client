@@ -18,6 +18,7 @@ import os
 
 from pyramid.config import Configurator
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+from pyramid.settings import asbool
 
 
 def read_setting_from_env(settings, key, default=None):
@@ -38,6 +39,8 @@ def main(global_config, **settings):
     for option in ('server', 'client_id', 'client_secret', 'google_analytics'):
         key = 'yith_' + option
         settings[key] = read_setting_from_env(settings, key)
+
+    settings['yith_debug'] = asbool(read_setting_from_env(settings, key))
 
     config = Configurator(settings=settings, session_factory=session_factory)
     config.add_static_view('static', 'static', cache_max_age=3600)

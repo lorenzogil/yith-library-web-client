@@ -5,8 +5,8 @@
 <%def name="extraheader()">
     <link href='//fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
-        var yithServerHost = "${server_host}";
-        var yithClientId = "${client_id}";
+        var yithServerHost = "${server_host}",
+            yithClientId = "${client_id}";
     </script>
 </%def>
 
@@ -19,192 +19,244 @@
         </ul>
     </div></div>
 
+    <div id="loading" class="container"><div class="row">
+        <div class="span4 offset4 progress progress-striped active">
+            <div class="bar" style="width: 10%;"></div>
+        </div>
+    </div></div>
+
     <%text>
-    <script type="text/x-handlebars" data-template-name="password-list">
-        <div {{bindAttr class="passwordListClass"}}>
-            <b>All tags (filter by):</b>
-            <ul id="tag-list" class="unstyled">
-                {{#each allTags}}
-                <li><span class="label pointer" {{action "filterByTag"}}>{{this}}</span></li>
-                {{/each}}
-            </ul>
-            {{#if activeFiltersLength}}
-            <div id="filter">
-                <b>Active filters:</b>
-                {{#each activeFilters}}
-                <span class="label pointer" {{action "removeFilter"}}><i class="icon-remove" {{action "removeFilter"}}></i> {{this}}</span>
-                {{/each}}
+        <script type="text/x-handlebars">
+            <div id="page" class="container">
+                {{outlet}}
             </div>
-            {{/if}}
-            <table class="table table-striped passwords">
-            <thead>
-                <tr>
-                    <th>Service</th>
-                    <th>Account</th>
-                    <th>Tags</th>
-                    <th>Expiration</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each processedPasswordList}}
-                    <tr {{bindAttr id="_id"}}>
-                        <td>
-                            <button class="btn btn-info" {{action "getPassword"}}>{{service}}</button>
-                            <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" >&times;</i>
-                        </td>
-                        <td>{{account}}</td>
-                        <td>{{#each tags}}
-                        <span class="label pointer" {{action "filterByTag"}}>{{this}}</span>
-                        {{/each}}</td>
-                        <td>
-                            {{#if expiration}}
-                            <span {{bindAttr class="expirationClass"}}>{{daysLeft}}</span>
-                            {{else}}
-                            <span class="badge">Never</span>
-                            {{/if}}
-                        </td>
-                        <td><button {{bindAttr class="notesClass"}} {{action "notes" on="mouseEnter"}} ><i class="icon-exclamation-sign"></i> Notes</button></td>
-                        <td><button class="btn btn-warning" {{action "edit"}}><i class="icon-white icon-edit"></i> Edit</button></td>
-                    </tr>
-                {{/each}}
-            </tbody>
-            </table>
-        </div>
-        <div {{bindAttr class="noPasswordsClass"}}>
-            <div class="alert alert-info">
-                <h3>No passwords stored yet</h3>
-                <p>Please, add a password using the button.</p>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="passwords">
+            <div class="row" id="top-bar">
+                <div class="span3">
+                    {{#linkTo passwords.new class="btn"}}<i class="icon-plus"></i> Add new password{{/linkTo}}
+                </div>
+                <div class="span9"><div class="pull-right">
+                    {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
+                    {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
+                    {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
+                </div></div>
             </div>
-        </div>
-    </script>
-    <script type="text/x-handlebars" data-template-name="password-edit">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">&times;</button>
-            {{#if isnew}}
-            <h3>Add new password</h3>
+            <div id="advanced-options" class="hide">
+                <div class="span12"><div class="well nomb">
+                    <div class="row">
+                        <div class="span5 alert alert-info nomb">
+                            <p>We use cookies to collect anonymous statistics
+                            about the usage of Yith Library to help us improve.
+                            You can choose to allow this or not:</p>
+                            {{#view Yith.ServerPreferencesButton}}Open preferences{{/view}}
+                        </div>
+                        <div id="settingsRight" class="span5">
+                            <p>{{#view Yith.ChangeMasterButton}}Change master password{{/view}}</p>
+                            <b>Password generation</b>
+                            <div class="row">
+                                <div class="span3">
+                                    <label class="checkbox">
+                                        {{view Ember.Checkbox checkedBinding="Yith.settings.passGenUseSymbols"}} Use symbols
+                                    </label>
+                                    <label class="checkbox">
+                                        {{view Ember.Checkbox checkedBinding="Yith.settings.passGenUseNumbers"}} Use numbers
+                                    </label>
+                                    <label class="checkbox">
+                                        {{view Ember.Checkbox checkedBinding="Yith.settings.passGenUseChars"}} Use characters
+                                    </label>
+                                </div>
+                                <div class="span2">
+                                    <label>Password length</label>
+                                    {{view Yith.PasswordLengthInput}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+            {{outlet}}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="passwords/index">
+            <div id="tags-and-filters">
+                {{#if allTags.length}}
+                    <b>All tags (filter by):</b>
+                    <ul id="tag-list" class="unstyled">
+                        {{#each allTags}}
+                            <li>{{#view Yith.TagButton}}{{this}}{{/view}}</li>
+                        {{/each}}
+                    </ul>
+                {{/if}}
+                {{#if activeFilters.length}}
+                    <div id="filter">
+                        <b>Active filters:</b>
+                        {{#each activeFilters}}
+                            {{#view Yith.FilterButton}}<i class="icon-remove"></i> {{this}}{{/view}}
+                        {{/each}}
+                    </div>
+                {{/if}}
+            </div>
+            <div class="row password-list">
+            {{#if content}}
+                <div class="span12">
+                    <table class="table table-striped passwords">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Account</th>
+                            <th>Tags</th>
+                            <th>Expiration</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each pass in processedPasswordList}}
+                            <tr>
+                                <td>
+                                    {{#view Yith.ServiceButton}}{{pass.service}}{{/view}}
+                                    <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" ></i>
+                                </td>
+                                <td>{{pass.account}}</td>
+                                <td>{{#each pass.tags}}
+                                    {{#view Yith.TagButton}}{{this}}{{/view}}
+                                {{/each}}</td>
+                                <td>
+                                    {{#if pass.expiration}}
+                                        <span {{bindAttr class="expirationClass"}}>{{pass.daysLeft}}</span>
+                                    {{else}}
+                                        <span class="badge">Never</span>
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}
+                                </td>
+                                <td>
+                                    {{#linkTo password pass class="btn btn-warning"}}<i class="icon-white icon-edit"></i> Edit{{/linkTo}}
+                                </td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                    </table>
+                </div>
             {{else}}
-            <h3>Edit password</h3>
+                <div class="span6 offset3">
+                    <div class="alert alert-info">
+                        <h3>No passwords stored yet</h3>
+                        <p>Please, add a password using the button.</p>
+                    </div>
+                </div>
             {{/if}}
-        </div>
-        <div class="modal-body" id="edit-body">
-            <form>
-                <div class="control-group">
-                    <label class="control-label" for="edit-service"><span class="red">*</span> Service</label>
-                    <input type="text" id="edit-service" {{bindAttr value="password.service"}} {{action "checkEmptiness" on="change"}}/>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="passwords/new">
+            <div class="row"><div class="span12">
+                <h3>Add a new password</h3>
+                <form class="form-horizontal edit-password">
+                    {{partial "edit-password"}}
+                    <div class="form-actions">
+                        {{#view Yith.SaveButton}}Create{{/view}}
+                        {{#linkTo passwords class="btn" activeClass=""}}Cancel{{/linkTo}}
+                    </div>
+                </form>
+            </div></div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="password">
+            <div class="row"><div class="span12">
+                <h3>Edit password</h3>
+                <form class="form-horizontal edit-password">
+                    {{partial "edit-password"}}
+                    <div class="form-actions">
+                        {{#view Yith.SaveButton}}Save changes{{/view}}
+                        <button class="btn btn-danger" {{action deletePassword}}>Delete password</button>
+                        {{#linkTo passwords class="btn" activeClass=""}}Cancel{{/linkTo}}
+                    </div>
+                </form>
+            </div></div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="_edit-password">
+            <div class="control-group">
+                <label class="control-label" for="edit-service">
+                    <span class="red">*</span> Service
+                </label>
+                <div class="controls">
+                    <input type="text" id="edit-service" {{bindAttr value="service"}} {{action checkEmptiness on="change"}}/>
                     <span class="help-block" style="display: none;">This field is required</span>
                 </div>
-                <label for="edit-account">Account</label>
-                <input type="text" id="edit-account" {{bindAttr value="password.account"}}/>
-                <div {{bindAttr class="isnew:hide :control-group"}} id="modify-secret-group">
-                    <a href="#" class="btn" {{action "showSecretGroup"}}>Modify password</a>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="edit-account">Account</label>
+                <div class="controls">
+                    <input type="text" id="edit-account" {{bindAttr value="account"}}/>
                 </div>
-                <div {{bindAttr class="secretGroupClass"}} id="secret-group">
-                    <label class="control-label" for="edit-secret1">{{#if isnew}}<span class="red">*</span> {{/if}}Secret</label>
-                    <div class="controls form-inline">
-                        <input type="password" id="edit-secret1" class="input-small" {{action "validateSecret" on="keyUp"}}/> <input type="password" id="edit-secret2" class="input-small" {{action "validateSecret" on="keyUp"}} placeholder="Repeat"/> <button class="btn" {{action "generatePassword"}}><i class="icon icon-cog"></i> Generate</button>
-                    </div>
-                    <span class="help-block match" style="display: none;">The passwords don't match</span>
-                    <span class="help-block req" style="display: none;">This field is required</span>
-                    <div id="strength-meter">
-                        <div class="progressbar"></div><div class="verdict"></div>
-                    </div>
+            </div>
+
+            {{view Yith.SecretGroup}}
+
+            <div class="control-group">
+                <div class="controls form-inline">
+                    <label class="checkbox">
+                        <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="expirationActive"}} {{action expirationToggle on="change"}} /> Expirate in
+                    </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="expirationDisabled"}} {{bindAttr value="daysLeft"}} /> days
                 </div>
-                <div class="control-group">
-                    <div class="controls form-inline">
-                        <label class="checkbox">
-                            <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="isExpirationEnabled"}} {{action "enableExpiration" on="change"}}/> Expirate in
-                        </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="isExpirationDisabled"}} {{bindAttr value="password.daysLeft"}} /> days
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="edit-tags">Tags</label>
-                    <div class="controls">
-                        <div class="input-append">
-                            <input type="text" id="edit-tags" autocomplete="off" /><button class="btn" {{action "addTag"}}><i class="icon icon-plus"></i> Add</button>
-                        </div>
-                        <ul>
-                        {{#each tag in password.provisionalTags}}
-                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" context="tag"}}></i></li>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="edit-tags">Tags</label>
+                <div class="controls">
+                    {{view Yith.TagsInput}}
+                    <ul>
+                        {{#each tag in provisionalTags}}
+                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" tag}}></i></li>
                         {{/each}}
-                        </ul>
-                    </div>
+                    </ul>
                 </div>
-                <label for="edit-notes">Notes</label>
-                <textarea id="edit-notes" class="input-xlarge" rows="3" {{bindAttr value="password.notes"}}></textarea>
-            </form>
-        </div>
-        <div class="modal-footer">
-            {{#unless isnew}}
-            <a href="#" class="btn btn-danger pull-left" {{action "deletePassword"}}>Delete</a>
-            {{/unless}}
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            {{#if isnew}}
-            <a href="#" class="btn btn-primary" {{action "createPassword"}}>Create</a>
-            {{else}}
-            <a href="#" class="btn btn-primary" {{action "saveChanges"}}>Save changes</a>
-            {{/if}}
-        </div>
-    </script>
-    <script type="text/x-handlebars" data-template-name="settings">
-        <div class="row">
-            <div class="span3">
-                <button class="btn" onclick="Yith.addNewPassword();"><i class="icon-plus"></i> Add new password</button>
             </div>
-            <div class="span9"><div class="pull-right">
-                <button class="btn" {{action "disableCountdown"}}>Disable countdown</button>
-                <button class="btn" {{action "rememberMaster"}}>Remember master password</button>
-                <button class="btn" {{action "showAdvanced"}}><i class="icon-wrench"></i> Show advanced options</button>
-            </div></div>
-        </div>
-        <div {{bindAttr class="advancedClass"}}>
-            <div class="span12"><div class="well">
-                <div class="row">
-                    <div class="span5 alert alert-info nomb">
-                        <p>We use cookies to collect anonymous statistics
-                        about the usage of Yith Library to help us improve.
-                        You can choose to allow this or not:</p>
-                        <button class="btn pull-right" {{action "serverPreferencesUrl"}}>Open preferences</button>.
-                    </div>
-                    <div id="settingsRight" class="span5">
-                        <p><button class="btn" {{action "changeMaster"}}>Change master password</button></p>
-                        <b>Password generation</b>
-                        <div class="row">
-                            <div class="span3">
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" {{action "useSymbols" on="change"}}> Use symbols
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" {{action "useNumbers" on="change"}}> Use numbers
-                                </label>
-                                <label class="checkbox">
-                                    <input type="checkbox" checked="checked" {{action "useChars" on="change"}}> Use characters
-                                </label>
-                            </div>
-                            <div class="span2">
-                                <label>Password length</label>
-                                <input type="number" min="0" step="1" class="span2" value="20" {{action "passLength" on="change"}} />
-                            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="edit-notes">Notes</label>
+                <div class="controls">
+                    {{view Ember.TextArea id="edit-notes" class="input-xlarge" rows="3" valueBinding="notes"}}
+                </div>
+            </div>
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="secret-group">
+            {{#if modifySecret}}
+                <div class="control-group" id="secret-group">
+                    <label class="control-label" for="edit-secret1">
+                        <span class="red">*</span> Secret</label>
+                    </label>
+                    <div class="controls form-inline">
+                        <input type="password" id="edit-secret1" class="input-small edit-secret" /> <input type="password" id="edit-secret2" class="input-small edit-secret" placeholder="Repeat"/>
+                        {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
+
+                        <span class="help-block match" style="display: none;">The passwords don't match</span>
+                        <span class="help-block req" style="display: none;">This field is required</span>
+                        <div id="strength-meter">
+                            <div class="progressbar"></div><div class="verdict"></div>
                         </div>
                     </div>
                 </div>
-            </div></div>
-        </div>
-    </script>
-    </%text>
+            {{else}}
+                <div class="control-group"><div class="controls">
+                    <button class="btn" id="show-secret-group">Modify password</button>
+                </div></div>
+            {{/if}}
+        </script>
 
-    <div id="page" class="container">
-        <div id="settings"></div>
-        <div class="row password-list"></div>
-        <div class="row">
-            <div class="span4 offset4 progress progress-striped active">
-                <div class="bar" style="width: 10%;"></div>
+        <script type="text/x-handlebars" data-template-name="tags-input">
+            <div class="input-append">
+                <input type="text" autocomplete="off" /><button class="btn"><i class="icon icon-plus"></i> Add</button>
             </div>
-        </div>
-    </div>
-
-    <div class="modal fade hide" id="edit"></div>
+        </script>
+    </%text>
 
     <div class="modal hide" id="master">
         <div class="modal-header">
@@ -245,22 +297,50 @@
             </div>
         </div>
     </div>
+
+    <div class="modal hide" id="confirm-modal">
+        <div class="modal-header">
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="modal-body">
+            <p>This action can not be reversed. If you delete the password, you won't be able to restore it.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+            <a href="#" class="btn btn-danger" id="confirm-delete">Delete</a>
+        </div>
+    </div>
 </%def>
 
 <%def name="extrabody()">
-    <script src="${request.static_path('yithwebclient:static/js/yith.min.js')}"></script>
+    % if debug_js:
+        <script src="${request.static_path('yithwebclient:static/js/libs/jquery-1.9.1.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0-rc.4.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0-rc.6.1.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-0.13.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
+    % else:
+        <script src="${request.static_path('yithwebclient:static/js/yith-b760916a970b92f6005711723d06b768.min.js')}"></script>
+    % endif
 
     % if google_analytics is not None:
-    <script type="text/javascript">
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', '${google_analytics}']);
-        _gaq.push(['_trackPageview']);
+        <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', '${google_analytics}']);
+            _gaq.push(['_trackPageview']);
 
-        (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-        })();
-    </script>
+            (function() {
+                var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+        </script>
     % endif
 </%def>
