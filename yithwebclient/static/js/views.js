@@ -269,11 +269,11 @@
                     $input = $node.find("td:first-child input"),
                     $countdown = $node.find("td:first-child span"),
                     $close = $countdown.next(),
-                    secret = Yith.Password.find(that.get("controller").get("id")),
+                    secret = that.get("controller").get("secret"),
                     timer;
 
                 try {
-                    secret = Yith.ViewsUtils.decipher(masterPassword, secret.get("secret"));
+                    secret = Yith.ViewsUtils.decipher(masterPassword, secret);
                 } catch (err) {
                     return false;
                 }
@@ -329,8 +329,7 @@
         classNames: ["btn", "notes"],
 
         didInsertElement: function () {
-            var id = this.get("controller").get("id"),
-                notes = Yith.Password.find(id).get("notes");
+            var notes = this.get("controller").get("notes");
 
             if (notes) {
                 this.$().popover({

@@ -35,7 +35,7 @@
         <script type="text/x-handlebars" data-template-name="passwords">
             <div class="row" id="top-bar">
                 <div class="span3">
-                    {{#linkTo passwords.new class="btn"}}<i class="icon-plus"></i> Add new password{{/linkTo}}
+                    {{#link-to 'passwords.new' class="btn"}}<i class="icon-plus"></i> Add new password{{/link-to}}
                 </div>
                 <div class="span9"><div class="pull-right">
                     {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
@@ -134,7 +134,7 @@
                                     {{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}
                                 </td>
                                 <td>
-                                    {{#linkTo password pass class="btn btn-warning"}}<i class="icon-white icon-edit"></i> Edit{{/linkTo}}
+                                    {{#link-to 'password' pass class="btn btn-warning"}}<i class="icon-white icon-edit"></i> Edit{{/link-to}}
                                 </td>
                             </tr>
                         {{/each}}
@@ -159,7 +159,7 @@
                     {{partial "edit-password"}}
                     <div class="form-actions">
                         {{#view Yith.SaveButton}}Create{{/view}}
-                        {{#linkTo passwords class="btn" activeClass=""}}Cancel{{/linkTo}}
+                        <button class="btn" {{action cancelNewPassword}}>Cancel</button>
                     </div>
                 </form>
             </div></div>
@@ -173,7 +173,7 @@
                     <div class="form-actions">
                         {{#view Yith.SaveButton}}Save changes{{/view}}
                         <button class="btn btn-danger" {{action deletePassword}}>Delete password</button>
-                        {{#linkTo passwords class="btn" activeClass=""}}Cancel{{/linkTo}}
+                        {{#link-to 'passwords' class="btn" activeClass=""}}Cancel{{/link-to}}
                     </div>
                 </form>
             </div></div>

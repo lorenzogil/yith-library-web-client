@@ -63,9 +63,15 @@
                 result;
 
             result = this.toArray().sort(function (pass1, pass2) {
-                var a = pass1.get("service").toLowerCase(),
-                    b = pass2.get("service").toLowerCase(),
+                var a = pass1.get("service"),
+                    b = pass2.get("service"),
                     result = 0;
+
+                if (!a) { return -1; }
+                if (!b) { return 1; }
+
+                a = a.toLowerCase();
+                b = b.toLowerCase();
 
                 if (a > b) {
                     result = 1;
@@ -302,6 +308,11 @@
                     callback();
                 }
             }
+        },
+
+        cancelNewPassword: function () {
+            this.get("model").deleteRecord();
+            this.transitionToRoute('/');
         }
     });
 
