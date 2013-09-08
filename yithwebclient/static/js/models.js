@@ -46,7 +46,7 @@
             return this._super(url, type, hash);
         },
 
-        didError: function() {
+        didError: function () {
             $("#error").modal({ keyboard: false, backdrop: "static" });
             $("#error").find(".failure").removeClass("hide");
             setTimeout(function () {

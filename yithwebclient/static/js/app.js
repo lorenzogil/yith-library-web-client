@@ -23,8 +23,8 @@
     // Wait until we have the access code
     Yith.deferReadiness();
 
-    Yith.Router.map(function() {
-        this.resource('passwords', { path: '/' }, function() {
+    Yith.Router.map(function () {
+        this.resource('passwords', { path: '/' }, function () {
             this.route('new');
             this.resource('password', {
                 path: ':password_id'

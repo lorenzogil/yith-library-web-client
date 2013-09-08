@@ -217,24 +217,16 @@
                         return false;
                     }
 
-                    var store = controller.get("store"),
-                        transaction = store.transaction();
-
-                    // Send pending changes
-                    store.commit();
-
                     controller.forEach(function (password) {
                         var secret = Yith.ViewsUtils.decipher(masterPassword, password.get("secret"));
                         secret = Yith.ViewsUtils.cipher(newMasterPassword, secret, true);
                         password.set("secret", secret);
                         secret = null;
-                        transaction.add(password);
+                        password.save();
                     });
                     masterPassword = null;
                     newMasterPassword = null;
 
-                    // Send changed passwords
-                    transaction.commit();
                     return true;
                 }, true);
             }

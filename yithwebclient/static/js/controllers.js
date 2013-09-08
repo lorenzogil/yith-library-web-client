@@ -65,7 +65,7 @@
             result = this.toArray().sort(function (pass1, pass2) {
                 var a = pass1.get("service"),
                     b = pass2.get("service"),
-                    result = 0;
+                    order = 0;
 
                 if (!a) { return -1; }
                 if (!b) { return 1; }
@@ -74,12 +74,12 @@
                 b = b.toLowerCase();
 
                 if (a > b) {
-                    result = 1;
+                    order = 1;
                 } else if (a < b) {
-                    result = -1;
+                    order = -1;
                 }
 
-                return result;
+                return order;
             });
 
             if (filters.length > 0) {
@@ -94,7 +94,7 @@
                 });
             }
 
-            return result.map(function(password) {
+            return result.map(function (password) {
                 var controller = Yith.PasswordInListController.create();
                 controller.set("model", password);
                 controller.set("container", that.container);
@@ -103,7 +103,7 @@
             });
         }).property("@each", "activeFilters.@each"),
 
-        allTags: Ember.computed(function() {
+        allTags: Ember.computed(function () {
             var allTags = new Ember.Set();
             this.forEach(function (password) {
                 var tags = password.get("tags");
@@ -271,7 +271,6 @@
             });
             model.setProperties(data);
             model.save();
-            model.get("transaction").commit();
         },
 
         save: function ($form) {
@@ -340,11 +339,10 @@
                     evt.stopPropagation();
 
                     var model = that.get("model");
-                    model.one("didDelete", that, function() {
+                    model.one("didDelete", that, function () {
                         this.transitionToRoute('/');
                     });
                     model.deleteRecord();
-                    model.get("transaction").commit();
 
                     confirm.modal("hide");
                 });
