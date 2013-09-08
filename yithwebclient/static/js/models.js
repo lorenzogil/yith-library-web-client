@@ -20,51 +20,39 @@
 (function () {
     "use strict";
 
-    var YithRESTAdapter = DS.RESTAdapter.extend({
-            url: yithServerHost,
-
-            ajax: function (url, type, hash) {
-                // Prepare the adapter for the oAuth stuff
-                url += "?client_id=" + yithClientId;
-                if (hash === undefined) {
-                    hash = {};
-                }
-                hash.headers = {
-                    "Authorization": "Bearer " + yithAccessCode
-                };
-                return this._super(url, type, hash);
-            },
-
-            didError: function() {
-                $("#error").modal({ keyboard: false, backdrop: "static" });
-                $("#error").find(".failure").removeClass("hide");
-                setTimeout(function () {
-                    window.open("/list", "_self");
-                }, 4000);
-                this._super.apply(this, arguments);
-            }
-        }),
-        adapter;
-
-    adapter = YithRESTAdapter.create({});
-    adapter.registerTransform("stringarray", {
-        serialize: function (value) { return value; },
-        deserialize: function (value) { return value; }
-    });
-
-    Yith.Store = DS.Store.extend({
-        adapter: adapter
-    });
-
     Yith.Password = DS.Model.extend({
-        account: DS.attr("string"),
-        creation: DS.attr("number"),
-        expiration: DS.attr("number"),
-        lastModification: DS.attr("number"),
-        notes: DS.attr("string"),
-        owner: DS.attr("string"),
-        secret: DS.attr("string"),
-        service: DS.attr("string"),
-        tags: DS.attr("stringarray")
+        account: DS.attr(),
+        creation: DS.attr(),
+        expiration: DS.attr(),
+        lastModification: DS.attr(),
+        notes: DS.attr(),
+        owner: DS.attr(),
+        secret: DS.attr(),
+        service: DS.attr(),
+        tags: DS.attr()
+    });
+
+    Yith.PasswordAdapter = DS.RESTAdapter.extend({
+        host: yithServerHost,
+        ajax: function (url, type, hash) {
+            // Prepare the adapter for the oAuth stuff
+            url += "?client_id=" + yithClientId;
+            if (hash === undefined) {
+                hash = {};
+            }
+            hash.headers = {
+                "Authorization": "Bearer " + yithAccessCode
+            };
+            return this._super(url, type, hash);
+        },
+
+        didError: function() {
+            $("#error").modal({ keyboard: false, backdrop: "static" });
+            $("#error").find(".failure").removeClass("hide");
+            setTimeout(function () {
+                window.open("/list", "_self");
+            }, 4000);
+            this._super.apply(this, arguments);
+        }
     });
 }());

@@ -40,7 +40,7 @@ def main(global_config, **settings):
         key = 'yith_' + option
         settings[key] = read_setting_from_env(settings, key)
 
-    settings['yith_debug'] = asbool(read_setting_from_env(settings, key))
+    settings['yith_debug'] = asbool(read_setting_from_env(settings, 'yith_debug'))
 
     config = Configurator(settings=settings, session_factory=session_factory)
     config.add_static_view('static', 'static', cache_max_age=3600)

@@ -34,7 +34,7 @@
 
     Yith.PasswordsIndexRoute = Ember.Route.extend({
         model: function () {
-            return Yith.Password.find();
+            return this.store.find('password');
         },
 
         enter: function () {
@@ -44,7 +44,7 @@
 
     Yith.PasswordsNewRoute = Ember.Route.extend({
         model: function () {
-            return Yith.Password.createRecord();
+            return this.store.createRecord('password');
         },
 
         enter: function () {
@@ -55,7 +55,7 @@
 
     Yith.PasswordRoute = Ember.Route.extend({
         model: function (params) {
-            return Yith.Password.find(params.password_id);
+            return this.store.find('password', params.password_id);
         },
 
         enter: function () {
