@@ -343,6 +343,7 @@
                         this.transitionToRoute('/');
                     });
                     model.deleteRecord();
+                    model.save();
 
                     confirm.modal("hide");
                 });
