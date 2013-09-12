@@ -12,7 +12,7 @@
 
     <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
     <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/bootstrap.min.css')}">
-    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style-e4522b774e90b1873e9cbbd50c281ec5.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style-dd5ea40f32fa4078dc47abccaecfe986.css')}">
 
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>

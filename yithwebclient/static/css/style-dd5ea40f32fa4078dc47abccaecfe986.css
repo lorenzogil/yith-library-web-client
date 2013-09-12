@@ -94,6 +94,7 @@ form.edit-password #strength-meter .verdict {
     background-color: #3a87ad;
     padding: 5px;
     height: 30px;
+    margin-top: -20px;
     top: 50%;
     right: -30px;
 
