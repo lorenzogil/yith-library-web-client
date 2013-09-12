@@ -89,6 +89,47 @@ form.edit-password #strength-meter .verdict {
     display: inline-block;
 }
 
+.contribute {
+    position: fixed;
+    background-color: #3a87ad;
+    padding: 5px;
+    height: 30px;
+    top: 50%;
+    right: -30px;
+
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    -o-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+}
+
+.contribute:hover {
+    right: -25px;
+}
+
+.contribute a {
+    color: white;
+}
+
+.contribute a:hover {
+    color: white;
+    text-decoration: none;
+}
+
 footer {
     position: fixed;
     bottom: 0;

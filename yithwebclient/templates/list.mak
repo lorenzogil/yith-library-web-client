@@ -310,6 +310,10 @@
             <a href="#" class="btn btn-danger" id="confirm-delete">Delete</a>
         </div>
     </div>
+
+    <div class="contribute">
+        <a href="${server_host}/contribute" target="_blank">Contribute</a>
+    </div>
 </%def>
 
 <%def name="extrabody()">
