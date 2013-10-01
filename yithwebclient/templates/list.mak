@@ -331,7 +331,7 @@
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
     % else:
-        <script src="${request.static_path('yithwebclient:static/js/yith-edf612396740208e8159124d2ef0ab05.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/yith-eb34aab83609bba14d33db6d19c66c02.min.js')}"></script>
     % endif
 
     % if google_analytics is not None:

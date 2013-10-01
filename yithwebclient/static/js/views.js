@@ -123,7 +123,7 @@
                 throw "The model isn't loaded";
             }
 
-            if (model.objectAt(0) && !notEnforce) {
+            if (model.objectAt(0) && model.objectAt(0).get("id") && !notEnforce) {
                 // Enforce unique master password
                 sjcl.decrypt(masterPassword, model.objectAt(0).get("secret"));
             }
