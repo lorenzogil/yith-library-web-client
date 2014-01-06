@@ -8,7 +8,7 @@ JS_COMBINED_FILE="$JS_DIR/yith.min.js"
 
 # These files are your JS files you want to combine together
 JS_APPEND_FILES=( libs/jquery-2.0.3.min.js libs/bootstrap.min.js libs/sjcl.js )
-JS_FILES=( libs/handlebars-1.0.0.js libs/ember.prod-1.0.0.js libs/ember-data.prod-1.0.0-beta.2.js libs/pwstrength.js app.js objects.js models.js controllers.js views.js )
+JS_FILES=( libs/handlebars-1.0.0.js libs/ember.prod-1.0.0.js libs/ember-data.prod-1.0.0-beta.2.js libs/pwstrength-bootstrap-1.0.2.js app.js objects.js models.js controllers.js views.js )
 
 JS_TEMP="$JS_DIR/_yith.min.js"
 

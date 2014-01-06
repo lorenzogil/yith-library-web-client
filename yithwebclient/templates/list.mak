@@ -323,7 +323,7 @@
         <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/libs/ember.debug-1.0.0.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/libs/ember-data.debug-1.0.0-beta.2.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength-bootstrap-1.0.2.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
@@ -331,7 +331,7 @@
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
     % else:
-        <script src="${request.static_path('yithwebclient:static/js/yith-eb34aab83609bba14d33db6d19c66c02.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/yith-1b132c0e2de8c45d47ac31c615dd7063.min.js')}"></script>
     % endif
 
     % if google_analytics is not None:

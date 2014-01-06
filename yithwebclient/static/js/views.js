@@ -2,7 +2,7 @@
 /*global Ember, $, Yith, sjcl, yithServerHost */
 
 // Yith Library web client
-// Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
+// Copyright (C) 2012 - 2014  Alejandro Blanco <alejandro.b.e@gmail.com>
 // Copyright (C) 2012  Yaco Sistemas S.L.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -355,9 +355,12 @@
                 that = this;
             if (input.length > 0) {
                 input.pwstrength({
-                    viewports: {
-                        progress: this.$().find("#strength-meter .progressbar"),
-                        verdict: this.$().find("#strength-meter .verdict")
+                    ui: {
+                        viewports: {
+                            progress: this.$().find("#strength-meter .progressbar"),
+                            verdict: this.$().find("#strength-meter .verdict")
+                        },
+                        bootstrap2: true
                     }
                 });
             } else if (insist) {
