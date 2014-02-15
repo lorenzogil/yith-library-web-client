@@ -109,7 +109,7 @@
         },
 
         cipher: function (masterPassword, secret, notEnforce) {
-            // TODO This shouldn't use the __container__ API
+            // FIXME This shouldn't use the __container__ API
             var model = Yith.ViewsUtils.passwordIndexController().get("model"),
                 result;
 
@@ -142,7 +142,7 @@
         },
 
         passwordIndexController: function () {
-            // TODO To delete
+            // FIXME To delete
             return Yith.__container__.lookup('controller:passwords.index');
         }
     };
@@ -207,7 +207,7 @@
             evt.stopPropagation();
 
             var controller = Yith.ViewsUtils.passwordIndexController();
-            // TODO We shouldn't be using the __container__ API which is
+            // FIXME We shouldn't be using the __container__ API which is
             // private, this should use the dependency system: "needs"
             if (controller.objectAt(0)) {
                 Yith.ViewsUtils.askMasterPassword(function (masterPassword, newMasterPassword) {
@@ -444,7 +444,7 @@
                 items: 3,
                 source: function () {
                     var controller = Yith.ViewsUtils.passwordIndexController();
-                    // TODO We shouldn't be using the __container__ API which is
+                    // FIXME We shouldn't be using the __container__ API which is
                     // private, this should use the dependency system: "needs"
                     // var controller = that.get("controller").get("controllers.PasswordsIndex");
                     // But for some reason it doesn't work:

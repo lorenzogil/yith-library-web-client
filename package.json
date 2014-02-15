@@ -1,0 +1,25 @@
+{
+    "name": "yith-library-web-client",
+    "version": "1.0.0dev",
+    "author": "Alejandro Blanco <alejandro.b.e@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ablanco/yith-library-web-client"
+    },
+    "licenses" : [
+        {
+            "type" : "AGPL v3",
+            "url" : "https://raw.github.com/ablanco/yith-library-web-client/master/COPYING"
+        }
+    ],
+    "scripts": {
+        "test": "grunt test"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.2",
+        "grunt-jslint": "~1.1.2",
+        "grunt-shell": "~0.6.1",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-uglify": "~0.2.2"
+    }
+}
