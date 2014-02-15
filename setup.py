@@ -28,29 +28,29 @@ requires = [
     'waitress==0.8.2',
 ]
 
-setup(name='yith-web-client',
-      version='0.0',
-      description='yith-web-client',
-      long_description=README + '\n\n' +  CHANGES,
-      classifiers=[
+setup(
+    name='yith-web-client',
+    version='1.0.0',
+    description='yith-web-client',
+    long_description=README + '\n\n' + CHANGES,
+    classifiers=[
         "Programming Language :: Python",
         "Framework :: Pylons",
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
-        ],
-      author='',
-      author_email='',
-      url='',
-      keywords='web pyramid pylons',
-      packages=find_packages(),
-      include_package_data=True,
-      zip_safe=False,
-      install_requires=requires,
-      tests_require=requires,
-      test_suite="yithwebclient",
-      entry_points = """\
-      [paste.app_factory]
-      main = yithwebclient:main
-      """,
-      )
-
+    ],
+    author='Alejandro Blanco',
+    author_email='alejandro.b.e@gmail.com',
+    url='http://yithlibrary.com',
+    keywords='web pyramid pylons',
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+    install_requires=requires,
+    tests_require=requires,
+    test_suite="yithwebclient",
+    entry_points="""\
+    [paste.app_factory]
+    main = yithwebclient:main
+    """,
+)
