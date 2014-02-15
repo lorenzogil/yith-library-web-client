@@ -317,21 +317,21 @@
 </%def>
 
 <%def name="extrabody()">
+    <script src="${request.static_path('yithwebclient:static/js/libs/jquery-2.0.3.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap-2.3.3.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-1.0.0-beta.2.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength-bootstrap-1.1.0.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.min.js')}"></script>
     % if debug_js:
-        <script src="${request.static_path('yithwebclient:static/js/libs/jquery-2.0.3.min.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/ember.debug-1.0.0.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/ember-data.debug-1.0.0-beta.2.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength-bootstrap-1.0.2.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
     % else:
-        <script src="${request.static_path('yithwebclient:static/js/yith-1b132c0e2de8c45d47ac31c615dd7063.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/prod/yith-1.0.0dev.min.js')}"></script>
     % endif
 
     % if google_analytics is not None:

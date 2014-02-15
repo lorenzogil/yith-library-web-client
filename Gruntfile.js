@@ -31,7 +31,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 src: [
-                    'yithwebclient/static/js/app.js', 'yithwebclient/static/js/models.js', 'yithwebclient/static/js/controllers.js', 'yithwebclient/static/js/objects.js', 'yithwebclient/static/js/views.js'
+                    'yithwebclient/static/js/app.js', 'yithwebclient/static/js/objects.js', 'yithwebclient/static/js/models.js', 'yithwebclient/static/js/controllers.js', 'yithwebclient/static/js/views.js'
                 ],
                 dest: 'yith-<%= pkg.version %>.js'
             }
