@@ -30,7 +30,7 @@ requires = [
 
 setup(
     name='yith-web-client',
-    version='1.0.0',
+    version='1.0.1',
     description='yith-web-client',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
