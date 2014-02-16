@@ -125,7 +125,7 @@
                                 {{/each}}</td>
                                 <td>
                                     {{#if pass.expiration}}
-                                        <span {{bindAttr class="expirationClass"}}>{{pass.daysLeft}}</span>
+                                        <span {{bind-attr class="expirationClass"}}>{{pass.daysLeft}}</span>
                                     {{else}}
                                         <span class="badge">Never</span>
                                     {{/if}}
@@ -159,7 +159,7 @@
                     {{partial "edit-password"}}
                     <div class="form-actions">
                         {{#view Yith.SaveButton}}Create{{/view}}
-                        <button class="btn" {{action cancelNewPassword}}>Cancel</button>
+                        <button class="btn" {{action "cancelNewPassword"}}>Cancel</button>
                     </div>
                 </form>
             </div></div>
@@ -172,7 +172,7 @@
                     {{partial "edit-password"}}
                     <div class="form-actions">
                         {{#view Yith.SaveButton}}Save changes{{/view}}
-                        <button class="btn btn-danger" {{action deletePassword}}>Delete password</button>
+                        <button class="btn btn-danger" {{action "deletePassword"}}>Delete password</button>
                         {{#link-to 'passwords' class="btn" activeClass=""}}Cancel{{/link-to}}
                     </div>
                 </form>
@@ -185,7 +185,7 @@
                     <span class="red">*</span> Service
                 </label>
                 <div class="controls">
-                    <input type="text" id="edit-service" {{bindAttr value="service"}} {{action checkEmptiness on="change"}}/>
+                    <input type="text" id="edit-service" {{bind-attr value="service"}} {{action "checkEmptiness" on="change"}}/>
                     <span class="help-block" style="display: none;">This field is required</span>
                 </div>
             </div>
@@ -193,7 +193,7 @@
             <div class="control-group">
                 <label class="control-label" for="edit-account">Account</label>
                 <div class="controls">
-                    <input type="text" id="edit-account" {{bindAttr value="account"}}/>
+                    <input type="text" id="edit-account" {{bind-attr value="account"}}/>
                 </div>
             </div>
 
@@ -202,8 +202,8 @@
             <div class="control-group">
                 <div class="controls form-inline">
                     <label class="checkbox">
-                        <input type="checkbox" id="edit-enable-expiration" {{bindAttr checked="expirationActive"}} {{action expirationToggle on="change"}} /> Expirate in
-                    </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bindAttr disabled="expirationDisabled"}} {{bindAttr value="daysLeft"}} /> days
+                        <input type="checkbox" id="edit-enable-expiration" {{bind-attr checked="expirationActive"}} {{action "expirationToggle" on="change"}} /> Expirate in
+                    </label> <input type="number" id="edit-expiration" class="input-mini" min="0" {{bind-attr disabled="expirationDisabled"}} {{bind-attr value="daysLeft"}} /> days
                 </div>
             </div>
 

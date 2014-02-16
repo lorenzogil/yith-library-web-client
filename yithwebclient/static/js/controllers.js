@@ -163,10 +163,6 @@
             return !this.get("expirationActive");
         }).property("expirationActive"),
 
-        expirationToggle: function () {
-            this.set("expirationActive", !this.get("expirationActive"));
-        },
-
         addProvisionalTags: function (newTags) {
             var tags = new Ember.Set(this.get("provisionalTags"));
             newTags = newTags.map(function (tag) {
@@ -175,12 +171,6 @@
             tags.addEach(newTags.filter(function (tag) {
                 return tag.length > 0;
             }));
-            this.set("provisionalTags", tags.toArray());
-        },
-
-        removeTag: function (tag) {
-            var tags = new Ember.Set(this.get("provisionalTags"));
-            tags.remove(tag);
             this.set("provisionalTags", tags.toArray());
         },
 
@@ -224,10 +214,6 @@
             $input.parents(".control-group").addClass("error");
             $input.next().show();
             return false;
-        },
-
-        checkEmptiness: function () {
-            this.validateRequired($("#edit-service"));
         },
 
         validate: function ($form) {
@@ -309,9 +295,25 @@
             }
         },
 
-        cancelNewPassword: function () {
-            this.get("model").deleteRecord();
-            this.transitionToRoute('/');
+        actions: {
+            checkEmptiness: function () {
+                this.validateRequired($("#edit-service"));
+            },
+
+            expirationToggle: function () {
+                this.set("expirationActive", !this.get("expirationActive"));
+            },
+
+            removeTag: function (tag) {
+                var tags = new Ember.Set(this.get("provisionalTags"));
+                tags.remove(tag);
+                this.set("provisionalTags", tags.toArray());
+            },
+
+            cancelNewPassword: function () {
+                this.get("model").deleteRecord();
+                this.transitionToRoute('/');
+            }
         }
     });
 
@@ -327,29 +329,31 @@
             return days;
         }).property("creation", "expiration"),
 
-        deletePassword: function () {
-            var that = this,
-                confirm = $("#confirm-modal");
+        actions: {
+            deletePassword: function () {
+                var that = this,
+                    confirm = $("#confirm-modal");
 
-            confirm.modal({ show: false });
-            confirm.find("#confirm-delete")
-                .off("click")
-                .on("click", function (evt) {
-                    evt.preventDefault();
-                    evt.stopPropagation();
+                confirm.modal({ show: false });
+                confirm.find("#confirm-delete")
+                    .off("click")
+                    .on("click", function (evt) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
 
-                    var model = that.get("model");
-                    model.one("didDelete", that, function () {
-                        this.transitionToRoute('/');
+                        var model = that.get("model");
+                        model.one("didDelete", that, function () {
+                            this.transitionToRoute('/');
+                        });
+                        model.deleteRecord();
+                        model.save();
+
+                        confirm.modal("hide");
                     });
-                    model.deleteRecord();
-                    model.save();
 
-                    confirm.modal("hide");
-                });
-
-            confirm.modal("show");
-            return false;
+                confirm.modal("show");
+                return false;
+            }
         }
     });
 }());
