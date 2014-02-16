@@ -319,9 +319,9 @@
 <%def name="extrabody()">
     <script src="${request.static_path('yithwebclient:static/js/libs/jquery-2.0.3.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/bootstrap-2.3.3.min.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.0.0.min.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.0.0.min.js')}"></script>
-    <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-1.0.0-beta.2.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/handlebars-1.3.0.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-1.4.1.min.js')}"></script>
+    <script src="${request.static_path('yithwebclient:static/js/libs/ember-data-1.0.0-beta.6.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/pwstrength-bootstrap-1.1.0.min.js')}"></script>
     <script src="${request.static_path('yithwebclient:static/js/libs/sjcl.min.js')}"></script>
     % if debug_js:
