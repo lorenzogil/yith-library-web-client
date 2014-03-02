@@ -14,6 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from urllib import urlencode
+
 from pyramid.httpexceptions import HTTPFound, HTTPUnauthorized
 from pyramid.view import view_config
 
@@ -22,11 +24,17 @@ import requests
 
 @view_config(route_name='index', renderer='index.mak')
 def index(request):
-    url = ("%s/oauth2/endpoints/authorization?response_type=code"
-           "&client_id=%s") % (request.registry.settings['yith_server'],
-                               request.registry.settings['yith_client_id'])
-    return {'server_authorization_endpoint': url,
-            'server_host': request.registry.settings['yith_server'], }
+    params = urlencode({
+        'response_type': 'code',
+        'client_id': request.registry.settings['yith_client_id'],
+        'scope': 'read-passwords write-passwords read-userinfo',
+    })
+    server_host = request.registry.settings['yith_server']
+    url = "%s/oauth2/endpoints/authorization" % server_host
+    return {
+        'server_authorization_endpoint': url + '?' + params,
+        'server_host': server_host,
+    }
 
 
 @view_config(route_name='oauth2cb')
