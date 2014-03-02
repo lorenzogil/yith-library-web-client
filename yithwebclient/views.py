@@ -46,7 +46,12 @@ def oauth2cb(request):
                   request.registry.settings['yith_client_secret'])
     response = requests.post(url, data=payload, auth=basic_auth)
     data = response.json()
-    request.session['access_code'] = data['access_code']
+
+    # backwards compatible since the server changed this attribute
+    # from 'access_code' to 'access_token'
+    request.session['access_code'] = data.get('access_token',
+                                              data.get('access_code'))
+
     return HTTPFound(location=request.route_path('list'))
 
 
