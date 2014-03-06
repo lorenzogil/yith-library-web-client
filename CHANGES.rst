@@ -1,3 +1,8 @@
+1.0.2
+-----
+
+-  Use the oauthlib library instead of a custom implementation
+
 1.0.1
 -----
 
