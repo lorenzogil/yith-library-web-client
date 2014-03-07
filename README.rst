@@ -3,6 +3,9 @@ Yith Library web client
 
 .. image:: https://travis-ci.org/ablanco/yith-library-web-client.png?branch=master
   :target: https://travis-ci.org/ablanco/yith-library-web-client
+  
+.. image:: https://badge.fury.io/py/yith-web-client.png
+  :target: http://badge.fury.io/py/yith-web-client
 
 Web client for Yith Library server. Written on top of Pyramid and Ember.js
 
