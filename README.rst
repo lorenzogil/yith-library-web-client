@@ -26,6 +26,7 @@ Requirements
 ~~~~~~~~~~~~
 
 * Python 2.7 or Python 3.2
+* Node.js 10 or higher
 
 Deployment
 ~~~~~~~~~~
@@ -40,6 +41,23 @@ completed, you can execute the server with this command::
     pserve development.ini
 
 And then the web client will be available at http://localhost:6543/
+
+Build the JavaScript bundle
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use Grunt.js to build the minified javascript bundle. So you will need
+to install the grunt client in you system. Execute this as root::
+
+    npm install -g grunt-cli
+
+Then you'll need to install the dependencies, run this command::
+
+    npm install -d
+    
+Once this has finished, then you can execute the main task that will build
+the bundle::
+
+    grunt
 
 Boring legal stuff
 ------------------
