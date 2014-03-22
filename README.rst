@@ -3,9 +3,12 @@ Yith Library web client
 
 .. image:: https://travis-ci.org/ablanco/yith-library-web-client.png?branch=master
   :target: https://travis-ci.org/ablanco/yith-library-web-client
-  
+
 .. image:: https://badge.fury.io/py/yith-web-client.png
   :target: http://badge.fury.io/py/yith-web-client
+
+.. image:: https://codeclimate.com/github/ablanco/yith-library-web-client.png
+  :target: https://codeclimate.com/github/ablanco/yith-library-web-client
 
 Web client for Yith Library server. Written on top of Pyramid and Ember.js
 
@@ -53,7 +56,7 @@ to install the grunt client in you system. Execute this as root::
 Then you'll need to install the dependencies, run this command::
 
     npm install -d
-    
+
 Once this has finished, then you can execute the main task that will build
 the bundle::
 
