@@ -67,28 +67,22 @@
 
         validateSecretChecker: function ($form) {
             var input1 = $form.find("#edit-secret1"),
+                secretGroup = input1.parents("#secret-group"),
                 equal = input1.val() === $form.find("#edit-secret2").val(),
-                notEmpty = false;
+                notEmpty = input1.val() !== "";
 
-            if (input1.val() !== "") {
-                input1.parents("#secret-group")
-                    .removeClass("error")
-                    .find(".help-block.req").hide();
-                notEmpty = true;
+            secretGroup.removeClass("error");
+            if (notEmpty) {
+                secretGroup.find(".help-block.req").hide();
             } else {
-                input1.parents("#secret-group")
+                secretGroup
                     .addClass("error")
                     .find(".help-block.req").show();
             }
-
             if (equal) {
-                input1.parents("#secret-group")
-                    .find(".help-block.match").hide();
-                if (notEmpty) {
-                    input1.parents("#secret-group").removeClass("error");
-                }
+                secretGroup.find(".help-block.match").hide();
             } else {
-                input1.parents("#secret-group")
+                secretGroup
                     .addClass("error")
                     .find(".help-block.match").show();
             }
@@ -115,28 +109,31 @@
             return valid;
         },
 
+        _calculateExpiration: function (expiration, creation, now) {
+            expiration = parseInt(expiration, 10);
+            expiration *= Yith.ControllersUtils.oneDayInMilliseconds;
+            expiration = expiration + now.getTime() - creation;
+            expiration = Math.round(expiration / Yith.ControllersUtils.oneDayInMilliseconds);
+            return expiration;
+        },
+
         getFormData: function ($form, creation) {
             var enableExpiration = $form.find("#edit-enable-expiration:checked").length > 0,
                 now = new Date(),
-                data = { creation: creation };
+                data = { creation: creation, expiration: 0 };
 
             data.service = $form.find("#edit-service").val();
             data.account = $form.find("#edit-account").val().trim();
             data.lastModification = now.getTime();
             if (enableExpiration) {
-                data.expiration = parseInt($form.find("#edit-expiration").val(), 10);
-                data.expiration *= Yith.ControllersUtils.oneDayInMilliseconds;
-                data.expiration += data.lastModification;
-                data.expiration = Math.round(
-                    (data.expiration - creation) / Yith.ControllersUtils.oneDayInMilliseconds
+                data.expiration = this._calculateExpiration(
+                    $form.find("#edit-expiration").val(),
+                    creation,
+                    now
                 );
-            } else {
-                data.expiration = 0;
             }
             data.notes = $form.find("#edit-notes").val().trim();
-            if (data.notes === "") {
-                delete data.notes;
-            }
+            if (data.notes === "") { delete data.notes; }
             data.tags = this.get("provisionalTags");
             if (this.get("modifySecret")) {
                 data.secret = $form.find("#edit-secret1").val();
