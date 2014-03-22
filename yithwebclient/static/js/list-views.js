@@ -26,16 +26,47 @@
         tagName: "button",
         classNames: ["btn btn-info"],
 
+        getUIElems: function ($button) {
+            var ui = {
+                $node: $button.parents("tr")
+            };
+
+            ui.$input = ui.$node.find("td:first-child input");
+            ui.$countdown = ui.$node.find("td:first-child span");
+            ui.$close = ui.$countdown.next();
+            return ui;
+        },
+
+        showCloseButton: function (ui) {
+            ui.$close.off("click");
+            ui.$close.click(function () {
+                ui.$input.hide().attr("value", "");
+                ui.$close.hide();
+            });
+            ui.$close.show();
+        },
+
+        showCountDown: function (ui) {
+            var timer;
+
+            ui.$countdown.text("5");
+            ui.$countdown.show();
+            timer = setInterval(function () {
+                ui.$countdown.text(parseInt(ui.$countdown.text(), 10) - 1);
+            }, 1000);
+            setTimeout(function () {
+                clearInterval(timer);
+                ui.$input.hide().attr("value", "");
+                ui.$countdown.hide();
+            }, 5500);
+        },
+
         click: function (evt) {
             var that = this;
 
             Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
-                var $node = $(evt.target).parents("tr"),
-                    $input = $node.find("td:first-child input"),
-                    $countdown = $node.find("td:first-child span"),
-                    $close = $countdown.next(),
-                    secret = that.get("controller").get("secret"),
-                    timer;
+                var secret = that.get("controller").get("secret"),
+                    ui;
 
                 try {
                     secret = Yith.ViewsUtils.decipher(masterPassword, secret);
@@ -43,27 +74,14 @@
                     return false;
                 }
                 masterPassword = null;
-                $input.val(secret).show().focus().select();
+                ui = that.getUIElems($(evt.target));
+                ui.$input.val(secret).show().focus().select();
                 secret = null;
 
                 if (Yith.settings.get("disableCountdown")) {
-                    $close.off("click");
-                    $close.click(function () {
-                        $input.hide().attr("value", "");
-                        $close.hide();
-                    });
-                    $close.show();
+                    that.showCloseButton(ui);
                 } else {
-                    $countdown.text("5");
-                    $countdown.show();
-                    timer = setInterval(function () {
-                        $countdown.text(parseInt($countdown.text(), 10) - 1);
-                    }, 1000);
-                    setTimeout(function () {
-                        clearInterval(timer);
-                        $input.hide().attr("value", "");
-                        $countdown.hide();
-                    }, 5500);
+                    that.showCountDown(ui);
                 }
                 return true;
             });
