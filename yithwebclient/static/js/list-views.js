@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global Ember, $, Yith,  */
+/*global Ember, $, Yith */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2014  Alejandro Blanco <alejandro.b.e@gmail.com>
