@@ -330,6 +330,7 @@
         <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/list-views.js')}"></script>
     % else:
         <script src="${request.static_path('yithwebclient:static/js/prod/yith-1.0.2.min.js')}"></script>
     % endif
