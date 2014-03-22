@@ -124,12 +124,16 @@
             data.account = $form.find("#edit-account").val().trim();
             data.lastModification = now.getTime();
             if (enableExpiration) {
-                data.expiration = now.getTime() + (parseInt($form.find("#edit-expiration").val(), 10) * Yith.ControllersUtils.oneDayInMilliseconds);
-                data.expiration = Math.round((data.expiration - creation) / Yith.ControllersUtils.oneDayInMilliseconds);
+                data.expiration = parseInt($form.find("#edit-expiration").val(), 10);
+                data.expiration *= Yith.ControllersUtils.oneDayInMilliseconds;
+                data.expiration += data.lastModification;
+                data.expiration = Math.round(
+                    (data.expiration - creation) / Yith.ControllersUtils.oneDayInMilliseconds
+                );
             } else {
                 data.expiration = 0;
             }
-            data.notes = $form.find("#edit-notes").val();
+            data.notes = $form.find("#edit-notes").val().trim();
             if (data.notes === "") {
                 delete data.notes;
             }
