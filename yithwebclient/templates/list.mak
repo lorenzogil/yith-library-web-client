@@ -329,6 +329,7 @@
         <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/edit-controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/list-views.js')}"></script>
     % else:

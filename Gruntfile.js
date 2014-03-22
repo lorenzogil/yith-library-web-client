@@ -35,6 +35,7 @@ module.exports = function (grunt) {
                     'yithwebclient/static/js/objects.js',
                     'yithwebclient/static/js/models.js',
                     'yithwebclient/static/js/controllers.js',
+                    'yithwebclient/static/js/edit-controllers.js',
                     'yithwebclient/static/js/views.js',
                     'yithwebclient/static/js/list-views.js'
                 ],
