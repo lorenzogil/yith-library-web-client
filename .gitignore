@@ -17,8 +17,15 @@ develop-eggs
 # Installer logs
 pip-log.txt
 
-#Translations
+# Translations
 *.mo
 
-#Node.js
+# Node.js
 node_modules/
+
+# Sublime text
+yith-web-client.sublime-project
+yith-web-client.sublime-workspace
+
+# Bower
+bower_components/

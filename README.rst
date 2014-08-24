@@ -10,6 +10,9 @@ Yith Library web client
 .. image:: https://codeclimate.com/github/ablanco/yith-library-web-client.png
   :target: https://codeclimate.com/github/ablanco/yith-library-web-client
 
+.. image:: https://david-dm.org/ablanco/yith-library-web-client/dev-status.svg
+  :target: https://david-dm.org/ablanco/yith-library-web-client#info=devDependencies
+
 Web client for Yith Library server. Written on top of Pyramid and Ember.js
 
 Server code: https://github.com/lorenzogil/yith-library-server
@@ -52,10 +55,12 @@ We use Grunt.js to build the minified javascript bundle. So you will need
 to install the grunt client in you system. Execute this as root::
 
     npm install -g grunt-cli
+    npm install -g bower
 
-Then you'll need to install the dependencies, run this command::
+Then you'll need to install the dependencies, run these commands::
 
     npm install -d
+    bower install
 
 Once this has finished, then you can execute the main task that will build
 the bundle::
