@@ -23,7 +23,7 @@ module.exports = function (grunt) {
         bower: {
             install: {
                 options: {
-                    targetDir: './yithwebclient/static/vendor_debug',
+                    targetDir: './yithwebclient/static/vendor',
                     cleanTargetDir: true
                 }
             }
@@ -52,13 +52,13 @@ module.exports = function (grunt) {
             },
             vendor: {
                 src: [
-                    'yithwebclient/static/vendor_debug/jquery/jquery.js',
-                    'yithwebclient/static/vendor_debug/bootstrap/bootstrap.js',
-                    'yithwebclient/static/vendor_debug/pwstrength-bootstrap/pwstrength-bootstrap-1.2.0.min.js',
-                    'yithwebclient/static/vendor_debug/handlebars/handlebars.js',
-                    'yithwebclient/static/vendor_debug/ember/ember.js',
-                    // 'yithwebclient/static/vendor_debug/ember-data/ember-data.js', // FIXME concat this file makes uglify crash
-                    'yithwebclient/static/vendor_debug/sjcl/sjcl.js'
+                    'yithwebclient/static/vendor/jquery/jquery.js',
+                    'yithwebclient/static/vendor/bootstrap/bootstrap.js',
+                    'yithwebclient/static/vendor/pwstrength-bootstrap/pwstrength-bootstrap-1.2.0.min.js',
+                    'yithwebclient/static/vendor/handlebars/handlebars.js',
+                    'yithwebclient/static/vendor/ember/ember.js',
+                    // 'yithwebclient/static/vendor/ember-data/ember-data.js', // FIXME concat this file makes uglify crash
+                    'yithwebclient/static/vendor/sjcl/sjcl.js'
                 ],
                 dest: 'vendor.js'
             }
@@ -93,6 +93,12 @@ module.exports = function (grunt) {
             },
             moveFiles: {
                 command: 'mv yith-<%= pkg.version %>* yithwebclient/static/js/prod/'
+            },
+            makeFontDir: {
+                command: 'mkdir -p yithwebclient/static/vendor/fonts'
+            },
+            mvFonts: {
+                command: 'mv yithwebclient/static/vendor/fontawesome/FontAwesome.otf yithwebclient/static/vendor/fontawesome/*webfont* yithwebclient/static/vendor/fonts/'
             }
         }
     });

@@ -318,13 +318,13 @@
 
 <%def name="extrabody()">
     % if debug_js:
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/jquery/jquery.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/bootstrap/bootstrap.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/handlebars/handlebars.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/ember/ember.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/ember-data/ember-data.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/pwstrength-bootstrap/pwstrength-bootstrap-1.2.1.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/sjcl/sjcl.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/jquery/jquery.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/bootstrap/bootstrap.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/handlebars/handlebars.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/ember/ember.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/ember-data/ember-data.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/pwstrength-bootstrap/pwstrength-bootstrap-1.2.1.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/sjcl/sjcl.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
@@ -334,7 +334,7 @@
         <script src="${request.static_path('yithwebclient:static/js/list-views.js')}"></script>
     % else:
         <script src="${request.static_path('yithwebclient:static/js/prod/vendor.min.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/ember-data/ember-data.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor/ember-data/ember-data.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/prod/yith-1.0.2.min.js')}"></script>
     % endif
 

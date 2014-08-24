@@ -1,3 +1,11 @@
+1.1.0
+-----
+
+- Use bower to manage the dependencies
+- Use fontawesome for the icons
+- Upgrade to Ember.js 1.7.0
+
+
 1.0.2
 -----
 

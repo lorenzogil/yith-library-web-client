@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
-    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/vendor_debug/bootstrap/bootstrap.css')}">
-    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/vendor_debug/fontawesome/font-awesome.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/vendor/bootstrap/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/vendor/fontawesome/font-awesome.css')}">
     <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style-dd5ea40f32fa4078dc47abccaecfe986.css')}">
 
     <!--[if lt IE 9]>
