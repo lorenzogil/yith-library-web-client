@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global Ember, $, Yith */
+/*global Ember, Yith */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2014  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -19,7 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-(function () {
+(function (Yith, Ember) {
     "use strict";
 
     Yith.ServiceButton = Ember.View.extend({
@@ -74,7 +74,7 @@
                     return false;
                 }
                 masterPassword = null;
-                ui = that.getUIElems($(evt.target));
+                ui = that.getUIElems(Ember.$(evt.target));
                 ui.$input.val(secret).show().focus().select();
                 secret = null;
 
@@ -266,4 +266,4 @@
             this.get("controller").save(this.$().parents("form"));
         }
     });
-}());
+}(Yith, Ember));

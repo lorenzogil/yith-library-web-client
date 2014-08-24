@@ -1,5 +1,5 @@
 /*jslint browser: true, nomen: true */
-/*global Ember, $, Yith, DS, yithServerHost, yithClientId, yithAccessCode */
+/*global Ember, Yith, DS, yithServerHost, yithClientId, yithAccessCode */
 
 // Yith Library web client
 // Copyright (C) 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -17,7 +17,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(function () {
+(function (Yith, Ember, DS, host, clientId) {
     "use strict";
 
     Yith.Password = DS.Model.extend({
@@ -33,10 +33,10 @@
     });
 
     Yith.PasswordAdapter = DS.RESTAdapter.extend({
-        host: yithServerHost,
+        host: host,
         ajax: function (url, type, hash) {
             // Prepare the adapter for the oAuth stuff
-            url += "?client_id=" + yithClientId;
+            url += "?client_id=" + clientId;
             if (hash === undefined) {
                 hash = {};
             }
@@ -47,12 +47,12 @@
         },
 
         didError: function () {
-            $("#error").modal({ keyboard: false, backdrop: "static" });
-            $("#error").find(".failure").removeClass("hide");
+            Ember.$("#error").modal({ keyboard: false, backdrop: "static" });
+            Ember.$("#error").find(".failure").removeClass("hide");
             setTimeout(function () {
                 window.open("/list", "_self");
             }, 4000);
             this._super.apply(this, arguments);
         }
     });
-}());
+}(Yith, Ember, DS, yithServerHost, yithClientId));

@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global Ember, Yith: true, DS, $ */
+/*global Ember, Yith: true */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -17,9 +17,10 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(function () {
+window.Yith = Ember.Application.create();
+
+(function (Yith, Ember) {
     "use strict";
-    window.Yith = Ember.Application.create({});
     // Wait until we have the access code
     Yith.deferReadiness();
 
@@ -38,7 +39,7 @@
         },
 
         enter: function () {
-            $("#top-bar").removeClass("hide");
+            Ember.$("#top-bar").removeClass("hide");
         }
     });
 
@@ -48,8 +49,8 @@
         },
 
         enter: function () {
-            $("#top-bar").addClass("hide");
-            $("#advanced-options").addClass("hide");
+            Ember.$("#top-bar").addClass("hide");
+            Ember.$("#advanced-options").addClass("hide");
         }
     });
 
@@ -59,8 +60,8 @@
         },
 
         enter: function () {
-            $("#top-bar").addClass("hide");
-            $("#advanced-options").addClass("hide");
+            Ember.$("#top-bar").addClass("hide");
+            Ember.$("#advanced-options").addClass("hide");
             var controller = this.get("controller");
             if (controller) {
                 // If the controller has already been created then it's
@@ -71,36 +72,36 @@
     });
 
     // INITIALIZATION CODE
-    $(document).ready(function () {
+    Ember.$(document).ready(function () {
         var creditsModal,
             setProgressBar;
 
         setProgressBar = function (width) {
-            $("#loading .progress .bar").css("width", width + "%");
+            Ember.$("#loading .progress .bar").css("width", width + "%");
         };
 
-        $.ajax("/token", {
+        Ember.$.ajax("/token", {
             success: function (data) {
                 window.yithAccessCode = data.access_code;
                 setProgressBar(100);
                 Yith.advanceReadiness();
-                $("#loading").remove();
+                Ember.$("#loading").remove();
             },
             error: function () {
-                $("#error").find(".access").removeClass("hide");
-                $("#error").modal({ keyboard: false, backdrop: "static" });
+                Ember.$("#error").find(".access").removeClass("hide");
+                Ember.$("#error").modal({ keyboard: false, backdrop: "static" });
                 setTimeout(function () {
                     window.open("/", "_self");
                 }, 4000);
             }
         });
 
-        creditsModal = $("#credits");
+        creditsModal = Ember.$("#credits");
         creditsModal.modal({ show: false });
-        $("#creditsButton").click(function () {
+        Ember.$("#creditsButton").click(function () {
             creditsModal.modal("show");
         });
 
         setProgressBar(60);
     });
-}());
+}(Yith, Ember));

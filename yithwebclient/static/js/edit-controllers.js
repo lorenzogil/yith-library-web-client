@@ -1,5 +1,5 @@
 /*jslint browser: true, nomen: true */
-/*global Ember, $, Yith */
+/*global Ember, Yith */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2014  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -18,7 +18,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(function () {
+(function (Yith, Ember) {
     "use strict";
 
     Yith.PasswordsNewController = Ember.ObjectController.extend({
@@ -50,9 +50,9 @@
             this.addObserver("tags", this, tagsHandler);
         },
 
-        expirationDisabled: Ember.computed(function () {
+        expirationDisabled: Ember.computed("expirationActive", function () {
             return !this.get("expirationActive");
-        }).property("expirationActive"),
+        }),
 
         addProvisionalTags: function (newTags) {
             var tags = new Ember.Set(this.get("provisionalTags"));
@@ -189,7 +189,7 @@
 
         actions: {
             checkEmptiness: function () {
-                this.validateRequired($("#edit-service"));
+                this.validateRequired(Ember.$("#edit-service"));
             },
 
             expirationToggle: function () {
@@ -213,18 +213,18 @@
         modifySecret: false,
         savingEvent: "didUpdate",
 
-        daysLeft: Ember.computed(function () {
+        daysLeft: Ember.computed("creation", "expiration", function () {
             var days = '';
             if (this.get("expirationActive")) {
                 days = Yith.ControllersUtils.daysLeft(this.get("creation"), this.get("expiration"));
             }
             return days;
-        }).property("creation", "expiration"),
+        }),
 
         actions: {
             deletePassword: function () {
                 var that = this,
-                    confirm = $("#confirm-modal");
+                    confirm = Ember.$("#confirm-modal");
 
                 confirm.modal({ show: false });
                 confirm.find("#confirm-delete")
@@ -248,4 +248,4 @@
             }
         }
     });
-}());
+}(Yith, Ember));

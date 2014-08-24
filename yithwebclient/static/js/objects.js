@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global Ember, $, Yith */
+/*global Ember, Yith */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2013  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -18,7 +18,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(function () {
+(function (Yith, Ember) {
     "use strict";
 
     Yith.SettingsObject = Ember.Object.extend({
@@ -30,7 +30,7 @@
         passGenUseChars: true,
         passGenLength: 20,
 
-        passGenCharset: Ember.computed(function () {
+        passGenCharset: Ember.computed("passGenUseChars", "passGenUseNumbers", "passGenUseSymbols", function () {
             // 33 start symbols
             // 48 start numbers
             // 58 start symbols again
@@ -62,8 +62,8 @@
             }
 
             return charset;
-        }).property("passGenUseChars", "passGenUseNumbers", "passGenUseSymbols")
+        })
     });
 
     Yith.settings = Yith.SettingsObject.create();
-}());
+}(Yith, Ember));

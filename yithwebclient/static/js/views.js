@@ -1,5 +1,5 @@
 /*jslint browser: true, nomen: true */
-/*global Ember, $, Yith, sjcl, yithServerHost */
+/*global Ember, Yith, sjcl, yithServerHost */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2014  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -19,7 +19,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-(function () {
+(function (Yith, Ember, sjcl, host) {
     "use strict";
 
     Yith.ViewsUtils = {
@@ -85,7 +85,7 @@
 
             // Initialize the modal only once
             if (firstTime) {
-                Yith.ViewsUtils.masterModal = $("#master");
+                Yith.ViewsUtils.masterModal = Ember.$("#master");
                 Yith.ViewsUtils.masterModal.modal({
                     show: false
                 });
@@ -122,8 +122,8 @@
 
             if (!model.isLoaded) {
                 Yith.ViewsUtils.masterModal.modal("hide");
-                $("#error").modal({ keyboard: false, backdrop: "static" });
-                $("#error").find(".failure").removeClass("hide");
+                Ember.$("#error").modal({ keyboard: false, backdrop: "static" });
+                Ember.$("#error").find(".failure").removeClass("hide");
                 setTimeout(function () {
                     window.open("/list", "_self");
                 }, 4000);
@@ -161,7 +161,7 @@
         classNames: ["btn"],
 
         click: function (evt) {
-            var $target = $(evt.target);
+            var $target = Ember.$(evt.target);
             $target.toggleClass("active");
             Yith.settings.set("disableCountdown", $target.hasClass("active"));
         }
@@ -172,7 +172,7 @@
         classNames: ["btn"],
 
         click: function (evt) {
-            var $target = $(evt.target);
+            var $target = Ember.$(evt.target);
             $target.toggleClass("active");
             Yith.settings.set("rememberMaster", $target.hasClass("active"));
             if (!Yith.settings.get("rememberMaster")) {
@@ -186,8 +186,8 @@
         classNames: ["btn"],
 
         click: function (evt) {
-            var $advanced = $("#advanced-options");
-            $(evt.target).toggleClass("active");
+            var $advanced = Ember.$("#advanced-options");
+            Ember.$(evt.target).toggleClass("active");
             if ($advanced.hasClass("hide")) {
                 $advanced.removeClass("hide").addClass("row");
             } else {
@@ -201,7 +201,7 @@
         classNames: ["btn", "pull-right"],
 
         click: function () {
-            window.open(yithServerHost + "/preferences", "_blank");
+            window.open(host + "/preferences", "_blank");
         }
     });
 
@@ -250,7 +250,7 @@
         classNames: ["span2"],
 
         change: function (evt) {
-            Yith.settings.set("passGenLength", parseInt($(evt.target).val(), 10));
+            Yith.settings.set("passGenLength", parseInt(Ember.$(evt.target).val(), 10));
         }
     });
-}());
+}(Yith, Ember, sjcl, yithServerHost));

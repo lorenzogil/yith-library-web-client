@@ -1,5 +1,5 @@
 /*jslint browser: true */
-/*global Ember, $, Yith */
+/*global Ember, Yith */
 
 // Yith Library web client
 // Copyright (C) 2012 - 2014  Alejandro Blanco <alejandro.b.e@gmail.com>
@@ -18,7 +18,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(function () {
+(function (Yith, Ember) {
     "use strict";
 
     Yith.ControllersUtils = {
@@ -34,11 +34,11 @@
     };
 
     Yith.PasswordInListController = Ember.ObjectController.extend({
-        daysLeft: Ember.computed(function () {
+        daysLeft: Ember.computed("creation", "expiration", function () {
             return Yith.ControllersUtils.daysLeft(this.get("creation"), this.get("expiration"));
-        }).property("creation", "expiration"),
+        }),
 
-        expirationClass: Ember.computed(function () {
+        expirationClass: Ember.computed("daysLeft", function () {
             var cssClass = "badge ",
                 daysLeft = this.get("daysLeft");
 
@@ -51,13 +51,13 @@
             }
 
             return cssClass;
-        }).property("daysLeft")
+        })
     });
 
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
         activeFilters: [],
 
-        processedPasswordList: Ember.computed(function () {
+        processedPasswordList: Ember.computed("@each", "activeFilters.@each", function () {
             var filters = this.activeFilters,
                 that = this,
                 result;
@@ -101,9 +101,9 @@
                 controller.set("list_controller", that);
                 return controller;
             });
-        }).property("@each", "activeFilters.@each"),
+        }),
 
-        allTags: Ember.computed(function () {
+        allTags: Ember.computed("@each.tags", function () {
             var allTags = new Ember.Set();
             this.forEach(function (password) {
                 var tags = password.get("tags");
@@ -115,7 +115,7 @@
                 return a.localeCompare(b);
             });
             return allTags;
-        }).property("@each.tags"),
+        }),
 
         activateFilter: function (filter) {
             var filters = new Ember.Set(this.activeFilters);
@@ -129,4 +129,4 @@
             this.set("activeFilters", filters.toArray());
         }
     });
-}());
+}(Yith, Ember));
