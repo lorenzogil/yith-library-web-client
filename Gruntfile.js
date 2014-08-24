@@ -73,7 +73,11 @@ module.exports = function (grunt) {
                 files: {
                     'yith-<%= pkg.version %>.min.js': [
                         '<%= concat.dist.dest %>'
-                    ],
+                    ]
+                }
+            },
+            vendor: {
+                files: {
                     'vendor.min.js': [
                         '<%= concat.vendor.dest %>'
                     ]

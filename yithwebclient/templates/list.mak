@@ -35,12 +35,12 @@
         <script type="text/x-handlebars" data-template-name="passwords">
             <div class="row" id="top-bar">
                 <div class="span3">
-                    {{#link-to 'passwords.new' class="btn"}}<i class="icon-plus"></i> Add new password{{/link-to}}
+                    {{#link-to 'passwords.new' class="btn"}}<i class="fa fa-plus"></i> Add new password{{/link-to}}
                 </div>
                 <div class="span9"><div class="pull-right">
                     {{#view Yith.DisableCountdownButton}}Disable countdown{{/view}}
                     {{#view Yith.RememberMasterButton}}Remember master password{{/view}}
-                    {{#view Yith.ShowAdvancedButton}}<i class="icon-wrench"></i> Show advanced options{{/view}}
+                    {{#view Yith.ShowAdvancedButton}}<i class="fa fa-wrench"></i> Show advanced options{{/view}}
                 </div></div>
             </div>
             <div id="advanced-options" class="hide">
@@ -93,7 +93,7 @@
                     <div id="filter">
                         <b>Active filters:</b>
                         {{#each activeFilters}}
-                            {{#view Yith.FilterButton}}<i class="icon-remove"></i> {{this}}{{/view}}
+                            {{#view Yith.FilterButton}}<i class="fa fa-times"></i> {{this}}{{/view}}
                         {{/each}}
                     </div>
                 {{/if}}
@@ -117,7 +117,7 @@
                             <tr>
                                 <td>
                                     {{#view Yith.ServiceButton}}{{pass.service}}{{/view}}
-                                    <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer icon-remove" ></i>
+                                    <input type="text" style="display: none;" class="unambiguous input-xlarge" /> <span style="display: none;" ></span><i style="display: none;" class="pointer fa fa-times" ></i>
                                 </td>
                                 <td>{{pass.account}}</td>
                                 <td>{{#each pass.tags}}
@@ -131,10 +131,10 @@
                                     {{/if}}
                                 </td>
                                 <td>
-                                    {{#view Yith.NotesButton}}<i class="icon-exclamation-sign"></i> Notes{{/view}}
+                                    {{#view Yith.NotesButton}}<i class="fa fa-exclamation"></i> Notes{{/view}}
                                 </td>
                                 <td>
-                                    {{#link-to 'password' pass class="btn btn-warning"}}<i class="icon-white icon-edit"></i> Edit{{/link-to}}
+                                    {{#link-to 'password' pass class="btn btn-warning"}}<i class="fa fa-pencil-square-o"></i> Edit{{/link-to}}
                                 </td>
                             </tr>
                         {{/each}}
@@ -213,7 +213,7 @@
                     {{view Yith.TagsInput}}
                     <ul>
                         {{#each tag in provisionalTags}}
-                            <li>{{tag}} <i class="icon-remove pointer" {{action "removeTag" tag}}></i></li>
+                            <li>{{tag}} <i class="fa fa-times pointer" {{action "removeTag" tag}}></i></li>
                         {{/each}}
                     </ul>
                 </div>
@@ -235,7 +235,7 @@
                     </label>
                     <div class="controls form-inline">
                         <input type="password" id="edit-secret1" class="input-small edit-secret" /> <input type="password" id="edit-secret2" class="input-small edit-secret" placeholder="Repeat"/>
-                        {{#view Yith.GenerateSecretButton}}<i class="icon icon-cog"></i> Generate{{/view}}
+                        {{#view Yith.GenerateSecretButton}}<i class="fa fa-cog"></i> Generate{{/view}}
 
                         <span class="help-block match" style="display: none;">The passwords don't match</span>
                         <span class="help-block req" style="display: none;">This field is required</span>
@@ -253,7 +253,7 @@
 
         <script type="text/x-handlebars" data-template-name="tags-input">
             <div class="input-append">
-                <input type="text" autocomplete="off" /><button class="btn"><i class="icon icon-plus"></i> Add</button>
+                <input type="text" autocomplete="off" /><button class="btn"><i class="fa fa-plus"></i> Add</button>
             </div>
         </script>
     </%text>
@@ -323,7 +323,7 @@
         <script src="${request.static_path('yithwebclient:static/vendor_debug/handlebars/handlebars.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/vendor_debug/ember/ember.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/vendor_debug/ember-data/ember-data.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/vendor_debug/pwstrength-bootstrap/pwstrength-bootstrap-1.2.0.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/vendor_debug/pwstrength-bootstrap/pwstrength-bootstrap-1.2.1.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/vendor_debug/sjcl/sjcl.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>

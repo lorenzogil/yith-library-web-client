@@ -8,6 +8,7 @@
         "bootstrap": "2.3.2",
         "ember": "1.7.0",
         "ember-data": "~1.0.0-beta.9",
+        "fontawesome": "4.1.0",
         "jquery": ">=2.0.0",
         "pwstrength-bootstrap": "1.2.1",
         "sjcl": "1.0.0"

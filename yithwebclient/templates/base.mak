@@ -12,6 +12,7 @@
 
     <link rel="shortcut icon" href="${request.static_path('yithwebclient:static/favicon.ico')}" />
     <link rel="stylesheet" href="${request.static_path('yithwebclient:static/vendor_debug/bootstrap/bootstrap.css')}">
+    <link rel="stylesheet" href="${request.static_path('yithwebclient:static/vendor_debug/fontawesome/font-awesome.css')}">
     <link rel="stylesheet" href="${request.static_path('yithwebclient:static/css/style-dd5ea40f32fa4078dc47abccaecfe986.css')}">
 
     <!--[if lt IE 9]>
@@ -40,7 +41,7 @@
             <hr />
             <p>Yithian image is copyright of <a href="http://narizpuntiaguda.com/" target="_blank">Isaac (Ismurg)</a> &lt;ismurg at gmail.com&gt; under the terms of the <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC BY-SA 3.0</a></p>
             <hr />
-            <p>Icons from <a href="http://glyphicons.com" target="_blank">Glyphicons Free</a> - <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></p>
+            <p>Icons from <a href="http://fontawesome.io/" target="_blank">Font Awesome</a> - <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="_blank">SIL OFL 1.1</a> &amp; <a href="http://opensource.org/licenses/mit-license.html">MIT License</a></p>
             <hr />
             <p><a href="http://thenounproject.com/noun/browser/#icon-No4038" target="_blank">Browser</a> designed by <a href="http://thenounproject.com/alexstrat" target="_blank">Alexandre Lachèze</a> from The Noun Project - <a href="http://creativecommons.org/licenses/by/3.0/" target="_blank">CC BY 3.0</a></p>
         </div>
