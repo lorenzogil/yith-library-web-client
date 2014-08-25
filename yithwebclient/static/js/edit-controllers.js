@@ -209,7 +209,7 @@
         }
     });
 
-    Yith.PasswordController = Yith.PasswordsNewController.extend({
+    Yith.PasswordsEditController = Yith.PasswordsNewController.extend({
         modifySecret: false,
         savingEvent: "didUpdate",
 

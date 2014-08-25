@@ -27,41 +27,28 @@ window.Yith = Ember.Application.create();
     Yith.Router.map(function () {
         this.resource('passwords', { path: '/' }, function () {
             this.route('new');
-            this.resource('password', {
-                path: ':password_id'
-            });
+            this.route('edit', { path: ':password_id' });
         });
     });
 
     Yith.PasswordsIndexRoute = Ember.Route.extend({
         model: function () {
             return this.store.find('password');
-        },
-
-        enter: function () {
-            Ember.$("#top-bar").removeClass("hide");
         }
     });
 
     Yith.PasswordsNewRoute = Ember.Route.extend({
         model: function () {
             return this.store.createRecord('password');
-        },
-
-        enter: function () {
-            Ember.$("#top-bar").addClass("hide");
-            Ember.$("#advanced-options").addClass("hide");
         }
     });
 
-    Yith.PasswordRoute = Ember.Route.extend({
+    Yith.PasswordsEditRoute = Ember.Route.extend({
         model: function (params) {
             return this.store.find('password', params.password_id);
         },
 
         enter: function () {
-            Ember.$("#top-bar").addClass("hide");
-            Ember.$("#advanced-options").addClass("hide");
             var controller = this.get("controller");
             if (controller) {
                 // If the controller has already been created then it's
