@@ -156,46 +156,6 @@
 
     // GLOBAL VIEWS
 
-    Yith.DisableCountdownButton = Ember.View.extend({
-        tagName: "button",
-        classNames: ["btn"],
-
-        click: function (evt) {
-            var $target = Ember.$(evt.target);
-            $target.toggleClass("active");
-            Yith.settings.set("disableCountdown", $target.hasClass("active"));
-        }
-    });
-
-    Yith.RememberMasterButton = Ember.View.extend({
-        tagName: "button",
-        classNames: ["btn"],
-
-        click: function (evt) {
-            var $target = Ember.$(evt.target);
-            $target.toggleClass("active");
-            Yith.settings.set("rememberMaster", $target.hasClass("active"));
-            if (!Yith.settings.get("rememberMaster")) {
-                Yith.settings.set("masterPassword", undefined);
-            }
-        }
-    });
-
-    Yith.ShowAdvancedButton = Ember.View.extend({
-        tagName: "button",
-        classNames: ["btn"],
-
-        click: function (evt) {
-            var $advanced = Ember.$("#advanced-options");
-            Ember.$(evt.target).toggleClass("active");
-            if ($advanced.hasClass("hide")) {
-                $advanced.removeClass("hide").addClass("row");
-            } else {
-                $advanced.removeClass("row").addClass("hide");
-            }
-        }
-    });
-
     Yith.ServerPreferencesButton = Ember.View.extend({
         tagName: "button",
         classNames: ["btn", "pull-right"],

@@ -25,6 +25,7 @@
         disableCountdown: false,
         rememberMaster: false,
         masterPassword: undefined,
+        showAdvancedOptions: false,
         passGenUseSymbols: true,
         passGenUseNumbers: true,
         passGenUseChars: true,

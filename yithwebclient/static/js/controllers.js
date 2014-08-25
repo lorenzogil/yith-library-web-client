@@ -127,6 +127,36 @@
             var filters = new Ember.Set(this.activeFilters);
             filters.remove(filter);
             this.set("activeFilters", filters.toArray());
+        },
+
+        isCountdownActive: Ember.computed("Yith.settings.disableCountdown", function () {
+            return Yith.settings.get("disableCountdown");
+        }),
+
+        isRememberMasterActive: Ember.computed("Yith.settings.rememberMaster", function () {
+            return Yith.settings.get("rememberMaster");
+        }),
+
+        showAdvancedOptions: Ember.computed("Yith.settings.showAdvancedOptions", function () {
+            return Yith.settings.get("showAdvancedOptions");
+        }),
+
+        actions: {
+            toggleCountdown: function () {
+                Yith.settings.set("disableCountdown", !Yith.settings.get('disableCountdown'));
+            },
+
+            toggleRememberMaster: function () {
+                var remember = !Yith.settings.get("rememberMaster");
+                Yith.settings.set("rememberMaster", remember);
+                if (!remember) {
+                    Yith.settings.set("masterPassword", undefined);
+                }
+            },
+
+            toggleAdvancedOptions: function () {
+                Yith.settings.set("showAdvancedOptions", !Yith.settings.get('showAdvancedOptions'));
+            }
         }
     });
 }(Yith, Ember));
