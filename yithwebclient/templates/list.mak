@@ -40,6 +40,9 @@
     <script type="text/x-handlebars" data-template-name="secret-group">
         <%include file="secretGroup.hbs"/>
     </script>
+    <script type="text/x-handlebars" data-template-name="master-modal">
+        <%include file="masterModal.hbs"/>
+    </script>
 
     <%text>
         <script type="text/x-handlebars">
@@ -54,29 +57,6 @@
             </div>
         </script>
     </%text>
-
-    <div class="modal hide" id="master">
-        <div class="modal-header">
-            <button class="close" data-dismiss="modal">&times;</button>
-            <h3>Master Password</h3>
-        </div>
-        <div class="modal-body">
-            <form>
-                <label for="master-password" class="change-master">Old password</label>
-                <input type="password" id="master-password"/>
-                <label for="new-master-password" class="change-master">New password</label>
-                <input type="password" id="new-master-password" class="change-master" style="display: none;"/>
-            </form>
-            <div class="alert alert-error" id="master-error" style="display: none;">
-                <h4>Wrong password!</h4>
-                That's not your master password, try another.
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Cancel</a>
-            <a href="#" class="btn btn-primary" id="master-done">Accept</a>
-        </div>
-    </div>
 
     <div class="modal hide" id="error">
         <div class="modal-header">
@@ -124,10 +104,10 @@
         <script src="${request.static_path('yithwebclient:static/vendor/sjcl/sjcl.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/app.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/objects.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/models.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/edit-controllers.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/views.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/list-views.js')}"></script>
     % else:
         <script src="${request.static_path('yithwebclient:static/js/prod/vendor.min.js')}"></script>

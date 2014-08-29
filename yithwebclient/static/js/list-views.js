@@ -64,8 +64,8 @@
         click: function (evt) {
             var that = this;
 
-            Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
-                var secret = that.get("controller").get("secret"),
+            this.get('controller.list_controller.masterModalView').show(function (masterPassword) {
+                var secret = that.get("controller.secret"),
                     ui;
 
                 try {

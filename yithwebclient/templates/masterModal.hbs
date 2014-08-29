@@ -1,0 +1,28 @@
+<%text>
+<div class="modal hide" {{bind-attr id=view.ident}}>
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">&times;</button>
+    <h3>Master Password</h3>
+  </div>
+  <div class="modal-body">
+    <form>
+      {{#if view.isChangeForm}}
+        <label>Old password</label>
+      {{/if}}
+      <input type="password" class="main"/>
+      {{#if view.isChangeForm}}
+        <label>New password</label>
+        <input type="password"/>
+      {{/if}}
+    </form>
+    <div class="alert alert-error" style="display: none;">
+      <h4>Wrong password!</h4>
+      That's not your master password, try another.
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    <a href="#" class="btn btn-primary done">Accept</a>
+  </div>
+</div>
+</%text>

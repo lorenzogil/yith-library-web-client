@@ -28,6 +28,8 @@
         savingEvent: "didCreate",
         needs: ["PasswordsIndex"],
 
+        masterModalView: Yith.MasterModal.create(),
+
         init: function () {
             var expirationHandler,
                 tagsHandler;
@@ -168,7 +170,7 @@
                 };
 
                 if (data.secret !== undefined) {
-                    Yith.ViewsUtils.askMasterPassword(function (masterPassword) {
+                    this.get('masterModalView').show(function (masterPassword) {
                         var cipheredSecret;
 
                         try {

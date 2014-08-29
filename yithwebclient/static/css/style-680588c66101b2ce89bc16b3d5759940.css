@@ -51,18 +51,19 @@ ul.typeahead.dropdown-menu {
     margin-bottom: 10px;
 }
 
-#master {
+#master,
+#change-master {
     z-index: 1070;
+}
+
+#master input,
+#change-master input {
+    width: 520px;
 }
 
 .passwords td:first-child .btn.btn-info {
     display: block;
     margin-bottom: 5px;
-}
-
-#master-password,
-#new-master-password {
-    width: 520px;
 }
 
 form.edit-password #secret-group .help-block {

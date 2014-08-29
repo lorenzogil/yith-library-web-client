@@ -23,98 +23,6 @@
     "use strict";
 
     Yith.ViewsUtils = {
-        _initMasterPasswordModal: function ($master, $newMaster) {
-            var keyHandler = function (evt) {
-                var code = (evt.keyCode || evt.which);
-                if (code === 13) { // The "Enter" key
-                    Yith.ViewsUtils.masterModal.find("#master-done").trigger("click");
-                }
-            };
-
-            $master.keypress(function (evt) {
-                Yith.ViewsUtils.masterModal.find("#master-error").hide();
-                keyHandler(evt);
-            });
-
-            $newMaster.keypress(function (evt) {
-                keyHandler(evt);
-            });
-
-            Yith.ViewsUtils.masterModal.on("shown", function () {
-                Yith.ViewsUtils.masterModal.find("#master-error").hide().end()
-                                            .find("#master-password").focus();
-            });
-
-            Yith.ViewsUtils.masterModal.on("hidden", function () {
-                $master.val("");
-                $newMaster.val("");
-            });
-        },
-
-        _getMasterPasswordCallback: function ($master, $newMaster, callback) {
-            return function (evt) {
-                evt.preventDefault();
-                evt.stopPropagation();
-
-                var success = callback(
-                    $master.val(),
-                    $newMaster.val()
-                );
-
-                if (success) {
-                    if (Yith.settings.get("rememberMaster") && $master.val() !== "") {
-                        Yith.settings.set("masterPassword", $master.val());
-                        setTimeout(function () {
-                            Yith.settings.set("masterPassword", undefined);
-                        }, 300000); // 5 min
-                    }
-                    Yith.ViewsUtils.masterModal.modal("hide");
-                    $master.val("");
-                    $newMaster.val("");
-                } else {
-                    Yith.ViewsUtils.masterModal.find("#master-error").show().end()
-                                                .find("#master-password").focus().select();
-                }
-            };
-        },
-
-        askMasterPassword: function (callback, changeMaster) {
-            var firstTime = Yith.ViewsUtils.masterModal === undefined,
-                $master,
-                $newMaster;
-
-            // Initialize the modal only once
-            if (firstTime) {
-                Yith.ViewsUtils.masterModal = Ember.$("#master");
-                Yith.ViewsUtils.masterModal.modal({
-                    show: false
-                });
-            }
-
-            $master = Yith.ViewsUtils.masterModal.find("#master-password");
-            $newMaster = Yith.ViewsUtils.masterModal.find("#new-master-password");
-
-            if (firstTime) {
-                Yith.ViewsUtils._initMasterPasswordModal($master, $newMaster);
-            }
-
-            Yith.ViewsUtils.masterModal.find("#master-done")
-                .off("click")
-                .on("click", Yith.ViewsUtils._getMasterPasswordCallback($master, $newMaster, callback));
-
-            if (changeMaster) {
-                Yith.ViewsUtils.masterModal.find(".change-master").show();
-            } else {
-                Yith.ViewsUtils.masterModal.find(".change-master").hide();
-                if (Yith.settings.get("rememberMaster") && Yith.settings.get("masterPassword") !== undefined) {
-                    callback(Yith.settings.get("masterPassword"));
-                    return;
-                }
-            }
-
-            Yith.ViewsUtils.masterModal.modal("show");
-        },
-
         cipher: function (masterPassword, secret, notEnforce) {
             // FIXME This shouldn't use the __container__ API
             var model = Yith.ViewsUtils.passwordIndexController().get("model"),
@@ -154,7 +62,88 @@
         }
     };
 
-    // GLOBAL VIEWS
+    Yith.MasterModal = Ember.View.extend({
+        templateName: 'master-modal',
+        ident: 'master',
+        isChangeForm: false,
+        $root: null,
+        callback: null,
+
+        initModal: Ember.on('didInsertElement', function () {
+            var masterModal = this.$('#' + this.get('ident')).modal({
+                    show: false
+                }),
+                that = this;
+
+            masterModal.on('shown', function () {
+                that.cleanup();
+                that.$('input').first().focus();
+            });
+            masterModal.on('hidden', function () {
+                that.cleanup();
+                that.set('callback', null);
+            });
+            this.set('$root', masterModal);
+        }),
+
+        cleanup: function () {
+            this.$('.alert-error').hide();
+            this.$('input').val('');
+        },
+
+        show: function (callback) {
+            this.set('callback', callback);
+            if (!this.get('isChangeForm') && Yith.settings.get('rememberMaster')
+                    && !Ember.isNone(Yith.settings.get('masterPassword'))) {
+                this.done();
+            } else {
+                this.get('$root').modal('show');
+            }
+        },
+
+        done: function () {
+            var values = [],
+                success;
+
+            this.$('input').each(function (idx, input) {
+                values[idx] = Ember.$(input).val();
+            });
+            success = this.get('callback').apply(window, values);
+            if (success) {
+                if (Yith.settings.get('rememberMaster') && values[0] !== '') {
+                    Yith.settings.set('masterPassword', values[0]);
+                    setTimeout(function () {
+                        Yith.settings.set('masterPassword', undefined);
+                    }, 300000); // 5 min
+                }
+                this.get('$root').modal('hide');
+            } else {
+                this.$('.alert-error').show();
+                this.$('input').first().focus().select();
+            }
+            values = null;
+        },
+
+        keyPress: function (evt) {
+            var code = (evt.keyCode || evt.which);
+
+            if (this.$(evt.target).is('.main')) {
+                this.$('.alert-error').hide();
+            }
+            if (code === 13) { // The "Enter" key
+                evt.preventDefault();
+                this.done();
+            }
+        },
+
+        click: function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+            if (this.$(evt.target).is('.done')) {
+                this.done();
+            }
+        }
+    });
 
     Yith.ServerPreferencesButton = Ember.View.extend({
         tagName: "button",
@@ -173,13 +162,11 @@
             evt.preventDefault();
             evt.stopPropagation();
 
-            var controller = Yith.ViewsUtils.passwordIndexController();
-            // FIXME We shouldn't be using the __container__ API which is
-            // private, this should use the dependency system: "needs"
-            if (controller.objectAt(0)) {
-                Yith.ViewsUtils.askMasterPassword(function (masterPassword, newMasterPassword) {
+            var controller = this.get('controller');
+            if (controller.get('firstObject')) {
+                controller.get('changeMasterModalView').show(function (masterPassword, newMasterPassword) {
                     try {
-                        Yith.ViewsUtils.decipher(masterPassword, controller.objectAt(0).get("secret"));
+                        Yith.ViewsUtils.decipher(masterPassword, controller.get('firstObject.secret'));
                     } catch (err) {
                         return false;
                     }
