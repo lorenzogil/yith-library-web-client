@@ -28,7 +28,11 @@
         savingEvent: "didCreate",
         needs: ['passwordsIndex'],
 
-        masterModalView: Yith.MasterModal.create(),
+        masterModalView: null,
+
+        initMasterModal: function () {
+            this.set('masterModalView', Yith.MasterModal.create());
+        },
 
         init: function () {
             var expirationHandler,

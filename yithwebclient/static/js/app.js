@@ -34,12 +34,22 @@ window.Yith = Ember.Application.create();
     Yith.PasswordsIndexRoute = Ember.Route.extend({
         model: function () {
             return this.store.find('password');
+        },
+
+        setupController: function (controller, passwords) {
+            controller.set('model', passwords);
+            controller.initMasterModal();
         }
     });
 
     Yith.PasswordsNewRoute = Ember.Route.extend({
         model: function () {
             return this.store.createRecord('password');
+        },
+
+        setupController: function (controller, password) {
+            controller.set('model', password);
+            controller.initMasterModal();
         }
     });
 
@@ -48,13 +58,10 @@ window.Yith = Ember.Application.create();
             return this.store.find('password', params.password_id);
         },
 
-        enter: function () {
-            var controller = this.get("controller");
-            if (controller) {
-                // If the controller has already been created then it's
-                // possible that it is showing the modify-secret controls
-                controller.set("modifySecret", false);
-            }
+        setupController: function (controller, password) {
+            controller.set('model', password);
+            controller.set('modifySecret', false);
+            controller.initMasterModal();
         }
     });
 

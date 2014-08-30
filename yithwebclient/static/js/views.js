@@ -95,22 +95,27 @@
             this.set('callback', callback);
             if (!this.get('isChangeForm') && Yith.settings.get('rememberMaster')
                     && !Ember.isNone(Yith.settings.get('masterPassword'))) {
-                this.done();
+                this.done(Yith.settings.get('masterPassword'));
             } else {
                 this.get('$root').modal('show');
             }
         },
 
-        done: function () {
+        done: function (masterPassword) {
             var values = [],
                 success;
 
-            this.$('input').each(function (idx, input) {
-                values[idx] = Ember.$(input).val();
-            });
+            if (Ember.isNone(masterPassword)) {
+                this.$('input').each(function (idx, input) {
+                    values[idx] = Ember.$(input).val();
+                });
+            } else {
+                values.push(masterPassword);
+            }
+
             success = this.get('callback').apply(window, values);
             if (success) {
-                if (Yith.settings.get('rememberMaster') && values[0] !== '') {
+                if (Yith.settings.get('rememberMaster') && Ember.isNone(masterPassword) && values[0] !== '') {
                     Yith.settings.set('masterPassword', values[0]);
                     setTimeout(function () {
                         Yith.settings.set('masterPassword', undefined);

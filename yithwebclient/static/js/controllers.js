@@ -57,11 +57,16 @@
     Yith.PasswordsIndexController = Ember.ArrayController.extend({
         activeFilters: [],
 
-        masterModalView: Yith.MasterModal.create(),
-        changeMasterModalView: Yith.MasterModal.extend({
-            ident: 'change-master',
-            isChangeForm: true
-        }).create(),
+        masterModalView: null,
+        changeMasterModalView: null,
+
+        initMasterModal: function () {
+            this.set('masterModalView', Yith.MasterModal.create());
+            this.set('changeMasterModalView', Yith.MasterModal.extend({
+                ident: 'change-master',
+                isChangeForm: true
+            }).create());
+        },
 
         processedPasswordList: Ember.computed("@each", "activeFilters.@each", function () {
             var filters = this.activeFilters,
