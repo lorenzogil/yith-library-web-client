@@ -35,7 +35,7 @@ module.exports = function (grunt) {
                     // Remove ALL block comments, the stripBanners only removes
                     // the first one
                     src = src.replace(/\/\*[\s\S]*?\*\//g, '');
-                    return '// Source: ' + filepath + src;
+                    return '\n\n// Source: ' + filepath + '\n' + src;
                 }
             },
             dist: {
@@ -58,7 +58,8 @@ module.exports = function (grunt) {
                     'yithwebclient/static/vendor/pwstrength-bootstrap/pwstrength-bootstrap-1.2.0.min.js',
                     'yithwebclient/static/vendor/handlebars/handlebars.js',
                     'yithwebclient/static/vendor/ember/ember.js',
-                    // 'yithwebclient/static/vendor/ember-data/ember-data.js', // FIXME concat this file makes uglify crash
+                    // FIXME concat this file makes uglify crash
+                    // 'yithwebclient/static/vendor/ember-data/ember-data.js',
                     'yithwebclient/static/vendor/sjcl/sjcl.js'
                 ],
                 dest: 'vendor.js'

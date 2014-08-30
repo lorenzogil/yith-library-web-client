@@ -1,4 +1,7 @@
+
+
 // Source: yithwebclient/static/vendor/jquery/jquery.js
+
 (function( window, undefined ) {
 
 // Can't do this because several apps including ASP.NET trace
@@ -8689,7 +8692,10 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 }
 
 })( window );
-;// Source: yithwebclient/static/vendor/bootstrap/bootstrap.js
+;
+
+// Source: yithwebclient/static/vendor/bootstrap/bootstrap.js
+
 
 
 !function ($) {
@@ -10698,7 +10704,10 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
   })
 
 
-}(window.jQuery);;// Source: yithwebclient/static/vendor/handlebars/handlebars.js
+}(window.jQuery);;
+
+// Source: yithwebclient/static/vendor/handlebars/handlebars.js
+
 
 var Handlebars = (function() {
 // handlebars/safe-string.js
@@ -13419,7 +13428,10 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 
   return __module0__;
 })();
-;// Source: yithwebclient/static/vendor/ember/ember.js
+;
+
+// Source: yithwebclient/static/vendor/ember/ember.js
+
 
 (function() {
 var define, requireModule, require, requirejs, Ember;
@@ -42441,7 +42453,10 @@ define("rsvp/utils",
   });
 requireModule("ember");
 
-})();;// Source: yithwebclient/static/vendor/sjcl/sjcl.js"use strict";function q(a){throw a;}var t=void 0,u=!1;var sjcl={cipher:{},hash:{},keyexchange:{},mode:{},misc:{},codec:{},exception:{corrupt:function(a){this.toString=function(){return"CORRUPT: "+this.message};this.message=a},invalid:function(a){this.toString=function(){return"INVALID: "+this.message};this.message=a},bug:function(a){this.toString=function(){return"BUG: "+this.message};this.message=a},notReady:function(a){this.toString=function(){return"NOT READY: "+this.message};this.message=a}}};
+})();;
+
+// Source: yithwebclient/static/vendor/sjcl/sjcl.js
+"use strict";function q(a){throw a;}var t=void 0,u=!1;var sjcl={cipher:{},hash:{},keyexchange:{},mode:{},misc:{},codec:{},exception:{corrupt:function(a){this.toString=function(){return"CORRUPT: "+this.message};this.message=a},invalid:function(a){this.toString=function(){return"INVALID: "+this.message};this.message=a},bug:function(a){this.toString=function(){return"BUG: "+this.message};this.message=a},notReady:function(a){this.toString=function(){return"NOT READY: "+this.message};this.message=a}}};
 "undefined"!==typeof module&&module.exports&&(module.exports=sjcl);
 sjcl.cipher.aes=function(a){this.k[0][0][0]||this.D();var b,c,d,e,f=this.k[0][4],g=this.k[1];b=a.length;var h=1;4!==b&&(6!==b&&8!==b)&&q(new sjcl.exception.invalid("invalid aes key size"));this.b=[d=a.slice(0),e=[]];for(a=b;a<4*b+28;a++){c=d[a-1];if(0===a%b||8===b&&4===a%b)c=f[c>>>24]<<24^f[c>>16&255]<<16^f[c>>8&255]<<8^f[c&255],0===a%b&&(c=c<<8^c>>>24^h<<24,h=h<<1^283*(h>>7));d[a]=d[a-b]^c}for(b=0;a;b++,a--)c=d[b&3?a:a-4],e[b]=4>=a||4>b?c:g[0][f[c>>>24]]^g[1][f[c>>16&255]]^g[2][f[c>>8&255]]^g[3][f[c&
 255]]};

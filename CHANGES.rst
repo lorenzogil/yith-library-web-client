@@ -1,3 +1,8 @@
+1.1.1
+-----
+
+- Bugfixes related to production deployment
+
 1.1.0
 -----
 
