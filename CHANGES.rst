@@ -4,7 +4,8 @@
 - Use bower to manage the dependencies
 - Use fontawesome for the icons
 - Upgrade to Ember.js 1.7.0
-
+- Refactor the handlebar templates loading
+- Refactor the modal that asks for the master password
 
 1.0.2
 -----
