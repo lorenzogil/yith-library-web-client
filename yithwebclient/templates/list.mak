@@ -109,6 +109,7 @@
         <script src="${request.static_path('yithwebclient:static/js/controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/edit-controllers.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/js/list-views.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/edit-views.js')}"></script>
     % else:
         <script src="${request.static_path('yithwebclient:static/js/prod/vendor.min.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/vendor/ember-data/ember-data.js')}"></script>

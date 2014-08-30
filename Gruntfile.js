@@ -46,7 +46,8 @@ module.exports = function (grunt) {
                     'yithwebclient/static/js/controllers.js',
                     'yithwebclient/static/js/edit-controllers.js',
                     'yithwebclient/static/js/views.js',
-                    'yithwebclient/static/js/list-views.js'
+                    'yithwebclient/static/js/list-views.js',
+                    'yithwebclient/static/js/edit-views.js'
                 ],
                 dest: 'yith-<%= pkg.version %>.js'
             },
