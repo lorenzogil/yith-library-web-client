@@ -26,7 +26,7 @@
         expirationActive: false,
         provisionalTags: [],
         savingEvent: "didCreate",
-        needs: ["PasswordsIndex"],
+        needs: ['passwordsIndex'],
 
         masterModalView: Yith.MasterModal.create(),
 
@@ -157,6 +157,7 @@
             if (this.validate($form)) {
                 var data = this.getFormData($form, (new Date()).getTime()),
                     that = this,
+                    modal,
                     callback;
 
                 callback = function (cipheredSecret) {
@@ -169,12 +170,13 @@
                     // the saveData method will transition to the password list
                 };
 
-                if (data.secret !== undefined) {
-                    this.get('masterModalView').show(function (masterPassword) {
+                if (!Ember.isNone(data.secret)) {
+                    modal = this.get('masterModalView');
+                    modal.show(function (masterPassword) {
                         var cipheredSecret;
 
                         try {
-                            cipheredSecret = Yith.ViewsUtils.cipher(masterPassword, data.secret);
+                            cipheredSecret = Yith.ViewsUtils.cipher(masterPassword, data.secret, modal, that.get('controllers.passwordsIndex'));
                         } catch (err) {
                             return false;
                         }

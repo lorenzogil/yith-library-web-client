@@ -130,14 +130,7 @@
             this.$().find("input").typeahead({
                 items: 3,
                 source: function () {
-                    var controller = Yith.ViewsUtils.passwordIndexController();
-                    // FIXME We shouldn't be using the __container__ API which is
-                    // private, this should use the dependency system: "needs"
-                    // var controller = that.get("controller").get("controllers.PasswordsIndex");
-                    // But for some reason it doesn't work:
-                    //   https://github.com/emberjs/ember.js/pull/2131
-                    // That should have fixed it, but the problem persists.
-                    return controller.get("allTags");
+                    return that.get('controller.controllers.passwordsIndex.allTags');
                 }
             });
 

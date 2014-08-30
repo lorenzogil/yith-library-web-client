@@ -23,13 +23,12 @@
     "use strict";
 
     Yith.ViewsUtils = {
-        cipher: function (masterPassword, secret, notEnforce) {
-            // FIXME This shouldn't use the __container__ API
-            var model = Yith.ViewsUtils.passwordIndexController().get("model"),
+        cipher: function (masterPassword, secret, masterModal, indexCtrl, notEnforce) {
+            var model = indexCtrl.get("model"),
                 result;
 
-            if (!model.isLoaded) {
-                Yith.ViewsUtils.masterModal.modal("hide");
+            if (!model.get('isLoaded')) {
+                masterModal.hide();
                 Ember.$("#error").modal({ keyboard: false, backdrop: "static" });
                 Ember.$("#error").find(".failure").removeClass("hide");
                 setTimeout(function () {
@@ -38,9 +37,11 @@
                 throw "The model isn't loaded";
             }
 
-            if (model.objectAt(0) && model.objectAt(0).get("id") && !notEnforce) {
-                // Enforce unique master password
-                sjcl.decrypt(masterPassword, model.objectAt(0).get("secret"));
+            if (model.get('firstObject') && model.get('firstObject.id') &&
+                    !notEnforce) {
+                // Enforce unique master password, it crashes if the master
+                // password is different from the one already used
+                sjcl.decrypt(masterPassword, model.get('firstObject.secret'));
             }
             result = sjcl.encrypt(masterPassword, secret);
             masterPassword = null;
@@ -49,16 +50,11 @@
 
         decipher: function (masterPassword, cipheredSecret) {
             var result = null;
-            if (cipheredSecret !== null && cipheredSecret !== undefined) {
+            if (!Ember.isNone(cipheredSecret)) {
                 result = sjcl.decrypt(masterPassword, cipheredSecret);
             }
             masterPassword = null;
             return result;
-        },
-
-        passwordIndexController: function () {
-            // FIXME To delete
-            return Yith.__container__.lookup('controller:passwords.index');
         }
     };
 
@@ -85,6 +81,10 @@
             });
             this.set('$root', masterModal);
         }),
+
+        hide: function () {
+            this.get('$root').modal('hide');
+        },
 
         cleanup: function () {
             this.$('.alert-error').hide();
@@ -162,9 +162,12 @@
             evt.preventDefault();
             evt.stopPropagation();
 
-            var controller = this.get('controller');
+            var controller = this.get('controller'),
+                modal;
+
             if (controller.get('firstObject')) {
-                controller.get('changeMasterModalView').show(function (masterPassword, newMasterPassword) {
+                modal = controller.get('changeMasterModalView');
+                modal.show(function (masterPassword, newMasterPassword) {
                     try {
                         Yith.ViewsUtils.decipher(masterPassword, controller.get('firstObject.secret'));
                     } catch (err) {
@@ -173,7 +176,7 @@
 
                     controller.forEach(function (password) {
                         var secret = Yith.ViewsUtils.decipher(masterPassword, password.get("secret"));
-                        secret = Yith.ViewsUtils.cipher(newMasterPassword, secret, true);
+                        secret = Yith.ViewsUtils.cipher(newMasterPassword, secret, modal, controller, true);
                         password.set("secret", secret);
                         secret = null;
                         password.save();
