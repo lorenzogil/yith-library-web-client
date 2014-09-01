@@ -1,3 +1,9 @@
+1.1.2
+-----
+
+- Bugfixes in the compilation of the vendor bundle
+- Bugfix obtaining the expiration css class in the password list
+
 1.1.1
 -----
 
