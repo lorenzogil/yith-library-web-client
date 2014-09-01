@@ -30,8 +30,8 @@
 <%def name="extrabody()">
     <!-- The missing protocol means that it will match the current protocol, either http or https. If running locally, we use the local jQuery. -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src=\'${request.static_path("yithwebclient:static/vendor_debug/jquery/jquery.js")}\'><\/script>')</script>
-    <script src="${request.static_path('yithwebclient:static/vendor_debug/bootstrap/bootstrap.js')}"></script>
+    <script>window.jQuery || document.write('<script src=\'${request.static_path("yithwebclient:static/vendor/jquery/jquery.js")}\'><\/script>')</script>
+    <script src="${request.static_path('yithwebclient:static/vendor/bootstrap/bootstrap.js')}"></script>
     <script type="text/javascript">
         Yith = {};
         $(document).ready(function () {

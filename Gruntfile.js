@@ -55,7 +55,7 @@ module.exports = function (grunt) {
                 src: [
                     'yithwebclient/static/vendor/jquery/jquery.js',
                     'yithwebclient/static/vendor/bootstrap/bootstrap.js',
-                    'yithwebclient/static/vendor/pwstrength-bootstrap/pwstrength-bootstrap-1.2.0.min.js',
+                    'yithwebclient/static/vendor/pwstrength-bootstrap/pwstrength-bootstrap-1.2.1.js',
                     'yithwebclient/static/vendor/handlebars/handlebars.js',
                     'yithwebclient/static/vendor/ember/ember.js',
                     // FIXME concat this file makes uglify crash
