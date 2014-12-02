@@ -27,14 +27,14 @@
                 <li>The freedom to run the program, for any purpose (freedom 0).</li>
                 <li>The freedom to study how the program works, and change it so it
                 does your computing as you wish (freedom 1). Access to the
-                <a href="https://github.com/Yaco-Sistemas/yith-library-web-client">source
+                <a href="https://github.com/ablanco/yith-library-web-client">source
                     code</a> is a precondition for this.</li>
                 <li>The freedom to redistribute copies so you can help your
                 neighbor (freedom 2).</li>
                 <li>The freedom to distribute copies of your modified versions to
                 others (freedom 3). By doing this you can give the whole community a
                 chance to benefit from your changes. Access to the
-                <a href="https://github.com/Yaco-Sistemas/yith-library-web-client">source
+                <a href="https://github.com/ablanco/yith-library-web-client">source
                     code</a> is a precondition for this.</li>
             </ul>
 

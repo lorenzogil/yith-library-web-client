@@ -59,7 +59,7 @@
         </ul>
         <ul class="pull-right">
             <li><a href="https://twitter.com/YithLibrary" target="_blank">Follow me on Twitter</a> |</li>
-            <li><a href="https://github.com/Yaco-Sistemas/yith-library-web-client" target="_blank">Fork me on GitHub</a></li>
+            <li><a href="https://github.com/ablanco/yith-library-web-client" target="_blank">Fork me on GitHub</a></li>
         </ul>
     </footer>
 
