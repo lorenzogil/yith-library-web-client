@@ -14,7 +14,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from urllib import urlencode
+import sys
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    from urllib.parse import urlencode
+else:
+    from urllib import urlencode
 
 from pyramid.httpexceptions import HTTPFound, HTTPUnauthorized
 from pyramid.view import view_config
