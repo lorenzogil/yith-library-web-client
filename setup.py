@@ -24,7 +24,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
     'pyramid==1.4',
-    'requests==1.2.0',
+    'requests==2.7.0',
     'waitress==0.8.2',
 ]
 
