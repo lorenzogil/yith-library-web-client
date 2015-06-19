@@ -15,12 +15,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import sys
+PY3 = sys.version_info[0] == 3
 
 from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, 'README.rst')).read()
-CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
+
+if PY3:
+    def open_file(path):
+        return open(path, encoding='utf-8')
+else:
+    def open_file(path):
+        return open(path)
+
+README = open_file(os.path.join(here, 'README.rst')).read()
+CHANGES = open_file(os.path.join(here, 'CHANGES.rst')).read()
+
 
 requires = [
     'pyramid==1.4',
