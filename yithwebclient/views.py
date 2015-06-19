@@ -27,6 +27,11 @@ from pyramid.view import view_config
 
 import requests
 
+from yithwebclient.tlsadapter import TLSv1Adapter
+
+requests_session = requests.Session()
+requests_session.mount('https://', TLSv1Adapter)
+
 
 @view_config(route_name='index', renderer='index.mak')
 def index(request):
@@ -50,7 +55,8 @@ def oauth2cb(request):
     payload = 'grant_type=authorization_code&code=%s' % request.GET.get('code')
     basic_auth = (request.registry.settings['yith_client_id'],
                   request.registry.settings['yith_client_secret'])
-    response = requests.post(url, data=payload, auth=basic_auth)
+    ssl_verify = request.registry.settings['ssl_verify']
+    response = requests_session.post(url, data=payload, auth=basic_auth, verify=ssl_verify)
     data = response.json()
 
     # backwards compatible since the server changed this attribute
@@ -85,7 +91,8 @@ def list_passwords(request):
             url = "%s/user" % request.registry.settings['yith_server']
             headers = {
                 'Authorization': "Bearer %s" % request.session['access_code']}
-            response = requests.get(url, headers=headers)
+            ssl_verify = request.registry.settings['ssl_verify']
+            response = requests_session.get(url, headers=headers, verify=ssl_verify)
             request.session['allow_google_analytics'] = (
                 response.json().get('allow_google_analytics', False))
         if ('allow_google_analytics' in request.session and
