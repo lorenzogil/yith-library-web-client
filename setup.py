@@ -34,9 +34,18 @@ CHANGES = open_file(os.path.join(here, 'CHANGES.rst')).read()
 
 
 requires = [
-    'pyramid==1.4',
+    'PasteDeploy==1.5.2',       # required by pyramid
+    'repoze.lru==0.6',          # required by pyramid
+    'translationstring==1.1',   # required by pyramid
+    'venusian==1.0',            # required by pyramid
+    'WebOb==1.4',               # required by pyramid
+    'zope.interface==4.1.1',    # required by pyramid
+    'Mako==1.0.1',              # required by pyramid_mako
+
+    'pyramid_mako==1.0.2',
+    'pyramid==1.5.4',
     'requests==2.7.0',
-    'waitress==0.8.2',
+    'waitress==0.8.9',
 ]
 
 setup(
