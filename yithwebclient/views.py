@@ -30,7 +30,7 @@ import requests
 from yithwebclient.tlsadapter import TLSv1Adapter
 
 requests_session = requests.Session()
-requests_session.mount('https://', TLSv1Adapter)
+requests_session.mount('https://', TLSv1Adapter())
 
 
 @view_config(route_name='index', renderer='index.mak')
