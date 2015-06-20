@@ -41,8 +41,12 @@ def main(global_config, **settings):
         settings[key] = read_setting_from_env(settings, key)
 
     settings['yith_debug'] = asbool(read_setting_from_env(settings, 'yith_debug'))
+    settings['ssl_verify'] = read_setting_from_env(settings, 'yith_ssl_ca_bundle', True)
 
     config = Configurator(settings=settings, session_factory=session_factory)
+
+    config.include('pyramid_mako')
+
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     # Routes
