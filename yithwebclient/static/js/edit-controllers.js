@@ -138,6 +138,8 @@
                     now
                 );
             }
+            // Store creation timestamp as an ISO Date instead of millis
+            data.creation = (new Date(data.creation)).toISOString();
             data.notes = $form.find("#edit-notes").val().trim();
             if (data.notes === "") { delete data.notes; }
             data.tags = this.get("provisionalTags");
