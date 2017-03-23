@@ -41,7 +41,7 @@ def main(global_config, **settings):
         settings[key] = read_setting_from_env(settings, key)
 
     settings['yith_debug'] = asbool(read_setting_from_env(settings, 'yith_debug'))
-    settings['ssl_verify'] = read_setting_from_env(settings, 'yith_ssl_ca_bundle', True)
+    settings['ssl_verify'] = True
 
     config = Configurator(settings=settings, session_factory=session_factory)
 
