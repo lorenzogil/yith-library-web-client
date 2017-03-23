@@ -113,7 +113,7 @@
     % else:
         <script src="${request.static_path('yithwebclient:static/js/prod/vendor.min.js')}"></script>
         <script src="${request.static_path('yithwebclient:static/vendor/ember-data/ember-data.js')}"></script>
-        <script src="${request.static_path('yithwebclient:static/js/prod/yith-1.1.1.min.js')}"></script>
+        <script src="${request.static_path('yithwebclient:static/js/prod/yith-1.1.3.min.js')}"></script>
     % endif
 
     % if google_analytics is not None:

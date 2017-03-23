@@ -26,7 +26,7 @@
 
         daysLeft: function (creation, expiration) {
             var now = (new Date()).getTime(),
-                diff = now - creation,
+                diff = now - (new Date(creation)).getTime(),
                 diffDays = Math.round(diff / Yith.ControllersUtils.oneDayInMilliseconds);
 
             return expiration - diffDays;
